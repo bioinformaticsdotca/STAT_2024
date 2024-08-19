@@ -30,7 +30,7 @@ Coming soon!
 
 # Day 1 <a id="day1"></a>
 
-Decision Tree [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5RrtwZeohetjc4yN-EhB/view?usp=sharing) | [PDF version](https://drive.google.com/file/d/1gicCSovyHgAbn4l60dHL3sAEF-AYLHRP/view?usp=sharing)  
+Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5RrtwZeohetjc4yN-EhB/view?usp=sharing) | [PDF version](https://drive.google.com/file/d/1gicCSovyHgAbn4l60dHL3sAEF-AYLHRP/view?usp=sharing)  
 
 ##  Module 1
 
