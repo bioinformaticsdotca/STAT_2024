@@ -30,6 +30,8 @@ Coming soon!
 
 # Day 1 <a id="day1"></a>
 
+[Decision Tree](https://drive.google.com/file/d/1DsPk8w8zIlNU5RrtwZeohetjc4yN-EhB/view?usp=sharing)
+
 ##  Module 1
 
 *<font color="#827e9c">Jacqueline May</font>*  
@@ -38,6 +40,7 @@ Coming soon!
 <!-- [Module 1 Lecture Recording]()   -->
 [Module 1 Lab](https://drive.google.com/file/d/1DrmpdZSCjgLW7PyzwI1tVkGXW_LR760h/view?usp=drive_link)  
 [Module 1 Dataset](https://datadryad.org/stash/dataset/doi:10.5061/dryad.f6t39kj)  
+[Module 1 Challenge](https://drive.google.com/file/d/1cFTRMvxytyf7rdWsuWRtw7tNEbbMpLv5/view?usp=sharing)  
 
 ##  Module 2
 
@@ -46,6 +49,7 @@ Coming soon!
 [Module 2 Lecture Slides](https://drive.google.com/file/d/1aaz0oZXsdX_8p1RiOhgcmHLf8CW25CKp/view?usp=drive_link)  
 <!-- [Module 2 Lecture Recording]()   -->
 [Module 2 Lab](https://drive.google.com/file/d/1hWPtO4H9LnbRQS_IKQQ8U4T_edVddrxq/view?usp=drive_link)  
+[Module 2 Challenge](https://drive.google.com/file/d/1K_Pthd31dwpGZUJX84oNBR6Bdz3NVuil/view?usp=sharing)  
 
 <!-- # Day 2 <a id="day2"></a> -->
 
