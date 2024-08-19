@@ -41,6 +41,7 @@ Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5Rrtw
 [Module 1 Lab](https://drive.google.com/file/d/1DrmpdZSCjgLW7PyzwI1tVkGXW_LR760h/view?usp=drive_link)  
 [Module 1 Dataset](https://datadryad.org/stash/dataset/doi:10.5061/dryad.f6t39kj)  
 [Module 1 Challenge](https://drive.google.com/file/d/1cFTRMvxytyf7rdWsuWRtw7tNEbbMpLv5/view?usp=sharing)  
+[Module 1 Challenge Answers](https://drive.google.com/file/d/1fU4laImbz6XqDnJb77bqWb4tgCYWjYg9/view?usp=sharing)  
 
 ##  Module 2
 
