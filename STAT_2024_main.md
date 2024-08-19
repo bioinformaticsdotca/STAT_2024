@@ -10,8 +10,6 @@ length: 3 days
 
 # Welcome <a id="welcome"></a>
 
-**This page is still being built. Please note that some links may be broken or out of date.**  
-
 Welcome to Help! What Statistical Model Should I Use? 2024. 
 
 The course **schedule** can be found [here](https://bioinformaticsdotca.github.io/STAT_2024_schedule)
@@ -32,21 +30,22 @@ Coming soon!
 
 # Day 1 <a id="day1"></a>
 
-<!-- ##  Module 1 -->
+##  Module 1
 
-<!-- *<font color="#827e9c">Martin Hirst</font>*   -->
+*<font color="#827e9c">Jacqueline May</font>*  
 
-<!-- [Module 1 Lecture Slides]()   -->
+[Module 1 Lecture Slides](https://drive.google.com/file/d/13NcJR_WhQz1vYBAjwqbNY8aFlAJA11YK/view?usp=drive_link)  
 <!-- [Module 1 Lecture Recording]()   -->
-<!-- [Module 1 Lab]()   -->
+[Module 1 Lab](https://drive.google.com/file/d/1DrmpdZSCjgLW7PyzwI1tVkGXW_LR760h/view?usp=drive_link)  
+[Module 1 Dataset](https://datadryad.org/stash/dataset/doi:10.5061/dryad.f6t39kj)  
 
-<!-- ##  Module 2 -->
+##  Module 2
 
-<!-- *<font color="#827e9c">Martin Hirst</font>*   -->
+*<font color="#827e9c">Jacqueline May</font>*  
 
-<!-- [Module 2 Lecture Slides]()   -->
+[Module 2 Lecture Slides](https://drive.google.com/file/d/1aaz0oZXsdX_8p1RiOhgcmHLf8CW25CKp/view?usp=drive_link)  
 <!-- [Module 2 Lecture Recording]()   -->
-<!-- [Module 2 Lab]()   -->
+[Module 2 Lab](https://drive.google.com/file/d/1hWPtO4H9LnbRQS_IKQQ8U4T_edVddrxq/view?usp=drive_link)  
 
 <!-- # Day 2 <a id="day2"></a> -->
 
