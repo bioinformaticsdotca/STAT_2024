@@ -82,6 +82,8 @@ Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5Rrtw
 <!-- [Module 4 Lecture Recording]()   -->
 [Module 4 Lab: Clustering - empty](https://drive.google.com/file/d/1ZmYgwDvcWmVJNdXHbqzKD7IE193BoXVv/view?usp=drive_link)   
 [Module 4 Lab: Clustering - complete](https://drive.google.com/file/d/1Yk4NDkA9Q0F1-u5TQST0v9dDtw0ll4Ps/view?usp=drive_link)  
+[Clustering_Expression_data.csv](https://drive.google.com/file/d/1IPrbqQ_iPy3F6J4_okW-qZKKTDYMTfq5/view?usp=drive_link)  
+[Clustering_Clinical_data.csv](https://drive.google.com/file/d/1xHm0RMC-_7gskjJOwe9W3hZwS6ylJuOW/view?usp=drive_link)  
 
 <!-- # Day 3 <a id="day2"></a> -->
 
