@@ -49,26 +49,39 @@ Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5Rrtw
 
 [Module 2 Lecture Slides](https://drive.google.com/file/d/1aaz0oZXsdX_8p1RiOhgcmHLf8CW25CKp/view?usp=drive_link)  
 <!-- [Module 2 Lecture Recording]()   -->
+[Module 2 Dataset (generated from Module 1 Lab)](https://drive.google.com/file/d/1gKQt7N3eYkEiQ28xb0rU_meGO7qPRNV4/view?usp=sharing)  
 [Module 2 Lab](https://drive.google.com/file/d/1hWPtO4H9LnbRQS_IKQQ8U4T_edVddrxq/view?usp=drive_link)  
 [Module 2 Challenge](https://drive.google.com/file/d/1K_Pthd31dwpGZUJX84oNBR6Bdz3NVuil/view?usp=sharing)  
+[Module 2 Challenge Answers](https://drive.google.com/file/d/1u31pCA2Y4ORT7lWFQdws9YPdLOL4Xfr2/view?usp=drive_link)  
 
-<!-- # Day 2 <a id="day2"></a> -->
+# Day 2 <a id="day2"></a>
 
-<!-- ##  Module 3 -->
+##  Module 3
 
-<!-- *<font color="#827e9c">Edmund Su</font>*   -->
+*<font color="#827e9c">Alysha Cooper</font>*  
 
-<!-- [Module 3 Lecture Slides]()   -->
+[Module 3 Lecture Slides](https://drive.google.com/file/d/1tL8V3YQ1iFUdwRQOAxqWS56yANCR_kZk/view?usp=sharing)  
 <!-- [Module 3 Lecture Recording]()   -->
-<!-- [Module 3 Lab]()   -->
+[Module 3 Lab - empty](https://drive.google.com/file/d/1QGYASQ3Xl2qreikF3q-6kkohYT40waNR/view?usp=drive_link)  
+[Module 3 Lab - complete](https://drive.google.com/file/d/1DW_daNp5ZVosHP6aKT_3OrAF0KYYVb36/view?usp=drive_link)  
+[Module 3 data: Faramea](https://drive.google.com/file/d/16qsmrRObE15cDXKh-8ptEpRGJ5J5lBkn/view?usp=drive_link)  
+[Module 3 data: healthcare demand](https://drive.google.com/file/d/10kWtWDhbsO2iRbnrdNcERsJGBeAECXSz/view?usp=drive_link)  
+[Module 3 data: smoker epigenetics](https://drive.google.com/file/d/1NwoNRPiIxpCOQqpdOtVlOke8a5G2Z3pr/view?usp=drive_link)  
 
-<!-- ##  Module 4 -->
 
-<!-- *<font color="#827e9c">Guillaume Bourque</font>*   -->
+##  Module 4
 
-<!-- [Module 4 Lecture Slides]()   -->
+*<font color="#827e9c">Patrick McMillan</font>*  
+
+[Module 4 Lecture Slides: Classification](https://drive.google.com/file/d/1CfFIOW9UpTAbI6B1aihF7atPWw5OmkXk/view?usp=drive_link)  
 <!-- [Module 4 Lecture Recording]()   -->
-<!-- [Module 4 Lab]()   --> 
+[Module 4 Lab: Classification - empty](https://drive.google.com/file/d/1-xfoFb0i26V8OfkNBnnRyjnjV9Id2LJE/view?usp=drive_link)   
+[Module 4 Lab: Classification - complete](https://drive.google.com/file/d/1MtnMvHtMIAoGB4_VTcNO7D4iz8jkOGJN/view?usp=drive_link)  
+
+[Module 4 Lecture Slides: Clustering](https://drive.google.com/file/d/1ua6fFAoelblHpd8ycUQBkh3LVtFX3rON/view?usp=drive_link)  
+<!-- [Module 4 Lecture Recording]()   -->
+[Module 4 Lab: Clustering - empty](https://drive.google.com/file/d/1ZmYgwDvcWmVJNdXHbqzKD7IE193BoXVv/view?usp=drive_link)   
+[Module 4 Lab: Clustering - complete](https://drive.google.com/file/d/1Yk4NDkA9Q0F1-u5TQST0v9dDtw0ll4Ps/view?usp=drive_link)  
 
 <!-- # Day 3 <a id="day2"></a> -->
 
