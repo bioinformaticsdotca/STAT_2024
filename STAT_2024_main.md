@@ -24,7 +24,7 @@ The course **schedule** can be found [here](https://bioinformaticsdotca.github.i
 
 # Class photo
 
-Coming soon!
+[Help! What Statistical Model Should I Use? Class of 2024](https://drive.google.com/file/d/1eiDmm1iSI4xkPqDrLSBePN2j_9WHxhvT/view?usp=sharing)
 
 ***
 
@@ -37,7 +37,7 @@ Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5Rrtw
 *<font color="#827e9c">Jacqueline May</font>*  
 
 [Module 1 Lecture Slides](https://drive.google.com/file/d/13NcJR_WhQz1vYBAjwqbNY8aFlAJA11YK/view?usp=drive_link)  
-<!-- [Module 1 Lecture Recording]()   -->
+[Module 1 Lecture Recording](https://youtu.be/FGTl27bddFI)  
 
 [Module 1 Lab](https://drive.google.com/file/d/1DrmpdZSCjgLW7PyzwI1tVkGXW_LR760h/view?usp=drive_link)  
 
@@ -51,7 +51,7 @@ Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5Rrtw
 *<font color="#827e9c">Jacqueline May</font>*  
 
 [Module 2 Lecture Slides](https://drive.google.com/file/d/1aaz0oZXsdX_8p1RiOhgcmHLf8CW25CKp/view?usp=drive_link)  
-<!-- [Module 2 Lecture Recording]()   -->
+[Module 2 Lecture Recording](https://youtu.be/F-upvvPPB2s)  
 [Module 2 Dataset (generated from Module 1 Lab)](https://drive.google.com/file/d/1gKQt7N3eYkEiQ28xb0rU_meGO7qPRNV4/view?usp=sharing)  
 
 [Module 2 Lab](https://drive.google.com/file/d/1hWPtO4H9LnbRQS_IKQQ8U4T_edVddrxq/view?usp=drive_link)  
@@ -66,7 +66,8 @@ Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5Rrtw
 *<font color="#827e9c">Alysha Cooper</font>*  
 
 [Module 3 Lecture Slides](https://drive.google.com/file/d/1tL8V3YQ1iFUdwRQOAxqWS56yANCR_kZk/view?usp=sharing)  
-<!-- [Module 3 Lecture Recording]()   -->
+[Module 3.1 Lecture Recording: Regression](https://youtu.be/pcSaS4TBzHU)  
+[Module 3.2 Lecture Recording: Generalized Linear Models](https://youtu.be/Mk9wS0wB5Kc)    
 
 [Module 3 Lab - empty](https://drive.google.com/file/d/1QGYASQ3Xl2qreikF3q-6kkohYT40waNR/view?usp=drive_link)  
 [Module 3 Lab - complete](https://drive.google.com/file/d/1DW_daNp5ZVosHP6aKT_3OrAF0KYYVb36/view?usp=drive_link)  
@@ -80,17 +81,17 @@ Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5Rrtw
 
 *<font color="#827e9c">Patrick McMillan</font>*  
 
-[Module 4 Lecture Slides: Classification](https://drive.google.com/file/d/1CfFIOW9UpTAbI6B1aihF7atPWw5OmkXk/view?usp=drive_link)  
-<!-- [Module 4 Lecture Recording]()   -->
+[Module 4.1 Lecture Slides: Classification](https://drive.google.com/file/d/1CfFIOW9UpTAbI6B1aihF7atPWw5OmkXk/view?usp=drive_link)  
+[Module 4.1 Lecture Recording: Classification](https://youtu.be/nH4Bou92FzE)  
 
-[Module 4 Lab: Classification - empty](https://drive.google.com/file/d/1-xfoFb0i26V8OfkNBnnRyjnjV9Id2LJE/view?usp=drive_link)   
-[Module 4 Lab: Classification - complete](https://drive.google.com/file/d/1MtnMvHtMIAoGB4_VTcNO7D4iz8jkOGJN/view?usp=drive_link)  
+[Module 4.1 Lab: Classification - empty](https://drive.google.com/file/d/1-xfoFb0i26V8OfkNBnnRyjnjV9Id2LJE/view?usp=drive_link)   
+[Module 4.1 Lab: Classification - complete](https://drive.google.com/file/d/1MtnMvHtMIAoGB4_VTcNO7D4iz8jkOGJN/view?usp=drive_link)  
 
-[Module 4 Lecture Slides: Clustering](https://drive.google.com/file/d/1ua6fFAoelblHpd8ycUQBkh3LVtFX3rON/view?usp=drive_link)  
-<!-- [Module 4 Lecture Recording]()   -->
+[Module 4.2 Lecture Slides: Clustering](https://drive.google.com/file/d/1ua6fFAoelblHpd8ycUQBkh3LVtFX3rON/view?usp=drive_link)  
+[Module 4.2 Lecture Recording: Clustering](https://youtu.be/ziVEe99JZXQ)  
 
-[Module 4 Lab: Clustering - empty](https://drive.google.com/file/d/1ZmYgwDvcWmVJNdXHbqzKD7IE193BoXVv/view?usp=drive_link)   
-[Module 4 Lab: Clustering - complete](https://drive.google.com/file/d/1Yk4NDkA9Q0F1-u5TQST0v9dDtw0ll4Ps/view?usp=drive_link)  
+[Module 4.2 Lab: Clustering - empty](https://drive.google.com/file/d/1ZmYgwDvcWmVJNdXHbqzKD7IE193BoXVv/view?usp=drive_link)   
+[Module 4.2 Lab: Clustering - complete](https://drive.google.com/file/d/1Yk4NDkA9Q0F1-u5TQST0v9dDtw0ll4Ps/view?usp=drive_link)  
 
 [Clustering_Expression_data.csv](https://drive.google.com/file/d/1IPrbqQ_iPy3F6J4_okW-qZKKTDYMTfq5/view?usp=drive_link)  
 [Clustering_Clinical_data.csv](https://drive.google.com/file/d/1xHm0RMC-_7gskjJOwe9W3hZwS6ylJuOW/view?usp=drive_link)  
@@ -102,7 +103,7 @@ Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5Rrtw
 *<font color="#827e9c">Patrick McMillan</font>*  
 
 [Module 5 Lecture Slides](https://drive.google.com/file/d/1WmM0aBJqToy2aoi3gWesHjFlUcV-i_Lg/view?usp=drive_link)  
-<!-- [Module 5 Lecture Recording]()   -->
+[Module 5 Lecture Recording](https://youtu.be/b95iYue64DY)  
 
 [Module 5 Lab: Breast Cancer - empty](https://drive.google.com/file/d/16WjxkMKJrQRi_3tXBV2Y8Edm-YPkkQJN/view?usp=drive_link)  
 [Module 5 Lab: Breast Cancer - complete](https://drive.google.com/file/d/1fucrf_OYNytvVs6JSveqULPWundflRG2/view?usp=drive_link)  
@@ -117,7 +118,10 @@ Decision Tree | [SVG version](https://drive.google.com/file/d/1DsPk8w8zIlNU5Rrtw
 
 ## Module 6: Causal Inference Introduction
 
+*<font color="#827e9c">Alysha Cooper</font>*  
+
 [Module 6 Lecture Slides](https://drive.google.com/file/d/1BLOCeUeRJMXVUQJD-REbwZCOVKlzOnSG/view?usp=drive_link)  
+[Module 6 Lecture Recording](https://youtu.be/KU_-RhpCBP8)  
 
 [Module 6 Lab - empty](https://drive.google.com/file/d/1IXs4-3irugOeni9wRY9SpUmkCVCWJU2n/view?usp=drive_link)  
 [Module 6 Lab - complete](https://drive.google.com/file/d/1u_3b3DOMIeOYstT0tcVZq0Z7h15mHYiJ/view?usp=drive_link)  
