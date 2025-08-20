@@ -1,0 +1,473 @@
+# Module 5: Putting it all Together
+
+## Lecture
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/b95iYue64DY?si=tCS_WQlz0fxeGqbV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<br>
+
+<iframe src="https://drive.google.com/file/d/1WmM0aBJqToy2aoi3gWesHjFlUcV-i_Lg/preview" width="640" height="480" allow="autoplay"></iframe>
+
+## Lab
+
+### Breast Cancer
+
+#### Introduction
+
+In this example, we'll use the Breast Cancer dataset. The data contains 699 observations on 11 variables where the response, Class, represents whether a tumor is benign or malignant. Suppose we want to develop a logistic regression classification model. What steps do we need to take to prepare the data for modeling and how should we interpret the model once it's fit? Finally, how can we adjust the model to be more applicable in clinical settings?
+
+#### Load Libraries
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# Load necessary libraries
+library(tidyverse) # general functions
+library(mice) # imputation
+library(mlbench) # source of the dataset
+library(car) # For some model diagnostics
+library(arm) # For binned plot for logistic regression
+```
+
+#### Read in Data
+```{r}
+# Load the Breast Cancer dataset
+data(BreastCancer)
+
+bc_data <- BreastCancer %>% 
+  as.data.frame() %>%
+  dplyr::select(-Id)
+
+# Explore the structure of the data
+str(bc_data)
+```
+
+Here, we load the Breast Cancer dataset and remove the Id column, which is not useful for the analysis. The str() function provides a quick overview of the dataset's structure, including data types and sample values. Here we see that all variables are factors, but they need to be converted to numeric in order to work with the logistic regression model as well as we need to ensure the values for the class variable is 0 and 1.
+```{r}
+# Convert factors to numeric for analysis
+bc_data <- bc_data %>%
+  mutate_if(is.factor, as.numeric) %>%
+  mutate(Class = Class - 1)
+```
+
+#### Handling Missing Data
+
+Next, we need to check for and handle missing data. We'll impute the missing values using MICE.
+```{r}
+# Check for missing values
+bc_data %>% 
+  summarise_all(~sum(is.na(.)))
+
+# Impute missing values using multiple imputation
+imputed_data <- mice(bc_data, method = 'pmm', m = 5, maxit = 5)
+
+# Complete the dataset with the imputed values
+complete_data <- complete(imputed_data)
+```
+
+#### Exploratory Data Analysis
+
+```{r}
+complete_data %>%
+  pivot_longer(cols = -Class, names_to = "Feature", values_to = "Value") %>%
+  ggplot(aes(x = Value)) +
+  geom_histogram(bins = 10, fill = "blue", alpha = 0.7) +
+  facet_wrap(~Feature, scales = "free") +
+  labs(title = "Distribution of Features", x = "Score", y = "Count")
+```
+
+Logistic regression doesn't assume the variables are normally distributed, so it's not a big deal but it is something to keep in mind. Next we'll explore the correlations between the explanatory variables.
+```{r}
+# Correlation matrix of the features
+complete_data %>%
+  dplyr::select(-Class) %>%
+  cor()
+```
+
+Some of these correlations are concerningly high and may suggest multicollinearity in the dataset. There are tests we can use to identify which variables should be removed such as the Variance Inflation Factor, but we'll simply just remove one of cell.size or cell.shape as they're too correlated to keep in the analysis. We'll leave the rest as they're all under 80% correlated and test for VIF after fitting the model.
+```{r}
+complete_data <- complete_data %>%
+  dplyr::select(-Cell.size)
+```
+
+#### Fitting the Logistic Regression Model
+
+```{r}
+# Fit the logistic regression model
+logistic_model <- glm(Class ~ ., data = complete_data, family = "binomial")
+
+# Summary of the model
+summary(logistic_model)
+```
+
+#### Model Diagnostics
+
+```{r}
+# VIF
+vif(logistic_model)
+```
+
+This indicates that there is minor multicollinearity in among the predictors, but nothing of concern as all values are less than 2.
+
+#### Model Evaluation
+
+We'll convert the coefficients to odds ratios to interpret them more easily.
+```{r}
+# Calculate odds ratios and confidence intervals
+exp(cbind(Odds_Ratio = coef(logistic_model), confint(logistic_model)))
+```
+
+We can interpret the log odds for the Cl.thickness variable as a one unit increase in Cl.thickness increases the odds of the tumor being malignant by ~1.68 times. We see that the log odds for each variable is relatively similar suggesting that they all have comparable influences on the response.
+
+Lets see how well the model classifies the tumors.
+```{r}
+# Predict probabilities on the training set
+complete_data$predicted_prob <- predict(logistic_model, type = "response")
+
+# Convert probabilities to class predictions (threshold = 0.5)
+complete_data$predicted_class <- ifelse(complete_data$predicted_prob > 0.5, "malignant", "benign")
+
+# Confusion matrix
+table(BreastCancer$Class, complete_data$predicted_class)
+```
+
+The confusion table tells us how often the model misclassifies individuals, in the scenario of predicting if a tumor is benign or malignant, would one of these misclassifications be preferable over the other? I.e., would we prefer false negatives more often than false positives or vice-versa?
+
+We can reduce the false negative error rate by being more conservative on deciding what is benign to prevent malignant tumors accidentally being labelled as benign.
+```{r}
+# complete_data probabilities to class predictions (threshold = 0.3)
+complete_data$conservative_class <- ifelse(complete_data$predicted_prob > 0.3, "malignant", "benign")
+
+# Confusion matrix
+table(BreastCancer$Class, complete_data$conservative_class)
+```
+
+Looks like a cutoff of 0.3 is better, but still isn't conservative enough. We'll need to be even more conservative than that to prevent false negatives.
+
+### Gene Expression
+
+#### Introduction
+
+In this example, we'll use a gene expression dataset from a 2005 study by Holmes et al. titled "Memory T cells have gene expression patterns intermediate between naïve and effector". The dataset contains observations from different T cell types from various individuals measuring 156 of the most differentially expressed genes.
+
+Let's say we'd like to perform clustering on this dataset to try and replicate the results of the study.
+
+Data Loading and Exploration
+
+First, ensure the dataset is in the same folder as this script to load it and the explore the dataset. Let's look at the structure of the data.
+```{r}
+# Load necessary libraries
+library(tidyverse) # general functions
+library(cluster) # For clustering
+
+# Load the gene expression dataset
+load("./datasets/geneexpression_clustering.rda")
+
+# Take a look at the dataset
+attributes(dat)
+```
+
+Now that we know the structure of the dataset, lets see what the values look like.
+```{r}
+# only lookin at the first ten to reduce the amount of output
+summary(dat)[,1:10]
+```
+
+Looks like we'll need to scale our dataset.
+```{r}
+# scale dataset
+scaled.data <- scale(dat, scale = T, center = T)
+```
+
+#### K-means Clustering
+
+```{r}
+wcss <- map(2:20, function(k) {
+  kmeans(scaled.data, centers = k, nstart = 10)$tot.withinss
+})
+
+# Plot WCSS against the number of clusters
+plot(2:20, wcss, type = "b", pch = 19, frame = FALSE,
+     xlab = "Number of Clusters K",
+     ylab = "Within-Clusters Sum of Squares",
+     main = "Elbow Method for Determining Optimal Number of Clusters")
+```
+
+There's a fairly steep decline from 2 to 3 clusters, but not much of a difference after that. Looks like 3 clusters may be an ideal number.
+
+#### PCA
+
+Let's evaluate using PCA:
+```{r}
+kmeans.result <- kmeans(scaled.data, centers = 3, nstart = 10)
+
+pca_results <- prcomp(scaled.data, center = TRUE, scale. = TRUE)
+pca_data <- data.frame(pca_results$x, Cluster = as.factor(kmeans.result$cluster))
+
+ggplot(pca_data, aes(PC1, PC2, color = Cluster)) +
+  geom_point(size = 2) +
+  labs(title = "PCA of Holmes et al. Data with 3 K-Means Clusters")
+```
+
+With the exception of two outliers in the middle of the graph, the PCA plot also appears to indicate that there are 3 clusters.
+
+#### Silhouette Analysis
+
+Let's see if the silhouette analysis agrees with three clusters.
+```{r}
+silhouette.values <- map(2:10, function(k){
+  Kmeans.res <- kmeans(scaled.data, centers = k, nstart = 10)
+  silhouette.score <- silhouette(Kmeans.res$cluster, dist(scaled.data))
+  mean(silhouette.score[, 3])  
+})
+
+plot(2:10, silhouette.values, type="b", pch = 19, frame = FALSE, 
+     xlab="Number of Clusters K",
+     ylab="Average Silhouette Width")
+```
+
+From this plot it seems that 6 clusters would be more accurate, but this doesn't align with our previous results. Perhaps this can be further explored through hierarchical clustering.
+
+#### Hierarchical Clustering
+
+```{r}
+# Perform hierarchical clustering
+hc.res <- hclust(dist(scaled.data), method = "complete")
+
+# Plot the dendrogram
+plot(hc.res, main = "Hierarchical Clustering Dendrogram", xlab = "", sub = "")
+```
+
+The dendrogram indicates that there likely is a benefit to using 6 clusters for higher accuracy as suggested by the silhouette analysis, but overall there appears to be 3 primary clusters. So, the results of our clustering suggest that there is likely 3 types of T cells with. This confirms the findings from Holmes et al in that there appears to exist an intermediate memory T cell between the known naïve and effector cells.
+
+### Genomic Prediction
+
+#### Introduction
+
+In this example we'll be analyzing data from a collection of 599 historical CIMMYT wheat lines. The lines were genotyped using 1447 Diversity Array Technology (DArT). The DArT markers can take on two values, denoted by their presence or absence. Markers with a minor allele frequency lower than 0.05 were removed.
+
+What is the goal of this analysis? We want to predict the yields of different wheat varieties using SNP data. For this, we can use either a traditional linear model paired with dimension reduction techniques to include the SNP data, or we can use a method which is able to handle the dimensions of the dataset such as penalized regression or random forest methods.
+
+We'll fit and compare two genomic prediction models for this purpose to assess the impact that SNP data has on model accuracy relative to a more simplistic model. We'll also identify the most influential SNPs for predicting yield.
+
+#### Loading Libraries
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+library(BGLR) # Data source
+library(tidyverse) # General functions and plots]
+library(randomForest) # Random forest model 
+library(cluster) # Hierarchical Clustering
+```
+
+#### Read in Data
+
+```{r}
+# Load the wheat dataset
+data(wheat)
+
+geno <- wheat.X  # SNP genotypes
+pheno <- wheat.Y  # Phenotype data
+
+# Explore the structure of the data
+dim(geno)  # Dimensions of the genotype matrix
+dim(pheno)  # Dimensions of the phenotype matrix
+
+# Combine genotype and phenotype data into one dataframe
+genomic_data <- as.data.frame(geno)
+
+# Need to reformat yield data to account for location differences. 
+wheat_data <- pheno %>%
+  as.data.frame() %>%
+  rownames_to_column(var = "ID") %>%
+  bind_cols(., genomic_data) %>%
+  pivot_longer(cols = c("1":"5"), values_to = "yield", names_to = "environment")
+
+# Set seed for reproducibility
+set.seed(123)
+```
+
+#### Exploratory Data Analysis
+
+```{r}
+# Check for missing values
+sum(is.na(wheat_data))
+
+# Visualize the distribution of the yield
+ggplot(wheat_data, aes(yield)) +
+  geom_histogram(fill = "lightblue", color = "black") +
+  theme_minimal() +
+  labs(title = "Distribution of Wheat Yield") + 
+  facet_grid(rows = vars(environment))
+```
+
+No missing values and the response is relatively normally distributed. Let's take a closer look at the SNP data next.
+```{r}
+# Convert matrix to a data frame in long format and scale
+snp_long <- genomic_data %>%
+  rownames_to_column(var = "Sample") %>%
+  pivot_longer(cols = -Sample, names_to = "SNP", values_to = "Value")
+
+ggplot(snp_long, aes(x = SNP, y = Sample, fill = Value)) +
+  geom_tile() +
+  scale_fill_gradientn(colors = c("blue", "white", "red"), na.value = "grey50") +
+  theme_minimal() +
+  theme(
+   axis.text.x = element_blank(),
+   axis.text.y = element_blank(),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8)
+  ) +
+  labs(
+    title = "Heatmap of SNP Data",
+    x = "SNP",
+    y = "Sample",
+    fill = "SNP Value"
+  )
+```
+
+We see that some SNPs are quite variable among the different samples and others are consistent among almost all samples. The heatmap can also help guide our decision on clustering size. Are there are areas which indicate that there may exist clusters within the SNP data?
+
+#### Feature Engineering
+
+We'll use hierarchical clustering based on SNP data to create a new variable for the cluster each wheat line belongs to. However, the SNP data is too large to work with the hierarchical clustering algorithm and so we'll need to reduce the dimensions of the data by using PCA.
+```{r}
+# Perform PCA to reduce dimensionality
+pca <- prcomp(wheat_data %>% 
+                dplyr::select(-ID, -environment, -yield), scale. = TRUE)
+pca_data <- pca$x[, 1:50]  # Keep the first 50 principal components
+
+# Perform hierarchical clustering on the PCA-reduced data
+hc.res <- hclust(dist(pca_data), method = "complete")
+
+# Plot the dendrogram
+plot(hc.res, main = "Hierarchical Clustering Dendrogram (PCA Reduced Data)", xlab = "", sub = "")
+```
+
+```{r}
+# Now add cluster ID into the dataset
+wheat_data$clusterID <- cutree(hc.res, k = 20)
+```
+
+#### Splitting the data into training and testing sets
+
+```{r}
+Training.data <- wheat_data %>%
+  slice_sample(prop = 0.8)
+
+Train.X <- Training.data %>%
+  dplyr::select(-yield) %>%
+  as.matrix()
+
+Train.Y <- Training.data %>%
+  dplyr::select(yield) %>%
+  as.matrix()
+
+Testing.data <- wheat_data %>%
+  anti_join(., Training.data, by = 'ID')
+
+Test.X <- Testing.data %>%
+  dplyr::select(-yield) %>%
+  as.matrix()
+
+Test.Y <- Testing.data %>%
+  dplyr::select(yield) %>%
+  as.matrix()
+```
+
+####  Fitting the Linear Regression Model
+
+```{r}
+# Perform PCA to reduce dimensionality of the training set
+pca.train <- prcomp(Training.data %>% 
+                      dplyr::select(-ID, -environment, -yield, -clusterID), scale. = TRUE)
+
+# Visualize the variance explained by the principal components
+explained.variance.train <- pca.train$sdev^2 / sum(pca.train$sdev^2)
+plot(cumsum(explained.variance.train), type = "b", xlab = "Principal Component", ylab = "Cumulative Proportion of Variance Explained")
+
+# Use the first 50 principal components for regression
+pc.train.data <- Training.data %>% 
+  dplyr::select(yield, environment, clusterID) %>%
+  bind_cols(., as.data.frame(pca.train$x[, 1:50]))
+
+
+# Fit a linear regression model using the principal components
+pc.model <- lm(yield ~ ., data = pc.train.data)
+summary(pc.model)
+
+# Predictions on the training set
+pc_predictions <- predict(pc.model, pc.train.data)
+```
+
+```{r}
+# Model evaluation - need to recalculate PCs on the testing data using the trainingset PC model
+pc.test.data <- Testing.data %>% 
+  dplyr::select(-ID, -environment, -yield, -clusterID) %>%
+  scale(center = pca.train$center, scale = pca.train$scale) %>%
+  as.data.frame()
+
+# Transform the testing set using the rotation matrix from the training set
+pc.test.data <- as.matrix(pc.test.data) %*% pca.train$rotation
+
+# Select the first 50 principal components for the testing set
+pc.test.data <- Testing.data %>% 
+  dplyr::select(yield, environment, clusterID) %>%
+  bind_cols(., as.data.frame(pc.test.data[, 1:50]))
+
+# Make predictions on the testing set
+pc_test_predictions <- predict(pc.model, pc.test.data)
+
+# Calculate MSPE
+mean((pc_test_predictions - pc.test.data$yield)^2)
+```
+
+#### Fitting the Random Forest Model
+
+```{r}
+# Train the model using all predictors
+rf.model <- randomForest(yield ~ . -ID, 
+                         data = Training.data, 
+                         importance = TRUE, 
+                         ntree = 100)
+
+# View the model summary
+print(rf.model)
+```
+
+```{r}
+# Predict on the testing set
+rf.predictions <- predict(rf.model, newdata = Testing.data)
+
+# Calculate Mean Squared Prediction Error (MSPE)
+mspe <- mean((rf.predictions - Testing.data$yield)^2)
+print(paste("Random Forest MSPE:", mspe))
+```
+
+Let's explore which variables were most influential in the random forest model.
+```{r}
+# Get variable importance
+importance.scores <- rf.model %>%
+  importance() %>%
+  as.data.frame()
+
+# Sort the SNPs by importance
+importance.df <- importance.scores[order(importance.scores$IncNodePurity, decreasing = TRUE), ]
+
+# View the top 10 most important SNPs
+head(importance.df, 10)
+```
+
+The increase in MSE variable measures the decrease in model accuracy when the values of a specific feature are randomly permuted while keeping other features unchanged. The increase in node purity variable tells us that the feature is important in differentiating between different outcomes.
+```{r}
+# Plot the top 10 most important variables
+ggplot(importance.df[1:10, ], aes(x = reorder(rownames(importance.df)[1:10], IncNodePurity), y = IncNodePurity)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  xlab("Variables") +
+  ylab("Increase in Node Purity") +
+  ggtitle("Top 10 Most Influential Variables in Random Forest Model")
+```
+
+:::: {.callout type="green" title="Lab Completed!"}
+
+Congratulations! You have completed Lab 5!
+
+::::

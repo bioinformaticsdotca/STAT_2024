@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Module 5: Putting it all Together | Help! What Statistical Model Should I Use? 2024</title>
+  <meta name="description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Module 5: Putting it all Together | Help! What Statistical Model Should I Use? 2024" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://bioinformaticsdotca.github.io/STAT_2024/img/bioinformatics_logo.png" />
+  <meta property="og:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="github-repo" content="bioinformaticsdotca/STAT_2024" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Module 5: Putting it all Together | Help! What Statistical Model Should I Use? 2024" />
+  
+  <meta name="twitter:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="twitter:image" content="https://bioinformaticsdotca.github.io/STAT_2024/img/bioinformatics_logo.png" />
+
+<meta name="author" content="Faculty: Patrick McMillan, Alysha Cooper, and Jacqueline May" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="module-4-modeling-part-2.html"/>
+<link rel="next" href="module-6-introduction-to-causal-intference.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<a href="https://bioinformaticsdotca.github.io/">
+ <img src="img/bioinformatics_logo.png" width="90%" alt="bioinformatics.ca logo" style="display:block; margin-left:auto; margin-right:auto; margin-top:15px;">
+ </a>
+<li><center><strong><a href="./"><br>Help! What Statistical Model Should I Use?<br><br></a></strong></center></li>
+<a href="./">
+ <img src="img/STAT_2024_icon.png" width="70%" alt="Help! What Statistical Model Should I Use? logo" style="display:block; margin-left:auto; margin-right:auto; ">
+ </a>
+<br>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Workshop Info</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i>Schedule</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#pre-work"><i class="fa fa-check"></i>Pre-work</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-setup.html"><a href="data-setup.html"><i class="fa fa-check"></i>Data Setup</a></li>
+<li class="part"><span><b>II Modules</b></span></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html"><i class="fa fa-check"></i>Module 1: Data Cleaning and Exploration Review</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lecture"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lab"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#load-libraries"><i class="fa fa-check"></i>Load Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#read-in-data"><i class="fa fa-check"></i>Read in Data</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#looking-at-your-data"><i class="fa fa-check"></i>Looking at your Data</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#working-with-different-data-types"><i class="fa fa-check"></i>Working with Different Data Types</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#summary-stats"><i class="fa fa-check"></i>Summary Stats</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#exploratory-plots"><i class="fa fa-check"></i>Exploratory Plots</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#outlier-detection"><i class="fa fa-check"></i>Outlier Detection</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#dimensionality-reduction"><i class="fa fa-check"></i>Dimensionality Reduction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html"><i class="fa fa-check"></i>Module 2: Dealing with Missingness</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lecture-1"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lab-1"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#load-libraries-1"><i class="fa fa-check"></i>Load Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#read-in-data-1"><i class="fa fa-check"></i>Read in Data</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#missing-data-exploration"><i class="fa fa-check"></i>Missing Data Exploration</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#imputation-prep"><i class="fa fa-check"></i>Imputation Prep</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#missingness-simulation"><i class="fa fa-check"></i>Missingness Simulation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#meanmode-imputation"><i class="fa fa-check"></i>Mean/mode Imputation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#k-nearest-neighbour-imputation"><i class="fa fa-check"></i>K-Nearest Neighbour Imputation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#random-forest-imputation"><i class="fa fa-check"></i>Random Forest Imputation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#mice"><i class="fa fa-check"></i>MICE</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#error-rates"><i class="fa fa-check"></i>Error Rates</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#impute-the-full-dataset"><i class="fa fa-check"></i>Impute the Full Dataset</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#compare-inferences-obtained-from-complete-case-and-imputed-datasets"><i class="fa fa-check"></i>Compare Inferences Obtained from Complete-case and Imputed Datasets</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html"><i class="fa fa-check"></i>Module 3: Modeling Part 1</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lecture-2"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#regression"><i class="fa fa-check"></i>Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#generalized-linear-models"><i class="fa fa-check"></i>Generalized Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lab-2"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#load-libraries-2"><i class="fa fa-check"></i>Load Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#multiple-linear-regression-and-the-dietswap-data"><i class="fa fa-check"></i>Multiple Linear Regression and the Dietswap Data</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#logistic-regression"><i class="fa fa-check"></i>Logistic Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#binomial-regression"><i class="fa fa-check"></i>Binomial Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#poisson-regression"><i class="fa fa-check"></i>Poisson Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#negative-binomial"><i class="fa fa-check"></i>Negative Binomial</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#independent-work"><i class="fa fa-check"></i>Independent Work</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html"><i class="fa fa-check"></i>Module 4: Modeling Part 2</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lecture-3"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#classification"><i class="fa fa-check"></i>Classification</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#clustering"><i class="fa fa-check"></i>Clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lab-3"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#classification-1"><i class="fa fa-check"></i>Classification</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#clustering-1"><i class="fa fa-check"></i>Clustering</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html"><i class="fa fa-check"></i>Module 5: Putting it all Together</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lecture-4"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lab-4"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#breast-cancer"><i class="fa fa-check"></i>Breast Cancer</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#gene-expression"><i class="fa fa-check"></i>Gene Expression</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#genomic-prediction"><i class="fa fa-check"></i>Genomic Prediction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html"><i class="fa fa-check"></i>Module 6: Introduction to Causal Intference</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lecture-5"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lab-5"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#causal-interfence-introduction"><i class="fa fa-check"></i>Causal Interfence Introduction</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<h1 id="sponsors">Sponsors</h1>
+<center>
+<a href="https://genomecanada.ca/"><img src="img/sponsors/genomecanada.png" height="70" style="display:inline-block;"  style="padding-bottom: 20px" alt="Genome Canada logo.">
+<a href="https://www.ontariogenomics.ca/"><img src="img/sponsors/ontariogenomics.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Ontario Genomics logo.">
+<br><br>
+<a href="https://oicr.on.ca/"><img src="img/sponsors/oicr.png" width=25% style="display:inline-block;" style="padding-bottom: 20px" alt="Ontario Institute for Cancer Research logo.">
+<a href="https://www.hpcforhealth.ca/"><img src="img/sponsors/hpc4health.png" width=60% style="display:inline-block;" style="padding-bottom: 20px "alt="HPC4Health logo.">
+<br><br>
+<a href="https://computationalgenomics.ca/"><img src="img/sponsors/c3g.png" style="display:inline-block;" width=35% style="padding-bottom: 20px" alt="Canadian Centre for Computational Genomcis logo.">
+
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li></center>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Help! What Statistical Model Should I Use? 2024</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="module-5-putting-it-all-together" class="section level1 hasAnchor">
+<h1>Module 5: Putting it all Together<a href="module-5-putting-it-all-together.html#module-5-putting-it-all-together" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="lecture-4" class="section level2 hasAnchor">
+<h2>Lecture<a href="module-5-putting-it-all-together.html#lecture-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/b95iYue64DY?si=tCS_WQlz0fxeGqbV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
+<p><br></p>
+<iframe src="https://drive.google.com/file/d/1WmM0aBJqToy2aoi3gWesHjFlUcV-i_Lg/preview" width="640" height="480" allow="autoplay">
+</iframe>
+</div>
+<div id="lab-4" class="section level2 hasAnchor">
+<h2>Lab<a href="module-5-putting-it-all-together.html#lab-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="breast-cancer" class="section level3 hasAnchor">
+<h3>Breast Cancer<a href="module-5-putting-it-all-together.html#breast-cancer" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="introduction" class="section level4 hasAnchor">
+<h4>Introduction<a href="module-5-putting-it-all-together.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In this example, we’ll use the Breast Cancer dataset. The data contains 699 observations on 11 variables where the response, Class, represents whether a tumor is benign or malignant. Suppose we want to develop a logistic regression classification model. What steps do we need to take to prepare the data for modeling and how should we interpret the model once it’s fit? Finally, how can we adjust the model to be more applicable in clinical settings?</p>
+</div>
+<div id="load-libraries-5" class="section level4 hasAnchor">
+<h4>Load Libraries<a href="module-5-putting-it-all-together.html#load-libraries-5" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="module-5-putting-it-all-together.html#cb395-1" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb395-2"><a href="module-5-putting-it-all-together.html#cb395-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># general functions</span></span>
+<span id="cb395-3"><a href="module-5-putting-it-all-together.html#cb395-3" tabindex="-1"></a><span class="fu">library</span>(mice) <span class="co"># imputation</span></span>
+<span id="cb395-4"><a href="module-5-putting-it-all-together.html#cb395-4" tabindex="-1"></a><span class="fu">library</span>(mlbench) <span class="co"># source of the dataset</span></span>
+<span id="cb395-5"><a href="module-5-putting-it-all-together.html#cb395-5" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co"># For some model diagnostics</span></span>
+<span id="cb395-6"><a href="module-5-putting-it-all-together.html#cb395-6" tabindex="-1"></a><span class="fu">library</span>(arm) <span class="co"># For binned plot for logistic regression</span></span></code></pre></div>
+</div>
+<div id="read-in-data-5" class="section level4 hasAnchor">
+<h4>Read in Data<a href="module-5-putting-it-all-together.html#read-in-data-5" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="module-5-putting-it-all-together.html#cb396-1" tabindex="-1"></a><span class="co"># Load the Breast Cancer dataset</span></span>
+<span id="cb396-2"><a href="module-5-putting-it-all-together.html#cb396-2" tabindex="-1"></a><span class="fu">data</span>(BreastCancer)</span>
+<span id="cb396-3"><a href="module-5-putting-it-all-together.html#cb396-3" tabindex="-1"></a></span>
+<span id="cb396-4"><a href="module-5-putting-it-all-together.html#cb396-4" tabindex="-1"></a>bc_data <span class="ot">&lt;-</span> BreastCancer <span class="sc">%&gt;%</span> </span>
+<span id="cb396-5"><a href="module-5-putting-it-all-together.html#cb396-5" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb396-6"><a href="module-5-putting-it-all-together.html#cb396-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Id)</span>
+<span id="cb396-7"><a href="module-5-putting-it-all-together.html#cb396-7" tabindex="-1"></a></span>
+<span id="cb396-8"><a href="module-5-putting-it-all-together.html#cb396-8" tabindex="-1"></a><span class="co"># Explore the structure of the data</span></span>
+<span id="cb396-9"><a href="module-5-putting-it-all-together.html#cb396-9" tabindex="-1"></a><span class="fu">str</span>(bc_data)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    699 obs. of  10 variables:
+##  $ Cl.thickness   : Ord.factor w/ 10 levels &quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;&lt;&quot;4&quot;&lt;..: 5 5 3 6 4 8 1 2 2 4 ...
+##  $ Cell.size      : Ord.factor w/ 10 levels &quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;&lt;&quot;4&quot;&lt;..: 1 4 1 8 1 10 1 1 1 2 ...
+##  $ Cell.shape     : Ord.factor w/ 10 levels &quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;&lt;&quot;4&quot;&lt;..: 1 4 1 8 1 10 1 2 1 1 ...
+##  $ Marg.adhesion  : Ord.factor w/ 10 levels &quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;&lt;&quot;4&quot;&lt;..: 1 5 1 1 3 8 1 1 1 1 ...
+##  $ Epith.c.size   : Ord.factor w/ 10 levels &quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;&lt;&quot;4&quot;&lt;..: 2 7 2 3 2 7 2 2 2 2 ...
+##  $ Bare.nuclei    : Factor w/ 10 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 10 2 4 1 10 10 1 1 1 ...
+##  $ Bl.cromatin    : Factor w/ 10 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 3 3 3 3 3 9 3 3 1 2 ...
+##  $ Normal.nucleoli: Factor w/ 10 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 2 1 7 1 7 1 1 1 1 ...
+##  $ Mitoses        : Factor w/ 9 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 1 1 1 1 1 1 1 5 1 ...
+##  $ Class          : Factor w/ 2 levels &quot;benign&quot;,&quot;malignant&quot;: 1 1 1 1 1 2 1 1 1 1 ...</code></pre>
+<p>Here, we load the Breast Cancer dataset and remove the Id column, which is not useful for the analysis. The str() function provides a quick overview of the dataset’s structure, including data types and sample values. Here we see that all variables are factors, but they need to be converted to numeric in order to work with the logistic regression model as well as we need to ensure the values for the class variable is 0 and 1.</p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="module-5-putting-it-all-together.html#cb398-1" tabindex="-1"></a><span class="co"># Convert factors to numeric for analysis</span></span>
+<span id="cb398-2"><a href="module-5-putting-it-all-together.html#cb398-2" tabindex="-1"></a>bc_data <span class="ot">&lt;-</span> bc_data <span class="sc">%&gt;%</span></span>
+<span id="cb398-3"><a href="module-5-putting-it-all-together.html#cb398-3" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.factor, as.numeric) <span class="sc">%&gt;%</span></span>
+<span id="cb398-4"><a href="module-5-putting-it-all-together.html#cb398-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Class =</span> Class <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div>
+</div>
+<div id="handling-missing-data" class="section level4 hasAnchor">
+<h4>Handling Missing Data<a href="module-5-putting-it-all-together.html#handling-missing-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Next, we need to check for and handle missing data. We’ll impute the missing values using MICE.</p>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="module-5-putting-it-all-together.html#cb399-1" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb399-2"><a href="module-5-putting-it-all-together.html#cb399-2" tabindex="-1"></a>bc_data <span class="sc">%&gt;%</span> </span>
+<span id="cb399-3"><a href="module-5-putting-it-all-together.html#cb399-3" tabindex="-1"></a>  <span class="fu">summarise_all</span>(<span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.)))</span></code></pre></div>
+<pre><code>##   Cl.thickness Cell.size Cell.shape Marg.adhesion Epith.c.size Bare.nuclei
+## 1            0         0          0             0            0          16
+##   Bl.cromatin Normal.nucleoli Mitoses Class
+## 1           0               0       0     0</code></pre>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="module-5-putting-it-all-together.html#cb401-1" tabindex="-1"></a><span class="co"># Impute missing values using multiple imputation</span></span>
+<span id="cb401-2"><a href="module-5-putting-it-all-together.html#cb401-2" tabindex="-1"></a>imputed_data <span class="ot">&lt;-</span> <span class="fu">mice</span>(bc_data, <span class="at">method =</span> <span class="st">&#39;pmm&#39;</span>, <span class="at">m =</span> <span class="dv">5</span>, <span class="at">maxit =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## 
+##  iter imp variable
+##   1   1  Bare.nuclei
+##   1   2  Bare.nuclei
+##   1   3  Bare.nuclei
+##   1   4  Bare.nuclei
+##   1   5  Bare.nuclei
+##   2   1  Bare.nuclei
+##   2   2  Bare.nuclei
+##   2   3  Bare.nuclei
+##   2   4  Bare.nuclei
+##   2   5  Bare.nuclei
+##   3   1  Bare.nuclei
+##   3   2  Bare.nuclei
+##   3   3  Bare.nuclei
+##   3   4  Bare.nuclei
+##   3   5  Bare.nuclei
+##   4   1  Bare.nuclei
+##   4   2  Bare.nuclei
+##   4   3  Bare.nuclei
+##   4   4  Bare.nuclei
+##   4   5  Bare.nuclei
+##   5   1  Bare.nuclei
+##   5   2  Bare.nuclei
+##   5   3  Bare.nuclei
+##   5   4  Bare.nuclei
+##   5   5  Bare.nuclei</code></pre>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="module-5-putting-it-all-together.html#cb403-1" tabindex="-1"></a><span class="co"># Complete the dataset with the imputed values</span></span>
+<span id="cb403-2"><a href="module-5-putting-it-all-together.html#cb403-2" tabindex="-1"></a>complete_data <span class="ot">&lt;-</span> <span class="fu">complete</span>(imputed_data)</span></code></pre></div>
+</div>
+<div id="exploratory-data-analysis-1" class="section level4 hasAnchor">
+<h4>Exploratory Data Analysis<a href="module-5-putting-it-all-together.html#exploratory-data-analysis-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="module-5-putting-it-all-together.html#cb404-1" tabindex="-1"></a>complete_data <span class="sc">%&gt;%</span></span>
+<span id="cb404-2"><a href="module-5-putting-it-all-together.html#cb404-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>Class, <span class="at">names_to =</span> <span class="st">&quot;Feature&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb404-3"><a href="module-5-putting-it-all-together.html#cb404-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Value)) <span class="sc">+</span></span>
+<span id="cb404-4"><a href="module-5-putting-it-all-together.html#cb404-4" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">10</span>, <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb404-5"><a href="module-5-putting-it-all-together.html#cb404-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Feature, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb404-6"><a href="module-5-putting-it-all-together.html#cb404-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Features&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Score&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
+<p>Logistic regression doesn’t assume the variables are normally distributed, so it’s not a big deal but it is something to keep in mind. Next we’ll explore the correlations between the explanatory variables.</p>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="module-5-putting-it-all-together.html#cb405-1" tabindex="-1"></a><span class="co"># Correlation matrix of the features</span></span>
+<span id="cb405-2"><a href="module-5-putting-it-all-together.html#cb405-2" tabindex="-1"></a>complete_data <span class="sc">%&gt;%</span></span>
+<span id="cb405-3"><a href="module-5-putting-it-all-together.html#cb405-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Class) <span class="sc">%&gt;%</span></span>
+<span id="cb405-4"><a href="module-5-putting-it-all-together.html#cb405-4" tabindex="-1"></a>  <span class="fu">cor</span>()</span></code></pre></div>
+<pre><code>##                 Cl.thickness Cell.size Cell.shape Marg.adhesion Epith.c.size
+## Cl.thickness       1.0000000 0.6449125  0.6545891     0.4863562    0.5218162
+## Cell.size          0.6449125 1.0000000  0.9068819     0.7055818    0.7517991
+## Cell.shape         0.6545891 0.9068819  1.0000000     0.6830792    0.7196684
+## Marg.adhesion      0.4863562 0.7055818  0.6830792     1.0000000    0.5995991
+## Epith.c.size       0.5218162 0.7517991  0.7196684     0.5995991    1.0000000
+## Bare.nuclei        0.5956327 0.6888387  0.7107553     0.6637745    0.5806745
+## Bl.cromatin        0.5584282 0.7557210  0.7359485     0.6667153    0.6161018
+## Normal.nucleoli    0.5358345 0.7228648  0.7194463     0.6033524    0.6288807
+## Mitoses            0.3536126 0.4633205  0.4444613     0.4237040    0.4797305
+##                 Bare.nuclei Bl.cromatin Normal.nucleoli   Mitoses
+## Cl.thickness      0.5956327   0.5584282       0.5358345 0.3536126
+## Cell.size         0.6888387   0.7557210       0.7228648 0.4633205
+## Cell.shape        0.7107553   0.7359485       0.7194463 0.4444613
+## Marg.adhesion     0.6637745   0.6667153       0.6033524 0.4237040
+## Epith.c.size      0.5806745   0.6161018       0.6288807 0.4797305
+## Bare.nuclei       1.0000000   0.6803488       0.5774318 0.3498653
+## Bl.cromatin       0.6803488   1.0000000       0.6658778 0.3517644
+## Normal.nucleoli   0.5774318   0.6658778       1.0000000 0.4315569
+## Mitoses           0.3498653   0.3517644       0.4315569 1.0000000</code></pre>
+<p>Some of these correlations are concerningly high and may suggest multicollinearity in the dataset. There are tests we can use to identify which variables should be removed such as the Variance Inflation Factor, but we’ll simply just remove one of cell.size or cell.shape as they’re too correlated to keep in the analysis. We’ll leave the rest as they’re all under 80% correlated and test for VIF after fitting the model.</p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="module-5-putting-it-all-together.html#cb407-1" tabindex="-1"></a>complete_data <span class="ot">&lt;-</span> complete_data <span class="sc">%&gt;%</span></span>
+<span id="cb407-2"><a href="module-5-putting-it-all-together.html#cb407-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Cell.size)</span></code></pre></div>
+</div>
+<div id="fitting-the-logistic-regression-model-1" class="section level4 hasAnchor">
+<h4>Fitting the Logistic Regression Model<a href="module-5-putting-it-all-together.html#fitting-the-logistic-regression-model-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="module-5-putting-it-all-together.html#cb408-1" tabindex="-1"></a><span class="co"># Fit the logistic regression model</span></span>
+<span id="cb408-2"><a href="module-5-putting-it-all-together.html#cb408-2" tabindex="-1"></a>logistic_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(Class <span class="sc">~</span> ., <span class="at">data =</span> complete_data, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb408-3"><a href="module-5-putting-it-all-together.html#cb408-3" tabindex="-1"></a></span>
+<span id="cb408-4"><a href="module-5-putting-it-all-together.html#cb408-4" tabindex="-1"></a><span class="co"># Summary of the model</span></span>
+<span id="cb408-5"><a href="module-5-putting-it-all-together.html#cb408-5" tabindex="-1"></a><span class="fu">summary</span>(logistic_model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Class ~ ., family = &quot;binomial&quot;, data = complete_data)
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)     -9.66586    1.04485  -9.251  &lt; 2e-16 ***
+## Cl.thickness     0.52176    0.13294   3.925 8.68e-05 ***
+## Cell.shape       0.32344    0.16436   1.968   0.0491 *  
+## Marg.adhesion    0.24261    0.11469   2.115   0.0344 *  
+## Epith.c.size     0.07856    0.15123   0.519   0.6034    
+## Bare.nuclei      0.43068    0.09056   4.756 1.97e-06 ***
+## Bl.cromatin      0.38799    0.15668   2.476   0.0133 *  
+## Normal.nucleoli  0.15898    0.10182   1.561   0.1184    
+## Mitoses          0.55167    0.29499   1.870   0.0615 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 900.53  on 698  degrees of freedom
+## Residual deviance: 113.12  on 690  degrees of freedom
+## AIC: 131.12
+## 
+## Number of Fisher Scoring iterations: 8</code></pre>
+</div>
+<div id="model-diagnostics-2" class="section level4 hasAnchor">
+<h4>Model Diagnostics<a href="module-5-putting-it-all-together.html#model-diagnostics-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="module-5-putting-it-all-together.html#cb410-1" tabindex="-1"></a><span class="co"># VIF</span></span>
+<span id="cb410-2"><a href="module-5-putting-it-all-together.html#cb410-2" tabindex="-1"></a><span class="fu">vif</span>(logistic_model)</span></code></pre></div>
+<pre><code>##    Cl.thickness      Cell.shape   Marg.adhesion    Epith.c.size     Bare.nuclei 
+##        1.151218        1.655924        1.184164        1.398379        1.106523 
+##     Bl.cromatin Normal.nucleoli         Mitoses 
+##        1.246424        1.293004        1.023319</code></pre>
+<p>This indicates that there is minor multicollinearity in among the predictors, but nothing of concern as all values are less than 2.</p>
+</div>
+<div id="model-evaluation" class="section level4 hasAnchor">
+<h4>Model Evaluation<a href="module-5-putting-it-all-together.html#model-evaluation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We’ll convert the coefficients to odds ratios to interpret them more easily.</p>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="module-5-putting-it-all-together.html#cb412-1" tabindex="-1"></a><span class="co"># Calculate odds ratios and confidence intervals</span></span>
+<span id="cb412-2"><a href="module-5-putting-it-all-together.html#cb412-2" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">Odds_Ratio =</span> <span class="fu">coef</span>(logistic_model), <span class="fu">confint</span>(logistic_model)))</span></code></pre></div>
+<pre><code>## Waiting for profiling to be done...</code></pre>
+<pre><code>##                   Odds_Ratio        2.5 %       97.5 %
+## (Intercept)     6.341165e-05 6.116644e-06 0.0003871585
+## Cl.thickness    1.684996e+00 1.319584e+00 2.2343199988
+## Cell.shape      1.381879e+00 1.019681e+00 1.9515273440
+## Marg.adhesion   1.274569e+00 1.019167e+00 1.6073405524
+## Epith.c.size    1.081732e+00 8.003046e-01 1.4541755020
+## Bare.nuclei     1.538307e+00 1.299638e+00 1.8599340303
+## Bl.cromatin     1.474016e+00 1.096391e+00 2.0349587906
+## Normal.nucleoli 1.172318e+00 9.635958e-01 1.4429380122
+## Mitoses         1.736155e+00 1.041184e+00 2.9188993638</code></pre>
+<p>We can interpret the log odds for the Cl.thickness variable as a one unit increase in Cl.thickness increases the odds of the tumor being malignant by ~1.68 times. We see that the log odds for each variable is relatively similar suggesting that they all have comparable influences on the response.</p>
+<p>Lets see how well the model classifies the tumors.</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="module-5-putting-it-all-together.html#cb415-1" tabindex="-1"></a><span class="co"># Predict probabilities on the training set</span></span>
+<span id="cb415-2"><a href="module-5-putting-it-all-together.html#cb415-2" tabindex="-1"></a>complete_data<span class="sc">$</span>predicted_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic_model, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb415-3"><a href="module-5-putting-it-all-together.html#cb415-3" tabindex="-1"></a></span>
+<span id="cb415-4"><a href="module-5-putting-it-all-together.html#cb415-4" tabindex="-1"></a><span class="co"># Convert probabilities to class predictions (threshold = 0.5)</span></span>
+<span id="cb415-5"><a href="module-5-putting-it-all-together.html#cb415-5" tabindex="-1"></a>complete_data<span class="sc">$</span>predicted_class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(complete_data<span class="sc">$</span>predicted_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">&quot;malignant&quot;</span>, <span class="st">&quot;benign&quot;</span>)</span>
+<span id="cb415-6"><a href="module-5-putting-it-all-together.html#cb415-6" tabindex="-1"></a></span>
+<span id="cb415-7"><a href="module-5-putting-it-all-together.html#cb415-7" tabindex="-1"></a><span class="co"># Confusion matrix</span></span>
+<span id="cb415-8"><a href="module-5-putting-it-all-together.html#cb415-8" tabindex="-1"></a><span class="fu">table</span>(BreastCancer<span class="sc">$</span>Class, complete_data<span class="sc">$</span>predicted_class)</span></code></pre></div>
+<pre><code>##            
+##             benign malignant
+##   benign       447        11
+##   malignant     11       230</code></pre>
+<p>The confusion table tells us how often the model misclassifies individuals, in the scenario of predicting if a tumor is benign or malignant, would one of these misclassifications be preferable over the other? I.e., would we prefer false negatives more often than false positives or vice-versa?</p>
+<p>We can reduce the false negative error rate by being more conservative on deciding what is benign to prevent malignant tumors accidentally being labelled as benign.</p>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="module-5-putting-it-all-together.html#cb417-1" tabindex="-1"></a><span class="co"># complete_data probabilities to class predictions (threshold = 0.3)</span></span>
+<span id="cb417-2"><a href="module-5-putting-it-all-together.html#cb417-2" tabindex="-1"></a>complete_data<span class="sc">$</span>conservative_class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(complete_data<span class="sc">$</span>predicted_prob <span class="sc">&gt;</span> <span class="fl">0.3</span>, <span class="st">&quot;malignant&quot;</span>, <span class="st">&quot;benign&quot;</span>)</span>
+<span id="cb417-3"><a href="module-5-putting-it-all-together.html#cb417-3" tabindex="-1"></a></span>
+<span id="cb417-4"><a href="module-5-putting-it-all-together.html#cb417-4" tabindex="-1"></a><span class="co"># Confusion matrix</span></span>
+<span id="cb417-5"><a href="module-5-putting-it-all-together.html#cb417-5" tabindex="-1"></a><span class="fu">table</span>(BreastCancer<span class="sc">$</span>Class, complete_data<span class="sc">$</span>conservative_class)</span></code></pre></div>
+<pre><code>##            
+##             benign malignant
+##   benign       445        13
+##   malignant      8       233</code></pre>
+<p>Looks like a cutoff of 0.3 is better, but still isn’t conservative enough. We’ll need to be even more conservative than that to prevent false negatives.</p>
+</div>
+</div>
+<div id="gene-expression" class="section level3 hasAnchor">
+<h3>Gene Expression<a href="module-5-putting-it-all-together.html#gene-expression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="introduction-1" class="section level4 hasAnchor">
+<h4>Introduction<a href="module-5-putting-it-all-together.html#introduction-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In this example, we’ll use a gene expression dataset from a 2005 study by Holmes et al. titled “Memory T cells have gene expression patterns intermediate between naïve and effector”. The dataset contains observations from different T cell types from various individuals measuring 156 of the most differentially expressed genes.</p>
+<p>Let’s say we’d like to perform clustering on this dataset to try and replicate the results of the study.</p>
+<p>Data Loading and Exploration</p>
+<p>First, ensure the dataset is in the same folder as this script to load it and the explore the dataset. Let’s look at the structure of the data.</p>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="module-5-putting-it-all-together.html#cb419-1" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb419-2"><a href="module-5-putting-it-all-together.html#cb419-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># general functions</span></span>
+<span id="cb419-3"><a href="module-5-putting-it-all-together.html#cb419-3" tabindex="-1"></a><span class="fu">library</span>(cluster) <span class="co"># For clustering</span></span>
+<span id="cb419-4"><a href="module-5-putting-it-all-together.html#cb419-4" tabindex="-1"></a></span>
+<span id="cb419-5"><a href="module-5-putting-it-all-together.html#cb419-5" tabindex="-1"></a><span class="co"># Load the gene expression dataset</span></span>
+<span id="cb419-6"><a href="module-5-putting-it-all-together.html#cb419-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;./datasets/geneexpression_clustering.rda&quot;</span>)</span>
+<span id="cb419-7"><a href="module-5-putting-it-all-together.html#cb419-7" tabindex="-1"></a></span>
+<span id="cb419-8"><a href="module-5-putting-it-all-together.html#cb419-8" tabindex="-1"></a><span class="co"># Take a look at the dataset</span></span>
+<span id="cb419-9"><a href="module-5-putting-it-all-together.html#cb419-9" tabindex="-1"></a><span class="fu">attributes</span>(dat)</span></code></pre></div>
+<pre><code>## $names
+##   [1] &quot;X3968&quot;  &quot;X14831&quot; &quot;X13492&quot; &quot;X5108&quot;  &quot;X16348&quot; &quot;X585&quot;   &quot;X11495&quot; &quot;X17522&quot;
+##   [9] &quot;X12908&quot; &quot;X17992&quot; &quot;X13154&quot; &quot;X17420&quot; &quot;X8564&quot;  &quot;X6421&quot;  &quot;X2620&quot;  &quot;X8567&quot; 
+##  [17] &quot;X15028&quot; &quot;X16861&quot; &quot;X10468&quot; &quot;X12285&quot; &quot;X1135&quot;  &quot;X18495&quot; &quot;X18403&quot; &quot;X7405&quot; 
+##  [25] &quot;X11521&quot; &quot;X720&quot;   &quot;X9095&quot;  &quot;X11026&quot; &quot;X290&quot;   &quot;X14844&quot; &quot;X5684&quot;  &quot;X16639&quot;
+##  [33] &quot;X1971&quot;  &quot;X5844&quot;  &quot;X5914&quot;  &quot;X7486&quot;  &quot;X6884&quot;  &quot;X8928&quot;  &quot;X8992&quot;  &quot;X6019&quot; 
+##  [41] &quot;X17295&quot; &quot;X18295&quot; &quot;X15688&quot; &quot;X441&quot;   &quot;X18100&quot; &quot;X11142&quot; &quot;X5383&quot;  &quot;X3326&quot; 
+##  [49] &quot;X16248&quot; &quot;X3487&quot;  &quot;X5942&quot;  &quot;X16547&quot; &quot;X6431&quot;  &quot;X5717&quot;  &quot;X14592&quot; &quot;X5019&quot; 
+##  [57] &quot;X4448&quot;  &quot;X17877&quot; &quot;X15612&quot; &quot;X13583&quot; &quot;X4812&quot;  &quot;X1177&quot;  &quot;X7535&quot;  &quot;X11003&quot;
+##  [65] &quot;X2698&quot;  &quot;X8045&quot;  &quot;X10298&quot; &quot;X14722&quot; &quot;X5029&quot;  &quot;X1811&quot;  &quot;X5732&quot;  &quot;X5700&quot; 
+##  [73] &quot;X3328&quot;  &quot;X6429&quot;  &quot;X16673&quot; &quot;X1040&quot;  &quot;X5712&quot;  &quot;X4276&quot;  &quot;X520&quot;   &quot;X1356&quot; 
+##  [81] &quot;X17436&quot; &quot;X8944&quot;  &quot;X18496&quot; &quot;X7212&quot;  &quot;X3367&quot;  &quot;X18526&quot; &quot;X7382&quot;  &quot;X13009&quot;
+##  [89] &quot;X4338&quot;  &quot;X16476&quot; &quot;X2481&quot;  &quot;X18272&quot; &quot;X2673&quot;  &quot;X5423&quot;  &quot;X1227&quot;  &quot;X10030&quot;
+##  [97] &quot;X10742&quot; &quot;X10029&quot; &quot;X13194&quot; &quot;X10461&quot; &quot;X14427&quot; &quot;X16765&quot; &quot;X839&quot;   &quot;X16207&quot;
+## [105] &quot;X11812&quot; &quot;X8392&quot;  &quot;X7965&quot;  &quot;X15754&quot; &quot;X7555&quot;  &quot;X17679&quot; &quot;X3295&quot;  &quot;X8330&quot; 
+## [113] &quot;X6016&quot;  &quot;X12268&quot; &quot;X1254&quot;  &quot;X14489&quot; &quot;X9683&quot;  &quot;X2705&quot;  &quot;X18109&quot; &quot;X9906&quot; 
+## [121] &quot;X9451&quot;  &quot;X11559&quot; &quot;X15724&quot; &quot;X12049&quot; &quot;X15214&quot; &quot;X13368&quot; &quot;X12562&quot; &quot;X16840&quot;
+## [129] &quot;X15431&quot; &quot;X14947&quot; &quot;X14974&quot; &quot;X1048&quot;  &quot;X5240&quot;  &quot;X7374&quot;  &quot;X10512&quot; &quot;X5926&quot; 
+## [137] &quot;X5624&quot;  &quot;X18405&quot; &quot;X11913&quot; &quot;X4903&quot;  &quot;X13082&quot; &quot;X9513&quot;  &quot;X14753&quot; &quot;X12206&quot;
+## [145] &quot;X12282&quot; &quot;X6299&quot;  &quot;X15659&quot; &quot;X14998&quot; &quot;X7315&quot;  &quot;X16470&quot; &quot;X2413&quot;  &quot;X8935&quot; 
+## [153] &quot;X6853&quot;  &quot;X18398&quot; &quot;X16962&quot; &quot;X8486&quot; 
+## 
+## $row.names
+##  [1] &quot;HEA26_EFFE_1&quot; &quot;HEA26_MEM_1&quot;  &quot;HEA26_NAI_1&quot;  &quot;MEL36_EFFE_1&quot; &quot;MEL36_MEM_1&quot; 
+##  [6] &quot;MEL36_NAI_1&quot;  &quot;HEA31_EFFE_2&quot; &quot;HEA31_MEM_2&quot;  &quot;HEA31_NAI_2&quot;  &quot;MEL39_EFFE_2&quot;
+## [11] &quot;MEL39_MEM_2&quot;  &quot;MEL39_NAI_2&quot;  &quot;HEA25_EFFE_3&quot; &quot;HEA25_MEM_3&quot;  &quot;HEA25_NAI_3&quot; 
+## [16] &quot;MEL53_EFFE_3&quot; &quot;MEL53_NAI_3b&quot; &quot;MEL53_NAI_3&quot;  &quot;HEA55_EFFE_4&quot; &quot;HEA55_MEM_4&quot; 
+## [21] &quot;HEA55_NAI_4&quot;  &quot;MEL67_EFFE_4&quot; &quot;MEL67_MEM_4&quot;  &quot;MEL67_NAI_4&quot;  &quot;HEA59_EFFE_5&quot;
+## [26] &quot;HEA59_MEM_5&quot;  &quot;HEA59_NAI_5&quot;  &quot;MEL51_EFFE_5&quot; &quot;MEL51_MEM_5&quot;  &quot;MEL51_NAI_5&quot; 
+## 
+## $class
+## [1] &quot;data.frame&quot;</code></pre>
+<p>Now that we know the structure of the dataset, lets see what the values look like.</p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="module-5-putting-it-all-together.html#cb421-1" tabindex="-1"></a><span class="co"># only lookin at the first ten to reduce the amount of output</span></span>
+<span id="cb421-2"><a href="module-5-putting-it-all-together.html#cb421-2" tabindex="-1"></a><span class="fu">summary</span>(dat)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>##      X3968             X14831            X13492              X5108        
+##  Min.   :-3.6256   Min.   :-1.3489   Min.   :-0.352926   Min.   :-0.4470  
+##  1st Qu.:-2.5311   1st Qu.:-0.8397   1st Qu.:-0.007223   1st Qu.:-0.1688  
+##  Median :-1.9831   Median :-0.3538   Median : 0.221656   Median : 0.5594  
+##  Mean   :-1.5977   Mean   :-0.1786   Mean   : 0.300380   Mean   : 0.3921  
+##  3rd Qu.:-0.3518   3rd Qu.: 0.4933   3rd Qu.: 0.753449   3rd Qu.: 0.8013  
+##  Max.   : 0.3073   Max.   : 1.1152   Max.   : 1.054197   Max.   : 1.2097  
+##      X16348             X585              X11495            X17522       
+##  Min.   :-1.4066   Min.   :-0.16199   Min.   :-2.2375   Min.   :-0.7677  
+##  1st Qu.:-0.8942   1st Qu.: 0.07235   1st Qu.:-1.7353   1st Qu.: 0.1168  
+##  Median :-0.3688   Median : 0.33344   Median :-1.1957   Median : 0.7129  
+##  Mean   :-0.2931   Mean   : 0.47498   Mean   :-1.3028   Mean   : 0.7489  
+##  3rd Qu.: 0.3422   3rd Qu.: 0.86154   3rd Qu.:-0.9895   3rd Qu.: 1.3361  
+##  Max.   : 1.1339   Max.   : 1.54366   Max.   :-0.6215   Max.   : 2.3478  
+##      X12908          X17992       
+##  Min.   :1.419   Min.   :-0.4004  
+##  1st Qu.:2.615   1st Qu.: 0.2587  
+##  Median :3.940   Median : 0.8323  
+##  Mean   :3.770   Mean   : 0.9033  
+##  3rd Qu.:4.813   3rd Qu.: 1.4249  
+##  Max.   :5.905   Max.   : 2.5390</code></pre>
+<p>Looks like we’ll need to scale our dataset.</p>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="module-5-putting-it-all-together.html#cb423-1" tabindex="-1"></a><span class="co"># scale dataset</span></span>
+<span id="cb423-2"><a href="module-5-putting-it-all-together.html#cb423-2" tabindex="-1"></a>scaled.data <span class="ot">&lt;-</span> <span class="fu">scale</span>(dat, <span class="at">scale =</span> T, <span class="at">center =</span> T)</span></code></pre></div>
+</div>
+<div id="k-means-clustering" class="section level4 hasAnchor">
+<h4>K-means Clustering<a href="module-5-putting-it-all-together.html#k-means-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="module-5-putting-it-all-together.html#cb424-1" tabindex="-1"></a>wcss <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">20</span>, <span class="cf">function</span>(k) {</span>
+<span id="cb424-2"><a href="module-5-putting-it-all-together.html#cb424-2" tabindex="-1"></a>  <span class="fu">kmeans</span>(scaled.data, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">10</span>)<span class="sc">$</span>tot.withinss</span>
+<span id="cb424-3"><a href="module-5-putting-it-all-together.html#cb424-3" tabindex="-1"></a>})</span>
+<span id="cb424-4"><a href="module-5-putting-it-all-together.html#cb424-4" tabindex="-1"></a></span>
+<span id="cb424-5"><a href="module-5-putting-it-all-together.html#cb424-5" tabindex="-1"></a><span class="co"># Plot WCSS against the number of clusters</span></span>
+<span id="cb424-6"><a href="module-5-putting-it-all-together.html#cb424-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">20</span>, wcss, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">frame =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb424-7"><a href="module-5-putting-it-all-together.html#cb424-7" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of Clusters K&quot;</span>,</span>
+<span id="cb424-8"><a href="module-5-putting-it-all-together.html#cb424-8" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Within-Clusters Sum of Squares&quot;</span>,</span>
+<span id="cb424-9"><a href="module-5-putting-it-all-together.html#cb424-9" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Elbow Method for Determining Optimal Number of Clusters&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-122-1.png" width="672" /></p>
+<p>There’s a fairly steep decline from 2 to 3 clusters, but not much of a difference after that. Looks like 3 clusters may be an ideal number.</p>
+</div>
+<div id="pca" class="section level4 hasAnchor">
+<h4>PCA<a href="module-5-putting-it-all-together.html#pca" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s evaluate using PCA:</p>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="module-5-putting-it-all-together.html#cb425-1" tabindex="-1"></a>kmeans.result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(scaled.data, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb425-2"><a href="module-5-putting-it-all-together.html#cb425-2" tabindex="-1"></a></span>
+<span id="cb425-3"><a href="module-5-putting-it-all-together.html#cb425-3" tabindex="-1"></a>pca_results <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(scaled.data, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb425-4"><a href="module-5-putting-it-all-together.html#cb425-4" tabindex="-1"></a>pca_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(pca_results<span class="sc">$</span>x, <span class="at">Cluster =</span> <span class="fu">as.factor</span>(kmeans.result<span class="sc">$</span>cluster))</span>
+<span id="cb425-5"><a href="module-5-putting-it-all-together.html#cb425-5" tabindex="-1"></a></span>
+<span id="cb425-6"><a href="module-5-putting-it-all-together.html#cb425-6" tabindex="-1"></a><span class="fu">ggplot</span>(pca_data, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> Cluster)) <span class="sc">+</span></span>
+<span id="cb425-7"><a href="module-5-putting-it-all-together.html#cb425-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb425-8"><a href="module-5-putting-it-all-together.html#cb425-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;PCA of Holmes et al. Data with 3 K-Means Clusters&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-123-1.png" width="672" /></p>
+<p>With the exception of two outliers in the middle of the graph, the PCA plot also appears to indicate that there are 3 clusters.</p>
+</div>
+<div id="silhouette-analysis" class="section level4 hasAnchor">
+<h4>Silhouette Analysis<a href="module-5-putting-it-all-together.html#silhouette-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s see if the silhouette analysis agrees with three clusters.</p>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="module-5-putting-it-all-together.html#cb426-1" tabindex="-1"></a>silhouette.values <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(k){</span>
+<span id="cb426-2"><a href="module-5-putting-it-all-together.html#cb426-2" tabindex="-1"></a>  Kmeans.res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(scaled.data, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb426-3"><a href="module-5-putting-it-all-together.html#cb426-3" tabindex="-1"></a>  silhouette.score <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(Kmeans.res<span class="sc">$</span>cluster, <span class="fu">dist</span>(scaled.data))</span>
+<span id="cb426-4"><a href="module-5-putting-it-all-together.html#cb426-4" tabindex="-1"></a>  <span class="fu">mean</span>(silhouette.score[, <span class="dv">3</span>])  </span>
+<span id="cb426-5"><a href="module-5-putting-it-all-together.html#cb426-5" tabindex="-1"></a>})</span>
+<span id="cb426-6"><a href="module-5-putting-it-all-together.html#cb426-6" tabindex="-1"></a></span>
+<span id="cb426-7"><a href="module-5-putting-it-all-together.html#cb426-7" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, silhouette.values, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">frame =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb426-8"><a href="module-5-putting-it-all-together.html#cb426-8" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Number of Clusters K&quot;</span>,</span>
+<span id="cb426-9"><a href="module-5-putting-it-all-together.html#cb426-9" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Average Silhouette Width&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-124-1.png" width="672" /></p>
+<p>From this plot it seems that 6 clusters would be more accurate, but this doesn’t align with our previous results. Perhaps this can be further explored through hierarchical clustering.</p>
+</div>
+<div id="hierarchical-clustering-1" class="section level4 hasAnchor">
+<h4>Hierarchical Clustering<a href="module-5-putting-it-all-together.html#hierarchical-clustering-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="module-5-putting-it-all-together.html#cb427-1" tabindex="-1"></a><span class="co"># Perform hierarchical clustering</span></span>
+<span id="cb427-2"><a href="module-5-putting-it-all-together.html#cb427-2" tabindex="-1"></a>hc.res <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(scaled.data), <span class="at">method =</span> <span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb427-3"><a href="module-5-putting-it-all-together.html#cb427-3" tabindex="-1"></a></span>
+<span id="cb427-4"><a href="module-5-putting-it-all-together.html#cb427-4" tabindex="-1"></a><span class="co"># Plot the dendrogram</span></span>
+<span id="cb427-5"><a href="module-5-putting-it-all-together.html#cb427-5" tabindex="-1"></a><span class="fu">plot</span>(hc.res, <span class="at">main =</span> <span class="st">&quot;Hierarchical Clustering Dendrogram&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">sub =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-125-1.png" width="672" /></p>
+<p>The dendrogram indicates that there likely is a benefit to using 6 clusters for higher accuracy as suggested by the silhouette analysis, but overall there appears to be 3 primary clusters. So, the results of our clustering suggest that there is likely 3 types of T cells with. This confirms the findings from Holmes et al in that there appears to exist an intermediate memory T cell between the known naïve and effector cells.</p>
+</div>
+</div>
+<div id="genomic-prediction" class="section level3 hasAnchor">
+<h3>Genomic Prediction<a href="module-5-putting-it-all-together.html#genomic-prediction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="introduction-2" class="section level4 hasAnchor">
+<h4>Introduction<a href="module-5-putting-it-all-together.html#introduction-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In this example we’ll be analyzing data from a collection of 599 historical CIMMYT wheat lines. The lines were genotyped using 1447 Diversity Array Technology (DArT). The DArT markers can take on two values, denoted by their presence or absence. Markers with a minor allele frequency lower than 0.05 were removed.</p>
+<p>What is the goal of this analysis? We want to predict the yields of different wheat varieties using SNP data. For this, we can use either a traditional linear model paired with dimension reduction techniques to include the SNP data, or we can use a method which is able to handle the dimensions of the dataset such as penalized regression or random forest methods.</p>
+<p>We’ll fit and compare two genomic prediction models for this purpose to assess the impact that SNP data has on model accuracy relative to a more simplistic model. We’ll also identify the most influential SNPs for predicting yield.</p>
+</div>
+<div id="loading-libraries" class="section level4 hasAnchor">
+<h4>Loading Libraries<a href="module-5-putting-it-all-together.html#loading-libraries" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="module-5-putting-it-all-together.html#cb428-1" tabindex="-1"></a><span class="fu">library</span>(BGLR) <span class="co"># Data source</span></span>
+<span id="cb428-2"><a href="module-5-putting-it-all-together.html#cb428-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># General functions and plots]</span></span>
+<span id="cb428-3"><a href="module-5-putting-it-all-together.html#cb428-3" tabindex="-1"></a><span class="fu">library</span>(randomForest) <span class="co"># Random forest model </span></span>
+<span id="cb428-4"><a href="module-5-putting-it-all-together.html#cb428-4" tabindex="-1"></a><span class="fu">library</span>(cluster) <span class="co"># Hierarchical Clustering</span></span></code></pre></div>
+</div>
+<div id="read-in-data-6" class="section level4 hasAnchor">
+<h4>Read in Data<a href="module-5-putting-it-all-together.html#read-in-data-6" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="module-5-putting-it-all-together.html#cb429-1" tabindex="-1"></a><span class="co"># Load the wheat dataset</span></span>
+<span id="cb429-2"><a href="module-5-putting-it-all-together.html#cb429-2" tabindex="-1"></a><span class="fu">data</span>(wheat)</span>
+<span id="cb429-3"><a href="module-5-putting-it-all-together.html#cb429-3" tabindex="-1"></a></span>
+<span id="cb429-4"><a href="module-5-putting-it-all-together.html#cb429-4" tabindex="-1"></a>geno <span class="ot">&lt;-</span> wheat.X  <span class="co"># SNP genotypes</span></span>
+<span id="cb429-5"><a href="module-5-putting-it-all-together.html#cb429-5" tabindex="-1"></a>pheno <span class="ot">&lt;-</span> wheat.Y  <span class="co"># Phenotype data</span></span>
+<span id="cb429-6"><a href="module-5-putting-it-all-together.html#cb429-6" tabindex="-1"></a></span>
+<span id="cb429-7"><a href="module-5-putting-it-all-together.html#cb429-7" tabindex="-1"></a><span class="co"># Explore the structure of the data</span></span>
+<span id="cb429-8"><a href="module-5-putting-it-all-together.html#cb429-8" tabindex="-1"></a><span class="fu">dim</span>(geno)  <span class="co"># Dimensions of the genotype matrix</span></span></code></pre></div>
+<pre><code>## [1]  599 1279</code></pre>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="module-5-putting-it-all-together.html#cb431-1" tabindex="-1"></a><span class="fu">dim</span>(pheno)  <span class="co"># Dimensions of the phenotype matrix</span></span></code></pre></div>
+<pre><code>## [1] 599   4</code></pre>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="module-5-putting-it-all-together.html#cb433-1" tabindex="-1"></a><span class="co"># Combine genotype and phenotype data into one dataframe</span></span>
+<span id="cb433-2"><a href="module-5-putting-it-all-together.html#cb433-2" tabindex="-1"></a>genomic_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(geno)</span>
+<span id="cb433-3"><a href="module-5-putting-it-all-together.html#cb433-3" tabindex="-1"></a></span>
+<span id="cb433-4"><a href="module-5-putting-it-all-together.html#cb433-4" tabindex="-1"></a><span class="co"># Need to reformat yield data to account for location differences. </span></span>
+<span id="cb433-5"><a href="module-5-putting-it-all-together.html#cb433-5" tabindex="-1"></a>wheat_data <span class="ot">&lt;-</span> pheno <span class="sc">%&gt;%</span></span>
+<span id="cb433-6"><a href="module-5-putting-it-all-together.html#cb433-6" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb433-7"><a href="module-5-putting-it-all-together.html#cb433-7" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb433-8"><a href="module-5-putting-it-all-together.html#cb433-8" tabindex="-1"></a>  <span class="fu">bind_cols</span>(., genomic_data) <span class="sc">%&gt;%</span></span>
+<span id="cb433-9"><a href="module-5-putting-it-all-together.html#cb433-9" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span><span class="sc">:</span><span class="st">&quot;5&quot;</span>), <span class="at">values_to =</span> <span class="st">&quot;yield&quot;</span>, <span class="at">names_to =</span> <span class="st">&quot;environment&quot;</span>)</span>
+<span id="cb433-10"><a href="module-5-putting-it-all-together.html#cb433-10" tabindex="-1"></a></span>
+<span id="cb433-11"><a href="module-5-putting-it-all-together.html#cb433-11" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb433-12"><a href="module-5-putting-it-all-together.html#cb433-12" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span></code></pre></div>
+</div>
+<div id="exploratory-data-analysis-2" class="section level4 hasAnchor">
+<h4>Exploratory Data Analysis<a href="module-5-putting-it-all-together.html#exploratory-data-analysis-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="module-5-putting-it-all-together.html#cb434-1" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb434-2"><a href="module-5-putting-it-all-together.html#cb434-2" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(wheat_data))</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="module-5-putting-it-all-together.html#cb436-1" tabindex="-1"></a><span class="co"># Visualize the distribution of the yield</span></span>
+<span id="cb436-2"><a href="module-5-putting-it-all-together.html#cb436-2" tabindex="-1"></a><span class="fu">ggplot</span>(wheat_data, <span class="fu">aes</span>(yield)) <span class="sc">+</span></span>
+<span id="cb436-3"><a href="module-5-putting-it-all-together.html#cb436-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb436-4"><a href="module-5-putting-it-all-together.html#cb436-4" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb436-5"><a href="module-5-putting-it-all-together.html#cb436-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Wheat Yield&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb436-6"><a href="module-5-putting-it-all-together.html#cb436-6" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(environment))</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+## `binwidth`.</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
+<p>No missing values and the response is relatively normally distributed. Let’s take a closer look at the SNP data next.</p>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="module-5-putting-it-all-together.html#cb438-1" tabindex="-1"></a><span class="co"># Convert matrix to a data frame in long format and scale</span></span>
+<span id="cb438-2"><a href="module-5-putting-it-all-together.html#cb438-2" tabindex="-1"></a>snp_long <span class="ot">&lt;-</span> genomic_data <span class="sc">%&gt;%</span></span>
+<span id="cb438-3"><a href="module-5-putting-it-all-together.html#cb438-3" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;Sample&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb438-4"><a href="module-5-putting-it-all-together.html#cb438-4" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>Sample, <span class="at">names_to =</span> <span class="st">&quot;SNP&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Value&quot;</span>)</span>
+<span id="cb438-5"><a href="module-5-putting-it-all-together.html#cb438-5" tabindex="-1"></a></span>
+<span id="cb438-6"><a href="module-5-putting-it-all-together.html#cb438-6" tabindex="-1"></a><span class="fu">ggplot</span>(snp_long, <span class="fu">aes</span>(<span class="at">x =</span> SNP, <span class="at">y =</span> Sample, <span class="at">fill =</span> Value)) <span class="sc">+</span></span>
+<span id="cb438-7"><a href="module-5-putting-it-all-together.html#cb438-7" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb438-8"><a href="module-5-putting-it-all-together.html#cb438-8" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="at">na.value =</span> <span class="st">&quot;grey50&quot;</span>) <span class="sc">+</span></span>
+<span id="cb438-9"><a href="module-5-putting-it-all-together.html#cb438-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb438-10"><a href="module-5-putting-it-all-together.html#cb438-10" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb438-11"><a href="module-5-putting-it-all-together.html#cb438-11" tabindex="-1"></a>   <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb438-12"><a href="module-5-putting-it-all-together.html#cb438-12" tabindex="-1"></a>   <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb438-13"><a href="module-5-putting-it-all-together.html#cb438-13" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb438-14"><a href="module-5-putting-it-all-together.html#cb438-14" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb438-15"><a href="module-5-putting-it-all-together.html#cb438-15" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb438-16"><a href="module-5-putting-it-all-together.html#cb438-16" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb438-17"><a href="module-5-putting-it-all-together.html#cb438-17" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Heatmap of SNP Data&quot;</span>,</span>
+<span id="cb438-18"><a href="module-5-putting-it-all-together.html#cb438-18" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;SNP&quot;</span>,</span>
+<span id="cb438-19"><a href="module-5-putting-it-all-together.html#cb438-19" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Sample&quot;</span>,</span>
+<span id="cb438-20"><a href="module-5-putting-it-all-together.html#cb438-20" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;SNP Value&quot;</span></span>
+<span id="cb438-21"><a href="module-5-putting-it-all-together.html#cb438-21" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<p>We see that some SNPs are quite variable among the different samples and others are consistent among almost all samples. The heatmap can also help guide our decision on clustering size. Are there are areas which indicate that there may exist clusters within the SNP data?</p>
+</div>
+<div id="feature-engineering" class="section level4 hasAnchor">
+<h4>Feature Engineering<a href="module-5-putting-it-all-together.html#feature-engineering" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We’ll use hierarchical clustering based on SNP data to create a new variable for the cluster each wheat line belongs to. However, the SNP data is too large to work with the hierarchical clustering algorithm and so we’ll need to reduce the dimensions of the data by using PCA.</p>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="module-5-putting-it-all-together.html#cb439-1" tabindex="-1"></a><span class="co"># Perform PCA to reduce dimensionality</span></span>
+<span id="cb439-2"><a href="module-5-putting-it-all-together.html#cb439-2" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(wheat_data <span class="sc">%&gt;%</span> </span>
+<span id="cb439-3"><a href="module-5-putting-it-all-together.html#cb439-3" tabindex="-1"></a>                dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID, <span class="sc">-</span>environment, <span class="sc">-</span>yield), <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb439-4"><a href="module-5-putting-it-all-together.html#cb439-4" tabindex="-1"></a>pca_data <span class="ot">&lt;-</span> pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>]  <span class="co"># Keep the first 50 principal components</span></span>
+<span id="cb439-5"><a href="module-5-putting-it-all-together.html#cb439-5" tabindex="-1"></a></span>
+<span id="cb439-6"><a href="module-5-putting-it-all-together.html#cb439-6" tabindex="-1"></a><span class="co"># Perform hierarchical clustering on the PCA-reduced data</span></span>
+<span id="cb439-7"><a href="module-5-putting-it-all-together.html#cb439-7" tabindex="-1"></a>hc.res <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(pca_data), <span class="at">method =</span> <span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb439-8"><a href="module-5-putting-it-all-together.html#cb439-8" tabindex="-1"></a></span>
+<span id="cb439-9"><a href="module-5-putting-it-all-together.html#cb439-9" tabindex="-1"></a><span class="co"># Plot the dendrogram</span></span>
+<span id="cb439-10"><a href="module-5-putting-it-all-together.html#cb439-10" tabindex="-1"></a><span class="fu">plot</span>(hc.res, <span class="at">main =</span> <span class="st">&quot;Hierarchical Clustering Dendrogram (PCA Reduced Data)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">sub =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="module-5-putting-it-all-together.html#cb440-1" tabindex="-1"></a><span class="co"># Now add cluster ID into the dataset</span></span>
+<span id="cb440-2"><a href="module-5-putting-it-all-together.html#cb440-2" tabindex="-1"></a>wheat_data<span class="sc">$</span>clusterID <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.res, <span class="at">k =</span> <span class="dv">20</span>)</span></code></pre></div>
+</div>
+<div id="splitting-the-data-into-training-and-testing-sets" class="section level4 hasAnchor">
+<h4>Splitting the data into training and testing sets<a href="module-5-putting-it-all-together.html#splitting-the-data-into-training-and-testing-sets" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="module-5-putting-it-all-together.html#cb441-1" tabindex="-1"></a>Training.data <span class="ot">&lt;-</span> wheat_data <span class="sc">%&gt;%</span></span>
+<span id="cb441-2"><a href="module-5-putting-it-all-together.html#cb441-2" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb441-3"><a href="module-5-putting-it-all-together.html#cb441-3" tabindex="-1"></a></span>
+<span id="cb441-4"><a href="module-5-putting-it-all-together.html#cb441-4" tabindex="-1"></a>Train.X <span class="ot">&lt;-</span> Training.data <span class="sc">%&gt;%</span></span>
+<span id="cb441-5"><a href="module-5-putting-it-all-together.html#cb441-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>yield) <span class="sc">%&gt;%</span></span>
+<span id="cb441-6"><a href="module-5-putting-it-all-together.html#cb441-6" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb441-7"><a href="module-5-putting-it-all-together.html#cb441-7" tabindex="-1"></a></span>
+<span id="cb441-8"><a href="module-5-putting-it-all-together.html#cb441-8" tabindex="-1"></a>Train.Y <span class="ot">&lt;-</span> Training.data <span class="sc">%&gt;%</span></span>
+<span id="cb441-9"><a href="module-5-putting-it-all-together.html#cb441-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(yield) <span class="sc">%&gt;%</span></span>
+<span id="cb441-10"><a href="module-5-putting-it-all-together.html#cb441-10" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb441-11"><a href="module-5-putting-it-all-together.html#cb441-11" tabindex="-1"></a></span>
+<span id="cb441-12"><a href="module-5-putting-it-all-together.html#cb441-12" tabindex="-1"></a>Testing.data <span class="ot">&lt;-</span> wheat_data <span class="sc">%&gt;%</span></span>
+<span id="cb441-13"><a href="module-5-putting-it-all-together.html#cb441-13" tabindex="-1"></a>  <span class="fu">anti_join</span>(., Training.data, <span class="at">by =</span> <span class="st">&#39;ID&#39;</span>)</span>
+<span id="cb441-14"><a href="module-5-putting-it-all-together.html#cb441-14" tabindex="-1"></a></span>
+<span id="cb441-15"><a href="module-5-putting-it-all-together.html#cb441-15" tabindex="-1"></a>Test.X <span class="ot">&lt;-</span> Testing.data <span class="sc">%&gt;%</span></span>
+<span id="cb441-16"><a href="module-5-putting-it-all-together.html#cb441-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>yield) <span class="sc">%&gt;%</span></span>
+<span id="cb441-17"><a href="module-5-putting-it-all-together.html#cb441-17" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb441-18"><a href="module-5-putting-it-all-together.html#cb441-18" tabindex="-1"></a></span>
+<span id="cb441-19"><a href="module-5-putting-it-all-together.html#cb441-19" tabindex="-1"></a>Test.Y <span class="ot">&lt;-</span> Testing.data <span class="sc">%&gt;%</span></span>
+<span id="cb441-20"><a href="module-5-putting-it-all-together.html#cb441-20" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(yield) <span class="sc">%&gt;%</span></span>
+<span id="cb441-21"><a href="module-5-putting-it-all-together.html#cb441-21" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span></code></pre></div>
+</div>
+<div id="fitting-the-linear-regression-model" class="section level4 hasAnchor">
+<h4>Fitting the Linear Regression Model<a href="module-5-putting-it-all-together.html#fitting-the-linear-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="module-5-putting-it-all-together.html#cb442-1" tabindex="-1"></a><span class="co"># Perform PCA to reduce dimensionality of the training set</span></span>
+<span id="cb442-2"><a href="module-5-putting-it-all-together.html#cb442-2" tabindex="-1"></a>pca.train <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(Training.data <span class="sc">%&gt;%</span> </span>
+<span id="cb442-3"><a href="module-5-putting-it-all-together.html#cb442-3" tabindex="-1"></a>                      dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID, <span class="sc">-</span>environment, <span class="sc">-</span>yield, <span class="sc">-</span>clusterID), <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb442-4"><a href="module-5-putting-it-all-together.html#cb442-4" tabindex="-1"></a></span>
+<span id="cb442-5"><a href="module-5-putting-it-all-together.html#cb442-5" tabindex="-1"></a><span class="co"># Visualize the variance explained by the principal components</span></span>
+<span id="cb442-6"><a href="module-5-putting-it-all-together.html#cb442-6" tabindex="-1"></a>explained.variance.train <span class="ot">&lt;-</span> pca.train<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pca.train<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb442-7"><a href="module-5-putting-it-all-together.html#cb442-7" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">cumsum</span>(explained.variance.train), <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Principal Component&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Cumulative Proportion of Variance Explained&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="module-5-putting-it-all-together.html#cb443-1" tabindex="-1"></a><span class="co"># Use the first 50 principal components for regression</span></span>
+<span id="cb443-2"><a href="module-5-putting-it-all-together.html#cb443-2" tabindex="-1"></a>pc.train.data <span class="ot">&lt;-</span> Training.data <span class="sc">%&gt;%</span> </span>
+<span id="cb443-3"><a href="module-5-putting-it-all-together.html#cb443-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(yield, environment, clusterID) <span class="sc">%&gt;%</span></span>
+<span id="cb443-4"><a href="module-5-putting-it-all-together.html#cb443-4" tabindex="-1"></a>  <span class="fu">bind_cols</span>(., <span class="fu">as.data.frame</span>(pca.train<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>]))</span>
+<span id="cb443-5"><a href="module-5-putting-it-all-together.html#cb443-5" tabindex="-1"></a></span>
+<span id="cb443-6"><a href="module-5-putting-it-all-together.html#cb443-6" tabindex="-1"></a></span>
+<span id="cb443-7"><a href="module-5-putting-it-all-together.html#cb443-7" tabindex="-1"></a><span class="co"># Fit a linear regression model using the principal components</span></span>
+<span id="cb443-8"><a href="module-5-putting-it-all-together.html#cb443-8" tabindex="-1"></a>pc.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield <span class="sc">~</span> ., <span class="at">data =</span> pc.train.data)</span>
+<span id="cb443-9"><a href="module-5-putting-it-all-together.html#cb443-9" tabindex="-1"></a><span class="fu">summary</span>(pc.model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = yield ~ ., data = pc.train.data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.3917 -0.5576  0.0028  0.5824  4.6377 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.1485066  0.0679878   2.184 0.029064 *  
+## environment2 -0.0247689  0.0610846  -0.405 0.685167    
+## environment4 -0.0386075  0.0608749  -0.634 0.526021    
+## environment5 -0.0235613  0.0606632  -0.388 0.697768    
+## clusterID    -0.0187430  0.0082844  -2.262 0.023786 *  
+## PC1          -0.0104336  0.0017866  -5.840 6.15e-09 ***
+## PC2           0.0092514  0.0034244   2.702 0.006963 ** 
+## PC3          -0.0058146  0.0029066  -2.000 0.045593 *  
+## PC4           0.0127650  0.0038265   3.336 0.000867 ***
+## PC5          -0.0047038  0.0038602  -1.219 0.223176    
+## PC6           0.0113601  0.0043174   2.631 0.008578 ** 
+## PC7           0.0025685  0.0042603   0.603 0.546647    
+## PC8          -0.0106173  0.0047132  -2.253 0.024395 *  
+## PC9          -0.0011001  0.0045173  -0.244 0.807629    
+## PC10         -0.0087026  0.0047390  -1.836 0.066462 .  
+## PC11          0.0076697  0.0048709   1.575 0.115519    
+## PC12         -0.0194537  0.0050130  -3.881 0.000108 ***
+## PC13         -0.0018052  0.0052696  -0.343 0.731963    
+## PC14         -0.0134353  0.0054239  -2.477 0.013335 *  
+## PC15          0.0336981  0.0060249   5.593 2.56e-08 ***
+## PC16          0.0090107  0.0057304   1.572 0.116014    
+## PC17          0.0223557  0.0059082   3.784 0.000159 ***
+## PC18          0.0125792  0.0061697   2.039 0.041603 *  
+## PC19         -0.0098447  0.0065142  -1.511 0.130889    
+## PC20         -0.0076416  0.0062673  -1.219 0.222889    
+## PC21          0.0131265  0.0064692   2.029 0.042592 *  
+## PC22         -0.0166280  0.0065171  -2.551 0.010807 *  
+## PC23         -0.0081897  0.0066747  -1.227 0.219989    
+## PC24          0.0009932  0.0067320   0.148 0.882728    
+## PC25         -0.0044518  0.0068761  -0.647 0.517429    
+## PC26          0.0055179  0.0069118   0.798 0.424779    
+## PC27         -0.0064941  0.0070939  -0.915 0.360078    
+## PC28         -0.0159080  0.0072135  -2.205 0.027555 *  
+## PC29          0.0076475  0.0074509   1.026 0.304842    
+## PC30          0.0189453  0.0075887   2.496 0.012629 *  
+## PC31         -0.0113872  0.0078006  -1.460 0.144521    
+## PC32         -0.0081352  0.0078857  -1.032 0.302376    
+## PC33          0.0057140  0.0078418   0.729 0.466297    
+## PC34          0.0169144  0.0080808   2.093 0.036471 *  
+## PC35          0.0090292  0.0080355   1.124 0.261299    
+## PC36          0.0114195  0.0080589   1.417 0.156652    
+## PC37         -0.0081752  0.0084276  -0.970 0.332144    
+## PC38         -0.0112747  0.0086254  -1.307 0.191320    
+## PC39         -0.0073442  0.0083040  -0.884 0.376584    
+## PC40         -0.0080432  0.0084042  -0.957 0.338667    
+## PC41          0.0239955  0.0086044   2.789 0.005345 ** 
+## PC42          0.0221131  0.0085878   2.575 0.010102 *  
+## PC43          0.0123761  0.0086486   1.431 0.152601    
+## PC44         -0.0216049  0.0088338  -2.446 0.014549 *  
+## PC45          0.0441585  0.0089049   4.959 7.73e-07 ***
+## PC46         -0.0192109  0.0094229  -2.039 0.041617 *  
+## PC47          0.0037487  0.0091485   0.410 0.682030    
+## PC48          0.0073421  0.0092293   0.796 0.426410    
+## PC49          0.0049651  0.0092667   0.536 0.592165    
+## PC50          0.0009806  0.0095081   0.103 0.917868    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9408 on 1861 degrees of freedom
+## Multiple R-squared:  0.1318, Adjusted R-squared:  0.1066 
+## F-statistic: 5.233 on 54 and 1861 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="module-5-putting-it-all-together.html#cb445-1" tabindex="-1"></a><span class="co"># Predictions on the training set</span></span>
+<span id="cb445-2"><a href="module-5-putting-it-all-together.html#cb445-2" tabindex="-1"></a>pc_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(pc.model, pc.train.data)</span></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="module-5-putting-it-all-together.html#cb446-1" tabindex="-1"></a><span class="co"># Model evaluation - need to recalculate PCs on the testing data using the trainingset PC model</span></span>
+<span id="cb446-2"><a href="module-5-putting-it-all-together.html#cb446-2" tabindex="-1"></a>pc.test.data <span class="ot">&lt;-</span> Testing.data <span class="sc">%&gt;%</span> </span>
+<span id="cb446-3"><a href="module-5-putting-it-all-together.html#cb446-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ID, <span class="sc">-</span>environment, <span class="sc">-</span>yield, <span class="sc">-</span>clusterID) <span class="sc">%&gt;%</span></span>
+<span id="cb446-4"><a href="module-5-putting-it-all-together.html#cb446-4" tabindex="-1"></a>  <span class="fu">scale</span>(<span class="at">center =</span> pca.train<span class="sc">$</span>center, <span class="at">scale =</span> pca.train<span class="sc">$</span>scale) <span class="sc">%&gt;%</span></span>
+<span id="cb446-5"><a href="module-5-putting-it-all-together.html#cb446-5" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb446-6"><a href="module-5-putting-it-all-together.html#cb446-6" tabindex="-1"></a></span>
+<span id="cb446-7"><a href="module-5-putting-it-all-together.html#cb446-7" tabindex="-1"></a><span class="co"># Transform the testing set using the rotation matrix from the training set</span></span>
+<span id="cb446-8"><a href="module-5-putting-it-all-together.html#cb446-8" tabindex="-1"></a>pc.test.data <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(pc.test.data) <span class="sc">%*%</span> pca.train<span class="sc">$</span>rotation</span>
+<span id="cb446-9"><a href="module-5-putting-it-all-together.html#cb446-9" tabindex="-1"></a></span>
+<span id="cb446-10"><a href="module-5-putting-it-all-together.html#cb446-10" tabindex="-1"></a><span class="co"># Select the first 50 principal components for the testing set</span></span>
+<span id="cb446-11"><a href="module-5-putting-it-all-together.html#cb446-11" tabindex="-1"></a>pc.test.data <span class="ot">&lt;-</span> Testing.data <span class="sc">%&gt;%</span> </span>
+<span id="cb446-12"><a href="module-5-putting-it-all-together.html#cb446-12" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(yield, environment, clusterID) <span class="sc">%&gt;%</span></span>
+<span id="cb446-13"><a href="module-5-putting-it-all-together.html#cb446-13" tabindex="-1"></a>  <span class="fu">bind_cols</span>(., <span class="fu">as.data.frame</span>(pc.test.data[, <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>]))</span>
+<span id="cb446-14"><a href="module-5-putting-it-all-together.html#cb446-14" tabindex="-1"></a></span>
+<span id="cb446-15"><a href="module-5-putting-it-all-together.html#cb446-15" tabindex="-1"></a><span class="co"># Make predictions on the testing set</span></span>
+<span id="cb446-16"><a href="module-5-putting-it-all-together.html#cb446-16" tabindex="-1"></a>pc_test_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(pc.model, pc.test.data)</span>
+<span id="cb446-17"><a href="module-5-putting-it-all-together.html#cb446-17" tabindex="-1"></a></span>
+<span id="cb446-18"><a href="module-5-putting-it-all-together.html#cb446-18" tabindex="-1"></a><span class="co"># Calculate MSPE</span></span>
+<span id="cb446-19"><a href="module-5-putting-it-all-together.html#cb446-19" tabindex="-1"></a><span class="fu">mean</span>((pc_test_predictions <span class="sc">-</span> pc.test.data<span class="sc">$</span>yield)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.5627026</code></pre>
+</div>
+<div id="fitting-the-random-forest-model" class="section level4 hasAnchor">
+<h4>Fitting the Random Forest Model<a href="module-5-putting-it-all-together.html#fitting-the-random-forest-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="module-5-putting-it-all-together.html#cb448-1" tabindex="-1"></a><span class="co"># Train the model using all predictors</span></span>
+<span id="cb448-2"><a href="module-5-putting-it-all-together.html#cb448-2" tabindex="-1"></a>rf.model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(yield <span class="sc">~</span> . <span class="sc">-</span>ID, </span>
+<span id="cb448-3"><a href="module-5-putting-it-all-together.html#cb448-3" tabindex="-1"></a>                         <span class="at">data =</span> Training.data, </span>
+<span id="cb448-4"><a href="module-5-putting-it-all-together.html#cb448-4" tabindex="-1"></a>                         <span class="at">importance =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb448-5"><a href="module-5-putting-it-all-together.html#cb448-5" tabindex="-1"></a>                         <span class="at">ntree =</span> <span class="dv">100</span>)</span>
+<span id="cb448-6"><a href="module-5-putting-it-all-together.html#cb448-6" tabindex="-1"></a></span>
+<span id="cb448-7"><a href="module-5-putting-it-all-together.html#cb448-7" tabindex="-1"></a><span class="co"># View the model summary</span></span>
+<span id="cb448-8"><a href="module-5-putting-it-all-together.html#cb448-8" tabindex="-1"></a><span class="fu">print</span>(rf.model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+##  randomForest(formula = yield ~ . - ID, data = Training.data,      importance = TRUE, ntree = 100) 
+##                Type of random forest: regression
+##                      Number of trees: 100
+## No. of variables tried at each split: 427
+## 
+##           Mean of squared residuals: 0.8857231
+##                     % Var explained: 10.56</code></pre>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="module-5-putting-it-all-together.html#cb450-1" tabindex="-1"></a><span class="co"># Predict on the testing set</span></span>
+<span id="cb450-2"><a href="module-5-putting-it-all-together.html#cb450-2" tabindex="-1"></a>rf.predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf.model, <span class="at">newdata =</span> Testing.data)</span>
+<span id="cb450-3"><a href="module-5-putting-it-all-together.html#cb450-3" tabindex="-1"></a></span>
+<span id="cb450-4"><a href="module-5-putting-it-all-together.html#cb450-4" tabindex="-1"></a><span class="co"># Calculate Mean Squared Prediction Error (MSPE)</span></span>
+<span id="cb450-5"><a href="module-5-putting-it-all-together.html#cb450-5" tabindex="-1"></a>mspe <span class="ot">&lt;-</span> <span class="fu">mean</span>((rf.predictions <span class="sc">-</span> Testing.data<span class="sc">$</span>yield)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb450-6"><a href="module-5-putting-it-all-together.html#cb450-6" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Random Forest MSPE:&quot;</span>, mspe))</span></code></pre></div>
+<pre><code>## [1] &quot;Random Forest MSPE: 0.446850785287796&quot;</code></pre>
+<p>Let’s explore which variables were most influential in the random forest model.</p>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="module-5-putting-it-all-together.html#cb452-1" tabindex="-1"></a><span class="co"># Get variable importance</span></span>
+<span id="cb452-2"><a href="module-5-putting-it-all-together.html#cb452-2" tabindex="-1"></a>importance.scores <span class="ot">&lt;-</span> rf.model <span class="sc">%&gt;%</span></span>
+<span id="cb452-3"><a href="module-5-putting-it-all-together.html#cb452-3" tabindex="-1"></a>  <span class="fu">importance</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb452-4"><a href="module-5-putting-it-all-together.html#cb452-4" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb452-5"><a href="module-5-putting-it-all-together.html#cb452-5" tabindex="-1"></a></span>
+<span id="cb452-6"><a href="module-5-putting-it-all-together.html#cb452-6" tabindex="-1"></a><span class="co"># Sort the SNPs by importance</span></span>
+<span id="cb452-7"><a href="module-5-putting-it-all-together.html#cb452-7" tabindex="-1"></a>importance.df <span class="ot">&lt;-</span> importance.scores[<span class="fu">order</span>(importance.scores<span class="sc">$</span>IncNodePurity, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb452-8"><a href="module-5-putting-it-all-together.html#cb452-8" tabindex="-1"></a></span>
+<span id="cb452-9"><a href="module-5-putting-it-all-together.html#cb452-9" tabindex="-1"></a><span class="co"># View the top 10 most important SNPs</span></span>
+<span id="cb452-10"><a href="module-5-putting-it-all-together.html#cb452-10" tabindex="-1"></a><span class="fu">head</span>(importance.df, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##               %IncMSE IncNodePurity
+## environment 14.029983    226.304386
+## wPt.3533     6.680649     17.075117
+## clusterID    4.136805     11.944214
+## c.378212     3.865563      9.409974
+## c.379495     3.659103      8.087316
+## c.375127     3.297306      7.964841
+## c.344179     3.582840      6.256734
+## c.344544     3.236063      6.046233
+## c.379274     2.572558      5.593142
+## c.381717     3.376430      5.387462</code></pre>
+<p>The increase in MSE variable measures the decrease in model accuracy when the values of a specific feature are randomly permuted while keeping other features unchanged. The increase in node purity variable tells us that the feature is important in differentiating between different outcomes.</p>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="module-5-putting-it-all-together.html#cb454-1" tabindex="-1"></a><span class="co"># Plot the top 10 most important variables</span></span>
+<span id="cb454-2"><a href="module-5-putting-it-all-together.html#cb454-2" tabindex="-1"></a><span class="fu">ggplot</span>(importance.df[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ], <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(<span class="fu">rownames</span>(importance.df)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], IncNodePurity), <span class="at">y =</span> IncNodePurity)) <span class="sc">+</span></span>
+<span id="cb454-3"><a href="module-5-putting-it-all-together.html#cb454-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb454-4"><a href="module-5-putting-it-all-together.html#cb454-4" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb454-5"><a href="module-5-putting-it-all-together.html#cb454-5" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Variables&quot;</span>) <span class="sc">+</span></span>
+<span id="cb454-6"><a href="module-5-putting-it-all-together.html#cb454-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Increase in Node Purity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb454-7"><a href="module-5-putting-it-all-together.html#cb454-7" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Top 10 Most Influential Variables in Random Forest Model&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
+<div class="callout-green">
+<span class="callout-icon"><i class="fas fa-circle-check" aria-hidden="true"></i></span>
+<div class="callout-content">
+<div class="callout-title-static" style="margin-bottom: 0.5em;">
+<p>Lab Completed!</p>
+</div>
+<p>Congratulations! You have completed Lab 5!</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="module-4-modeling-part-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="module-6-introduction-to-causal-intference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/bioinformaticsdotca/STAT_2024/blob/main/050-module-5.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

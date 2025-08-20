@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Module 2: Dealing with Missingness | Help! What Statistical Model Should I Use? 2024</title>
+  <meta name="description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Module 2: Dealing with Missingness | Help! What Statistical Model Should I Use? 2024" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://bioinformaticsdotca.github.io/STAT_2024/img/bioinformatics_logo.png" />
+  <meta property="og:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="github-repo" content="bioinformaticsdotca/STAT_2024" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Module 2: Dealing with Missingness | Help! What Statistical Model Should I Use? 2024" />
+  
+  <meta name="twitter:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="twitter:image" content="https://bioinformaticsdotca.github.io/STAT_2024/img/bioinformatics_logo.png" />
+
+<meta name="author" content="Faculty: Patrick McMillan, Alysha Cooper, and Jacqueline May" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="module-1-data-cleaning-and-exploration-review.html"/>
+<link rel="next" href="module-3-modeling-part-1.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<a href="https://bioinformaticsdotca.github.io/">
+ <img src="img/bioinformatics_logo.png" width="90%" alt="bioinformatics.ca logo" style="display:block; margin-left:auto; margin-right:auto; margin-top:15px;">
+ </a>
+<li><center><strong><a href="./"><br>Help! What Statistical Model Should I Use?<br><br></a></strong></center></li>
+<a href="./">
+ <img src="img/STAT_2024_icon.png" width="70%" alt="Help! What Statistical Model Should I Use? logo" style="display:block; margin-left:auto; margin-right:auto; ">
+ </a>
+<br>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Workshop Info</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i>Schedule</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#pre-work"><i class="fa fa-check"></i>Pre-work</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-setup.html"><a href="data-setup.html"><i class="fa fa-check"></i>Data Setup</a></li>
+<li class="part"><span><b>II Modules</b></span></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html"><i class="fa fa-check"></i>Module 1: Data Cleaning and Exploration Review</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lecture"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lab"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#load-libraries"><i class="fa fa-check"></i>Load Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#read-in-data"><i class="fa fa-check"></i>Read in Data</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#looking-at-your-data"><i class="fa fa-check"></i>Looking at your Data</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#working-with-different-data-types"><i class="fa fa-check"></i>Working with Different Data Types</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#summary-stats"><i class="fa fa-check"></i>Summary Stats</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#exploratory-plots"><i class="fa fa-check"></i>Exploratory Plots</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#outlier-detection"><i class="fa fa-check"></i>Outlier Detection</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#dimensionality-reduction"><i class="fa fa-check"></i>Dimensionality Reduction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html"><i class="fa fa-check"></i>Module 2: Dealing with Missingness</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lecture-1"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lab-1"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#load-libraries-1"><i class="fa fa-check"></i>Load Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#read-in-data-1"><i class="fa fa-check"></i>Read in Data</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#missing-data-exploration"><i class="fa fa-check"></i>Missing Data Exploration</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#imputation-prep"><i class="fa fa-check"></i>Imputation Prep</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#missingness-simulation"><i class="fa fa-check"></i>Missingness Simulation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#meanmode-imputation"><i class="fa fa-check"></i>Mean/mode Imputation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#k-nearest-neighbour-imputation"><i class="fa fa-check"></i>K-Nearest Neighbour Imputation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#random-forest-imputation"><i class="fa fa-check"></i>Random Forest Imputation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#mice"><i class="fa fa-check"></i>MICE</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#error-rates"><i class="fa fa-check"></i>Error Rates</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#impute-the-full-dataset"><i class="fa fa-check"></i>Impute the Full Dataset</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#compare-inferences-obtained-from-complete-case-and-imputed-datasets"><i class="fa fa-check"></i>Compare Inferences Obtained from Complete-case and Imputed Datasets</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html"><i class="fa fa-check"></i>Module 3: Modeling Part 1</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lecture-2"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#regression"><i class="fa fa-check"></i>Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#generalized-linear-models"><i class="fa fa-check"></i>Generalized Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lab-2"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#load-libraries-2"><i class="fa fa-check"></i>Load Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#multiple-linear-regression-and-the-dietswap-data"><i class="fa fa-check"></i>Multiple Linear Regression and the Dietswap Data</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#logistic-regression"><i class="fa fa-check"></i>Logistic Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#binomial-regression"><i class="fa fa-check"></i>Binomial Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#poisson-regression"><i class="fa fa-check"></i>Poisson Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#negative-binomial"><i class="fa fa-check"></i>Negative Binomial</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#independent-work"><i class="fa fa-check"></i>Independent Work</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html"><i class="fa fa-check"></i>Module 4: Modeling Part 2</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lecture-3"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#classification"><i class="fa fa-check"></i>Classification</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#clustering"><i class="fa fa-check"></i>Clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lab-3"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#classification-1"><i class="fa fa-check"></i>Classification</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#clustering-1"><i class="fa fa-check"></i>Clustering</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html"><i class="fa fa-check"></i>Module 5: Putting it all Together</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lecture-4"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lab-4"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#breast-cancer"><i class="fa fa-check"></i>Breast Cancer</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#gene-expression"><i class="fa fa-check"></i>Gene Expression</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#genomic-prediction"><i class="fa fa-check"></i>Genomic Prediction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html"><i class="fa fa-check"></i>Module 6: Introduction to Causal Intference</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lecture-5"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lab-5"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#causal-interfence-introduction"><i class="fa fa-check"></i>Causal Interfence Introduction</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<h1 id="sponsors">Sponsors</h1>
+<center>
+<a href="https://genomecanada.ca/"><img src="img/sponsors/genomecanada.png" height="70" style="display:inline-block;"  style="padding-bottom: 20px" alt="Genome Canada logo.">
+<a href="https://www.ontariogenomics.ca/"><img src="img/sponsors/ontariogenomics.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Ontario Genomics logo.">
+<br><br>
+<a href="https://oicr.on.ca/"><img src="img/sponsors/oicr.png" width=25% style="display:inline-block;" style="padding-bottom: 20px" alt="Ontario Institute for Cancer Research logo.">
+<a href="https://www.hpcforhealth.ca/"><img src="img/sponsors/hpc4health.png" width=60% style="display:inline-block;" style="padding-bottom: 20px "alt="HPC4Health logo.">
+<br><br>
+<a href="https://computationalgenomics.ca/"><img src="img/sponsors/c3g.png" style="display:inline-block;" width=35% style="padding-bottom: 20px" alt="Canadian Centre for Computational Genomcis logo.">
+
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li></center>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Help! What Statistical Model Should I Use? 2024</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="module-2-dealing-with-missingness" class="section level1 hasAnchor">
+<h1>Module 2: Dealing with Missingness<a href="module-2-dealing-with-missingness.html#module-2-dealing-with-missingness" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="lecture-1" class="section level2 hasAnchor">
+<h2>Lecture<a href="module-2-dealing-with-missingness.html#lecture-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/F-upvvPPB2s?si=i5BPnNdYoAdnFN3A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
+<p><br></p>
+<iframe src="https://drive.google.com/file/d/1aaz0oZXsdX_8p1RiOhgcmHLf8CW25CKp/preview" width="640" height="480" allow="autoplay">
+</iframe>
+</div>
+<div id="lab-1" class="section level2 hasAnchor">
+<h2>Lab<a href="module-2-dealing-with-missingness.html#lab-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="load-libraries-1" class="section level3 hasAnchor">
+<h3>Load Libraries<a href="module-2-dealing-with-missingness.html#load-libraries-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="module-2-dealing-with-missingness.html#cb139-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb139-2"><a href="module-2-dealing-with-missingness.html#cb139-2" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb139-3"><a href="module-2-dealing-with-missingness.html#cb139-3" tabindex="-1"></a><span class="fu">library</span>(missForest)</span>
+<span id="cb139-4"><a href="module-2-dealing-with-missingness.html#cb139-4" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
+<span id="cb139-5"><a href="module-2-dealing-with-missingness.html#cb139-5" tabindex="-1"></a><span class="fu">library</span>(simputation)</span>
+<span id="cb139-6"><a href="module-2-dealing-with-missingness.html#cb139-6" tabindex="-1"></a><span class="fu">library</span>(naniar)</span></code></pre></div>
+</div>
+<div id="read-in-data-1" class="section level3 hasAnchor">
+<h3>Read in Data<a href="module-2-dealing-with-missingness.html#read-in-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="module-2-dealing-with-missingness.html#cb140-1" tabindex="-1"></a><span class="co"># Read in trait dataset we cleaned in the last module.</span></span>
+<span id="cb140-2"><a href="module-2-dealing-with-missingness.html#cb140-2" tabindex="-1"></a>dfTraits <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./datasets/df_traits.csv&#39;</span>) <span class="co"># Use your file path for this data</span></span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="module-2-dealing-with-missingness.html#cb141-1" tabindex="-1"></a><span class="co"># Identify the taxonomy columns.</span></span>
+<span id="cb141-2"><a href="module-2-dealing-with-missingness.html#cb141-2" tabindex="-1"></a>taxCols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;family&quot;</span>, <span class="st">&quot;genus&quot;</span>, <span class="st">&quot;species&quot;</span>)</span>
+<span id="cb141-3"><a href="module-2-dealing-with-missingness.html#cb141-3" tabindex="-1"></a><span class="co"># Identify the traits.</span></span>
+<span id="cb141-4"><a href="module-2-dealing-with-missingness.html#cb141-4" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(dfTraits), taxCols)</span>
+<span id="cb141-5"><a href="module-2-dealing-with-missingness.html#cb141-5" tabindex="-1"></a><span class="co"># Identify the numerical traits.</span></span>
+<span id="cb141-6"><a href="module-2-dealing-with-missingness.html#cb141-6" tabindex="-1"></a>contTraits <span class="ot">&lt;-</span> traits[<span class="fu">sapply</span>(dfTraits[traits], is.numeric)]</span>
+<span id="cb141-7"><a href="module-2-dealing-with-missingness.html#cb141-7" tabindex="-1"></a><span class="co"># Identify the categorical traits.</span></span>
+<span id="cb141-8"><a href="module-2-dealing-with-missingness.html#cb141-8" tabindex="-1"></a>catTraits <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(traits, contTraits)</span></code></pre></div>
+</div>
+<div id="missing-data-exploration" class="section level3 hasAnchor">
+<h3>Missing Data Exploration<a href="module-2-dealing-with-missingness.html#missing-data-exploration" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="module-2-dealing-with-missingness.html#cb142-1" tabindex="-1"></a><span class="co"># Let&#39;s make a dataframe for plotting.</span></span>
+<span id="cb142-2"><a href="module-2-dealing-with-missingness.html#cb142-2" tabindex="-1"></a>dfMissing <span class="ot">&lt;-</span> dfTraits[traits] <span class="sc">%&gt;%</span></span>
+<span id="cb142-3"><a href="module-2-dealing-with-missingness.html#cb142-3" tabindex="-1"></a>  <span class="co"># Get number of NAs in each trait.</span></span>
+<span id="cb142-4"><a href="module-2-dealing-with-missingness.html#cb142-4" tabindex="-1"></a>  <span class="co"># across() allows us to apply our function across multiple columns, everything() selects all columns and ~ sum(is.na(.)) is our anonymous function</span></span>
+<span id="cb142-5"><a href="module-2-dealing-with-missingness.html#cb142-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.)))) <span class="sc">%&gt;%</span></span>
+<span id="cb142-6"><a href="module-2-dealing-with-missingness.html#cb142-6" tabindex="-1"></a>  <span class="co"># Pivot longer for plotting. pivot_longer and pivot_wider are useful functions for getting your data into a format for plotting. It also help with tidying messy data.</span></span>
+<span id="cb142-7"><a href="module-2-dealing-with-missingness.html#cb142-7" tabindex="-1"></a>  <span class="co"># Here, we are selecting all of the columns and flipping it longways so that trait name is one column and the number of NAs is the other columns.</span></span>
+<span id="cb142-8"><a href="module-2-dealing-with-missingness.html#cb142-8" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">&quot;trait&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;num_NAs&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb142-9"><a href="module-2-dealing-with-missingness.html#cb142-9" tabindex="-1"></a>  <span class="co"># Finally, add a column for percentage of missing values.</span></span>
+<span id="cb142-10"><a href="module-2-dealing-with-missingness.html#cb142-10" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct_missing =</span> (num_NAs<span class="sc">/</span><span class="fu">nrow</span>(dfTraits)) <span class="sc">*</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="callout-blue">
+<span class="callout-icon"><i class="fas fa-circle-info" aria-hidden="true"></i></span>
+<div class="callout-content">
+<div class="callout-title-static" style="margin-bottom: 0.5em;">
+<p>Note</p>
+</div>
+<p>It can help to make interim variables when you are trying to understand or debug code. One of the downsides of the tidyverse pipe!</p>
+</div>
+</div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="module-2-dealing-with-missingness.html#cb143-1" tabindex="-1"></a><span class="co"># ggplot for missingness visualization</span></span>
+<span id="cb143-2"><a href="module-2-dealing-with-missingness.html#cb143-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(dfMissing) <span class="sc">+</span></span>
+<span id="cb143-3"><a href="module-2-dealing-with-missingness.html#cb143-3" tabindex="-1"></a>  <span class="co"># Barplot ordered by missingness</span></span>
+<span id="cb143-4"><a href="module-2-dealing-with-missingness.html#cb143-4" tabindex="-1"></a>  <span class="co"># reorder function from R documentation: &quot;The &quot;default&quot; method treats its first argument as a categorical variable, and reorders its levels based on the values of a second variable, usually numeric.&quot;</span></span>
+<span id="cb143-5"><a href="module-2-dealing-with-missingness.html#cb143-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(trait, <span class="fu">desc</span>(pct_missing)), <span class="at">y =</span> pct_missing), </span>
+<span id="cb143-6"><a href="module-2-dealing-with-missingness.html#cb143-6" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="at">fill =</span> <span class="st">&quot;seagreen&quot;</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb143-7"><a href="module-2-dealing-with-missingness.html#cb143-7" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb143-8"><a href="module-2-dealing-with-missingness.html#cb143-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Percentage of Missing Values by Trait&quot;</span>, <span class="at">x =</span> <span class="st">&#39;Trait&#39;</span>, <span class="at">y =</span> <span class="st">&quot;% of Missing Values&quot;</span>) <span class="sc">+</span></span>
+<span id="cb143-9"><a href="module-2-dealing-with-missingness.html#cb143-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) </span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="module-2-dealing-with-missingness.html#cb144-1" tabindex="-1"></a><span class="co"># Using the package &quot;naniar&quot; to visualize missing data.</span></span>
+<span id="cb144-2"><a href="module-2-dealing-with-missingness.html#cb144-2" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(dfTraits[traits])</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="module-2-dealing-with-missingness.html#cb145-1" tabindex="-1"></a><span class="co"># Clustering by missingness may help you see patterns</span></span>
+<span id="cb145-2"><a href="module-2-dealing-with-missingness.html#cb145-2" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(dfTraits[traits], <span class="at">cluster =</span> T, <span class="at">sort_miss =</span> T)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-22-3.png" width="672" /></p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="module-2-dealing-with-missingness.html#cb146-1" tabindex="-1"></a><span class="co"># Upset plots to identify missingness combinations.</span></span>
+<span id="cb146-2"><a href="module-2-dealing-with-missingness.html#cb146-2" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">gg_miss_upset</span>(dfTraits[traits])</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-22-4.png" width="672" /></p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="module-2-dealing-with-missingness.html#cb147-1" tabindex="-1"></a><span class="co"># Here&#39;s the kicker! How many species do we lose if we use complete case observations?</span></span>
+<span id="cb147-2"><a href="module-2-dealing-with-missingness.html#cb147-2" tabindex="-1"></a>dfCompleteCase <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(dfTraits)</span>
+<span id="cb147-3"><a href="module-2-dealing-with-missingness.html#cb147-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;We lose&quot;</span>, <span class="fu">nrow</span>(dfTraits) <span class="sc">-</span> <span class="fu">nrow</span>(dfCompleteCase), <span class="st">&quot;species!&quot;</span>)</span></code></pre></div>
+</div>
+<div id="imputation-prep" class="section level3 hasAnchor">
+<h3>Imputation Prep<a href="module-2-dealing-with-missingness.html#imputation-prep" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="module-2-dealing-with-missingness.html#cb148-1" tabindex="-1"></a><span class="co"># Only some traits are amenable to imputation and we need to do some more preprocessing before we impute our values.</span></span>
+<span id="cb148-2"><a href="module-2-dealing-with-missingness.html#cb148-2" tabindex="-1"></a><span class="fu">names</span>(dfTraits)</span>
+<span id="cb148-3"><a href="module-2-dealing-with-missingness.html#cb148-3" tabindex="-1"></a><span class="co"># Set row names as species so we have a form of ID.</span></span>
+<span id="cb148-4"><a href="module-2-dealing-with-missingness.html#cb148-4" tabindex="-1"></a><span class="fu">rownames</span>(dfTraits) <span class="ot">&lt;-</span> dfTraits<span class="sc">$</span>species</span>
+<span id="cb148-5"><a href="module-2-dealing-with-missingness.html#cb148-5" tabindex="-1"></a></span>
+<span id="cb148-6"><a href="module-2-dealing-with-missingness.html#cb148-6" tabindex="-1"></a><span class="co"># Imputing traits with high proportions of missingness could be problematic. Based on our visualizations, let&#39;s set a threshold of 60% missingness as our cutoff.</span></span>
+<span id="cb148-7"><a href="module-2-dealing-with-missingness.html#cb148-7" tabindex="-1"></a><span class="co"># Note: this is an arbitrary threshold I am using right now. In reality, this is something you could perform sensitivity analyses on. There is no &quot;right&quot; answer for how much missingness is too much. It&#39;s a combination of many factors (e.g., sample size, strength of relationships between variables, missingness mechanism, etc.). So you probably don&#39;t want to impute a variable with only a few observations and 90% missingness, for example.</span></span>
+<span id="cb148-8"><a href="module-2-dealing-with-missingness.html#cb148-8" tabindex="-1"></a>dfFiltered <span class="ot">&lt;-</span> dfTraits <span class="sc">%&gt;%</span> </span>
+<span id="cb148-9"><a href="module-2-dealing-with-missingness.html#cb148-9" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="fu">all_of</span>(taxCols), <span class="do">## leave out taxonomy also for imputation purposes</span></span>
+<span id="cb148-10"><a href="module-2-dealing-with-missingness.html#cb148-10" tabindex="-1"></a>            age_first_breeding, foraging_mode, hatchling_neonate_svl)) <span class="do">## traits with most amount of missingness)) </span></span>
+<span id="cb148-11"><a href="module-2-dealing-with-missingness.html#cb148-11" tabindex="-1"></a></span>
+<span id="cb148-12"><a href="module-2-dealing-with-missingness.html#cb148-12" tabindex="-1"></a><span class="co"># Update our trait vectors.</span></span>
+<span id="cb148-13"><a href="module-2-dealing-with-missingness.html#cb148-13" tabindex="-1"></a>catTraits <span class="ot">&lt;-</span> catTraits[<span class="sc">!</span>catTraits <span class="sc">%in%</span> <span class="st">&quot;foraging_mode&quot;</span>]</span>
+<span id="cb148-14"><a href="module-2-dealing-with-missingness.html#cb148-14" tabindex="-1"></a>contTraits <span class="ot">&lt;-</span> contTraits[<span class="sc">!</span>contTraits <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;age_first_breeding&quot;</span>, <span class="st">&quot;hatchling_neonate_svl&quot;</span>)]</span>
+<span id="cb148-15"><a href="module-2-dealing-with-missingness.html#cb148-15" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(catTraits, contTraits)</span>
+<span id="cb148-16"><a href="module-2-dealing-with-missingness.html#cb148-16" tabindex="-1"></a></span>
+<span id="cb148-17"><a href="module-2-dealing-with-missingness.html#cb148-17" tabindex="-1"></a><span class="co"># Visualize the missingness of our subset. This also gives you an idea of which combination of traits would give you the largest complete-case dataset.</span></span>
+<span id="cb148-18"><a href="module-2-dealing-with-missingness.html#cb148-18" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(dfFiltered, <span class="at">cluster =</span> T, <span class="at">sort_miss =</span> T)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="module-2-dealing-with-missingness.html#cb149-1" tabindex="-1"></a><span class="co"># Imputation methods can be sensitive to class imbalance issues, as some categories may be over or underrepresented.</span></span>
+<span id="cb149-2"><a href="module-2-dealing-with-missingness.html#cb149-2" tabindex="-1"></a><span class="co"># Let&#39;s check our categorical traits for severe class imbalances or lack of variation or just for categories we should fix in general.</span></span>
+<span id="cb149-3"><a href="module-2-dealing-with-missingness.html#cb149-3" tabindex="-1"></a><span class="fu">lapply</span>(dfFiltered[catTraits], table)</span>
+<span id="cb149-4"><a href="module-2-dealing-with-missingness.html#cb149-4" tabindex="-1"></a></span>
+<span id="cb149-5"><a href="module-2-dealing-with-missingness.html#cb149-5" tabindex="-1"></a><span class="co"># Look at diet. &quot;Herbivorous&quot; is a minor category. We check if this category makes up more than 10% of the observed data.</span></span>
+<span id="cb149-6"><a href="module-2-dealing-with-missingness.html#cb149-6" tabindex="-1"></a><span class="fu">sum</span>(dfFiltered<span class="sc">$</span>diet <span class="sc">==</span> <span class="st">&quot;Herbivorous&quot;</span>, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="fu">sum</span>(dfFiltered<span class="sc">$</span>diet <span class="sc">!=</span> <span class="st">&quot;Herbivorous&quot;</span>, <span class="at">na.rm =</span> T)</span>
+<span id="cb149-7"><a href="module-2-dealing-with-missingness.html#cb149-7" tabindex="-1"></a><span class="co"># Consider removing rare categories (those less than 10% of the data, for example). You could use a different threshold for your data if you had a large enough sample size.</span></span>
+<span id="cb149-8"><a href="module-2-dealing-with-missingness.html#cb149-8" tabindex="-1"></a><span class="co"># Let&#39;s remove the rare categories:</span></span>
+<span id="cb149-9"><a href="module-2-dealing-with-missingness.html#cb149-9" tabindex="-1"></a>dfFiltered <span class="ot">&lt;-</span> dfFiltered <span class="sc">%&gt;%</span></span>
+<span id="cb149-10"><a href="module-2-dealing-with-missingness.html#cb149-10" tabindex="-1"></a>  <span class="fu">filter</span>(diet <span class="sc">!=</span> <span class="st">&quot;Herbivorous&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(diet),</span>
+<span id="cb149-11"><a href="module-2-dealing-with-missingness.html#cb149-11" tabindex="-1"></a>         activity_time <span class="sc">!=</span> <span class="st">&quot;Cathemeral&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(activity_time),</span>
+<span id="cb149-12"><a href="module-2-dealing-with-missingness.html#cb149-12" tabindex="-1"></a>         insular_endemic <span class="sc">!=</span> <span class="st">&quot;unknown&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(insular_endemic),</span>
+<span id="cb149-13"><a href="module-2-dealing-with-missingness.html#cb149-13" tabindex="-1"></a>         reproductive_mode <span class="sc">==</span> <span class="st">&quot;Oviparous&quot;</span> <span class="sc">|</span> reproductive_mode <span class="sc">==</span> <span class="st">&quot;Viviparous&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(reproductive_mode),</span>
+<span id="cb149-14"><a href="module-2-dealing-with-missingness.html#cb149-14" tabindex="-1"></a>         iucn_redlist_assessment <span class="sc">==</span> <span class="st">&quot;LC&quot;</span> <span class="sc">|</span> iucn_redlist_assessment <span class="sc">==</span> <span class="st">&quot;NE&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(iucn_redlist_assessment)</span>
+<span id="cb149-15"><a href="module-2-dealing-with-missingness.html#cb149-15" tabindex="-1"></a>         ) <span class="do">## need to specify that we are keeping NAs because filter will remove them!</span></span>
+<span id="cb149-16"><a href="module-2-dealing-with-missingness.html#cb149-16" tabindex="-1"></a></span>
+<span id="cb149-17"><a href="module-2-dealing-with-missingness.html#cb149-17" tabindex="-1"></a><span class="co"># Check distributions of numerical traits once more.</span></span>
+<span id="cb149-18"><a href="module-2-dealing-with-missingness.html#cb149-18" tabindex="-1"></a><span class="fu">lapply</span>(dfFiltered[contTraits], hist)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-23-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-23-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-23-4.png" width="672" /></p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="module-2-dealing-with-missingness.html#cb150-1" tabindex="-1"></a><span class="co"># Finally, let&#39;s ensure we have the correct data classes.</span></span>
+<span id="cb150-2"><a href="module-2-dealing-with-missingness.html#cb150-2" tabindex="-1"></a>dfFiltered[contTraits] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfFiltered[contTraits], as.numeric)</span>
+<span id="cb150-3"><a href="module-2-dealing-with-missingness.html#cb150-3" tabindex="-1"></a><span class="co"># Factor is the class required for imputation of categorical traits. It is also the data class required for categorical variables in many statistical analyses.</span></span>
+<span id="cb150-4"><a href="module-2-dealing-with-missingness.html#cb150-4" tabindex="-1"></a>dfFiltered[catTraits] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfFiltered[catTraits], as.factor)</span></code></pre></div>
+</div>
+<div id="missingness-simulation" class="section level3 hasAnchor">
+<h3>Missingness Simulation<a href="module-2-dealing-with-missingness.html#missingness-simulation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="module-2-dealing-with-missingness.html#cb151-1" tabindex="-1"></a><span class="co"># The first thing we are going to do is make a complete-case dataset.</span></span>
+<span id="cb151-2"><a href="module-2-dealing-with-missingness.html#cb151-2" tabindex="-1"></a>dfCompleteCase <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(dfFiltered)</span>
+<span id="cb151-3"><a href="module-2-dealing-with-missingness.html#cb151-3" tabindex="-1"></a></span>
+<span id="cb151-4"><a href="module-2-dealing-with-missingness.html#cb151-4" tabindex="-1"></a><span class="co"># We are going to log-transform our skewed numerical traits to make the distributions approximately normal. This can help with certain types of imputation methods, but isn&#39;t always necessary. </span></span>
+<span id="cb151-5"><a href="module-2-dealing-with-missingness.html#cb151-5" tabindex="-1"></a>dfLog <span class="ot">&lt;-</span> dfCompleteCase <span class="do">## making a copy of the complete-case dataframe</span></span>
+<span id="cb151-6"><a href="module-2-dealing-with-missingness.html#cb151-6" tabindex="-1"></a>dfLog[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfLog[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], log)</span>
+<span id="cb151-7"><a href="module-2-dealing-with-missingness.html#cb151-7" tabindex="-1"></a></span>
+<span id="cb151-8"><a href="module-2-dealing-with-missingness.html#cb151-8" tabindex="-1"></a><span class="co"># Now, set the seed so you can reproduce your results. This is VERY important!</span></span>
+<span id="cb151-9"><a href="module-2-dealing-with-missingness.html#cb151-9" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb151-10"><a href="module-2-dealing-with-missingness.html#cb151-10" tabindex="-1"></a><span class="co"># To simulate missingness, let&#39;s introduce some NAs into the dataset using the prodNA function. Any data introduced using this function is missing completely at random (MCAR). If you are interested in simulated MAR or MNAR data, check out the mice::ampute function.</span></span>
+<span id="cb151-11"><a href="module-2-dealing-with-missingness.html#cb151-11" tabindex="-1"></a>?prodNA</span>
+<span id="cb151-12"><a href="module-2-dealing-with-missingness.html#cb151-12" tabindex="-1"></a><span class="co"># noNA = the proportion of missingness we want to introduce</span></span>
+<span id="cb151-13"><a href="module-2-dealing-with-missingness.html#cb151-13" tabindex="-1"></a>dfMissing <span class="ot">&lt;-</span> <span class="fu">prodNA</span>(dfLog, <span class="at">noNA =</span> <span class="fl">0.1</span>)</span>
+<span id="cb151-14"><a href="module-2-dealing-with-missingness.html#cb151-14" tabindex="-1"></a><span class="co"># Let&#39;s make sure it worked.</span></span>
+<span id="cb151-15"><a href="module-2-dealing-with-missingness.html#cb151-15" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(dfMissing))<span class="sc">/</span><span class="fu">prod</span>(<span class="fu">dim</span>(dfMissing))</span>
+<span id="cb151-16"><a href="module-2-dealing-with-missingness.html#cb151-16" tabindex="-1"></a></span>
+<span id="cb151-17"><a href="module-2-dealing-with-missingness.html#cb151-17" tabindex="-1"></a><span class="fu">view</span>(dfMissing)</span></code></pre></div>
+</div>
+<div id="meanmode-imputation" class="section level3 hasAnchor">
+<h3>Mean/mode Imputation<a href="module-2-dealing-with-missingness.html#meanmode-imputation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="module-2-dealing-with-missingness.html#cb152-1" tabindex="-1"></a><span class="co"># Mean/mode is the simplest imputation method and it is pretty easy to do. It&#39;s a good baseline to compare other methods to.</span></span>
+<span id="cb152-2"><a href="module-2-dealing-with-missingness.html#cb152-2" tabindex="-1"></a></span>
+<span id="cb152-3"><a href="module-2-dealing-with-missingness.html#cb152-3" tabindex="-1"></a><span class="co"># Make a copy of dfMissing.</span></span>
+<span id="cb152-4"><a href="module-2-dealing-with-missingness.html#cb152-4" tabindex="-1"></a>dfMeanModeImp <span class="ot">&lt;-</span> dfMissing</span>
+<span id="cb152-5"><a href="module-2-dealing-with-missingness.html#cb152-5" tabindex="-1"></a></span>
+<span id="cb152-6"><a href="module-2-dealing-with-missingness.html#cb152-6" tabindex="-1"></a><span class="co"># Impute traits with mean for numerical traits and mode for categorical traits.</span></span>
+<span id="cb152-7"><a href="module-2-dealing-with-missingness.html#cb152-7" tabindex="-1"></a></span>
+<span id="cb152-8"><a href="module-2-dealing-with-missingness.html#cb152-8" tabindex="-1"></a><span class="co"># Mean value</span></span>
+<span id="cb152-9"><a href="module-2-dealing-with-missingness.html#cb152-9" tabindex="-1"></a><span class="fu">mean</span>(dfMeanModeImp<span class="sc">$</span>latitude, <span class="at">na.rm =</span> T)</span>
+<span id="cb152-10"><a href="module-2-dealing-with-missingness.html#cb152-10" tabindex="-1"></a></span>
+<span id="cb152-11"><a href="module-2-dealing-with-missingness.html#cb152-11" tabindex="-1"></a><span class="co"># Mode value</span></span>
+<span id="cb152-12"><a href="module-2-dealing-with-missingness.html#cb152-12" tabindex="-1"></a><span class="fu">table</span>(dfMeanModeImp<span class="sc">$</span>activity_time)</span>
+<span id="cb152-13"><a href="module-2-dealing-with-missingness.html#cb152-13" tabindex="-1"></a><span class="fu">which.max</span>(<span class="fu">table</span>(dfMeanModeImp<span class="sc">$</span>activity_time))</span>
+<span id="cb152-14"><a href="module-2-dealing-with-missingness.html#cb152-14" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(dfMeanModeImp<span class="sc">$</span>activity_time)))</span>
+<span id="cb152-15"><a href="module-2-dealing-with-missingness.html#cb152-15" tabindex="-1"></a></span>
+<span id="cb152-16"><a href="module-2-dealing-with-missingness.html#cb152-16" tabindex="-1"></a><span class="co"># Use a for loop!:</span></span>
+<span id="cb152-17"><a href="module-2-dealing-with-missingness.html#cb152-17" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(traits)) {</span>
+<span id="cb152-18"><a href="module-2-dealing-with-missingness.html#cb152-18" tabindex="-1"></a>  </span>
+<span id="cb152-19"><a href="module-2-dealing-with-missingness.html#cb152-19" tabindex="-1"></a>  <span class="co"># Take the name of the tth trait.</span></span>
+<span id="cb152-20"><a href="module-2-dealing-with-missingness.html#cb152-20" tabindex="-1"></a>  trait <span class="ot">&lt;-</span> traits[[t]]</span>
+<span id="cb152-21"><a href="module-2-dealing-with-missingness.html#cb152-21" tabindex="-1"></a>  </span>
+<span id="cb152-22"><a href="module-2-dealing-with-missingness.html#cb152-22" tabindex="-1"></a>  <span class="co"># Identify missing values in the trait.</span></span>
+<span id="cb152-23"><a href="module-2-dealing-with-missingness.html#cb152-23" tabindex="-1"></a>  index <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">is.na</span>(dfMeanModeImp[trait]))</span>
+<span id="cb152-24"><a href="module-2-dealing-with-missingness.html#cb152-24" tabindex="-1"></a>  </span>
+<span id="cb152-25"><a href="module-2-dealing-with-missingness.html#cb152-25" tabindex="-1"></a>  <span class="co"># If trait is numeric..</span></span>
+<span id="cb152-26"><a href="module-2-dealing-with-missingness.html#cb152-26" tabindex="-1"></a>  <span class="cf">if</span>(trait <span class="sc">%in%</span> contTraits){</span>
+<span id="cb152-27"><a href="module-2-dealing-with-missingness.html#cb152-27" tabindex="-1"></a>    </span>
+<span id="cb152-28"><a href="module-2-dealing-with-missingness.html#cb152-28" tabindex="-1"></a>    <span class="co"># Replace all NA values with the mean of the known observations for the variable.</span></span>
+<span id="cb152-29"><a href="module-2-dealing-with-missingness.html#cb152-29" tabindex="-1"></a>    dfMeanModeImp[index, trait] <span class="ot">&lt;-</span> <span class="fu">mean</span>(dfMeanModeImp[[trait]], <span class="at">na.rm =</span> T)</span>
+<span id="cb152-30"><a href="module-2-dealing-with-missingness.html#cb152-30" tabindex="-1"></a>    </span>
+<span id="cb152-31"><a href="module-2-dealing-with-missingness.html#cb152-31" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(trait <span class="sc">%in%</span> catTraits){</span>
+<span id="cb152-32"><a href="module-2-dealing-with-missingness.html#cb152-32" tabindex="-1"></a>    </span>
+<span id="cb152-33"><a href="module-2-dealing-with-missingness.html#cb152-33" tabindex="-1"></a>    <span class="co"># Replace all NA values with the mode of the known observations for the variable.</span></span>
+<span id="cb152-34"><a href="module-2-dealing-with-missingness.html#cb152-34" tabindex="-1"></a>    dfMeanModeImp[index, trait] <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(dfMeanModeImp[[trait]])))</span>
+<span id="cb152-35"><a href="module-2-dealing-with-missingness.html#cb152-35" tabindex="-1"></a>    </span>
+<span id="cb152-36"><a href="module-2-dealing-with-missingness.html#cb152-36" tabindex="-1"></a>  }</span>
+<span id="cb152-37"><a href="module-2-dealing-with-missingness.html#cb152-37" tabindex="-1"></a>  </span>
+<span id="cb152-38"><a href="module-2-dealing-with-missingness.html#cb152-38" tabindex="-1"></a>}</span>
+<span id="cb152-39"><a href="module-2-dealing-with-missingness.html#cb152-39" tabindex="-1"></a></span>
+<span id="cb152-40"><a href="module-2-dealing-with-missingness.html#cb152-40" tabindex="-1"></a><span class="co"># Back-transform the log-transformed data because we will need to compare it to the original data to get our error rates.</span></span>
+<span id="cb152-41"><a href="module-2-dealing-with-missingness.html#cb152-41" tabindex="-1"></a>dfMeanModeImp[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfMeanModeImp[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp)</span></code></pre></div>
+</div>
+<div id="k-nearest-neighbour-imputation" class="section level3 hasAnchor">
+<h3>K-Nearest Neighbour Imputation<a href="module-2-dealing-with-missingness.html#k-nearest-neighbour-imputation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="module-2-dealing-with-missingness.html#cb153-1" tabindex="-1"></a><span class="co"># Let&#39;s try using KNN (K-Nearest Neighbour Imputation). Using a distance matrix, determines k neighbours that are closest to the observation with missing values. It then uses the information from the nearest neighbours to fill in the missing values.</span></span>
+<span id="cb153-2"><a href="module-2-dealing-with-missingness.html#cb153-2" tabindex="-1"></a>?kNN</span>
+<span id="cb153-3"><a href="module-2-dealing-with-missingness.html#cb153-3" tabindex="-1"></a></span>
+<span id="cb153-4"><a href="module-2-dealing-with-missingness.html#cb153-4" tabindex="-1"></a><span class="co"># data = dataframe with missing values, k = number of nearest neighbours used. Rule of thumb for k is to take the square root of n (sample size). This might be a parameter you want to tune, however.</span></span>
+<span id="cb153-5"><a href="module-2-dealing-with-missingness.html#cb153-5" tabindex="-1"></a>neighbours <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="fu">nrow</span>(dfMissing)))</span>
+<span id="cb153-6"><a href="module-2-dealing-with-missingness.html#cb153-6" tabindex="-1"></a>dfKNN <span class="ot">&lt;-</span> <span class="fu">kNN</span>(<span class="at">data =</span> dfMissing, <span class="at">k =</span> neighbours)</span>
+<span id="cb153-7"><a href="module-2-dealing-with-missingness.html#cb153-7" tabindex="-1"></a></span>
+<span id="cb153-8"><a href="module-2-dealing-with-missingness.html#cb153-8" tabindex="-1"></a><span class="fu">view</span>(dfKNN) <span class="do">## This is nice because it lets you track your imputed values.</span></span>
+<span id="cb153-9"><a href="module-2-dealing-with-missingness.html#cb153-9" tabindex="-1"></a></span>
+<span id="cb153-10"><a href="module-2-dealing-with-missingness.html#cb153-10" tabindex="-1"></a><span class="co"># Subset to only take the imputed values and not the indicator columns.</span></span>
+<span id="cb153-11"><a href="module-2-dealing-with-missingness.html#cb153-11" tabindex="-1"></a>dfKNN <span class="ot">&lt;-</span> dfKNN[, <span class="sc">-</span><span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">&quot;_imp&quot;</span>, <span class="at">x =</span> <span class="fu">names</span>(dfKNN))]</span>
+<span id="cb153-12"><a href="module-2-dealing-with-missingness.html#cb153-12" tabindex="-1"></a><span class="co"># Back-transform the log-transformed data.</span></span>
+<span id="cb153-13"><a href="module-2-dealing-with-missingness.html#cb153-13" tabindex="-1"></a>dfKNN[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfKNN[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp)</span></code></pre></div>
+</div>
+<div id="random-forest-imputation" class="section level3 hasAnchor">
+<h3>Random Forest Imputation<a href="module-2-dealing-with-missingness.html#random-forest-imputation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="module-2-dealing-with-missingness.html#cb154-1" tabindex="-1"></a><span class="co"># Builds a Random Forest model using the observed data to estimate those values that are missing. It is an iterative process that repeats until the imputed values stabilize.</span></span>
+<span id="cb154-2"><a href="module-2-dealing-with-missingness.html#cb154-2" tabindex="-1"></a>?missForest</span>
+<span id="cb154-3"><a href="module-2-dealing-with-missingness.html#cb154-3" tabindex="-1"></a></span>
+<span id="cb154-4"><a href="module-2-dealing-with-missingness.html#cb154-4" tabindex="-1"></a><span class="co"># xmix = dataframe with missing values, maxiter = max # of iterations performed, ntree = number of trees in the forest</span></span>
+<span id="cb154-5"><a href="module-2-dealing-with-missingness.html#cb154-5" tabindex="-1"></a>RFresult <span class="ot">&lt;-</span> <span class="fu">missForest</span>(<span class="at">xmis =</span> dfMissing, <span class="at">maxiter =</span> <span class="dv">10</span>, <span class="at">ntree =</span> <span class="dv">100</span>)</span>
+<span id="cb154-6"><a href="module-2-dealing-with-missingness.html#cb154-6" tabindex="-1"></a></span>
+<span id="cb154-7"><a href="module-2-dealing-with-missingness.html#cb154-7" tabindex="-1"></a><span class="co"># Look at the imputed dataframe.</span></span>
+<span id="cb154-8"><a href="module-2-dealing-with-missingness.html#cb154-8" tabindex="-1"></a><span class="fu">view</span>(RFresult<span class="sc">$</span>ximp)</span>
+<span id="cb154-9"><a href="module-2-dealing-with-missingness.html#cb154-9" tabindex="-1"></a><span class="fu">class</span>(RFresult<span class="sc">$</span>ximp)</span>
+<span id="cb154-10"><a href="module-2-dealing-with-missingness.html#cb154-10" tabindex="-1"></a></span>
+<span id="cb154-11"><a href="module-2-dealing-with-missingness.html#cb154-11" tabindex="-1"></a><span class="co"># Assign to dataframe.</span></span>
+<span id="cb154-12"><a href="module-2-dealing-with-missingness.html#cb154-12" tabindex="-1"></a>dfRF <span class="ot">&lt;-</span> RFresult<span class="sc">$</span>ximp</span>
+<span id="cb154-13"><a href="module-2-dealing-with-missingness.html#cb154-13" tabindex="-1"></a></span>
+<span id="cb154-14"><a href="module-2-dealing-with-missingness.html#cb154-14" tabindex="-1"></a><span class="co"># Again, back-transform the data.</span></span>
+<span id="cb154-15"><a href="module-2-dealing-with-missingness.html#cb154-15" tabindex="-1"></a>dfRF[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfRF[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp)</span></code></pre></div>
+</div>
+<div id="mice" class="section level3 hasAnchor">
+<h3>MICE<a href="module-2-dealing-with-missingness.html#mice" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="module-2-dealing-with-missingness.html#cb155-1" tabindex="-1"></a><span class="co"># MICE is a framework for performing multiple imputation. Single imputation is performed several times, so it can provides a measure of uncertainty for your imputed values</span></span>
+<span id="cb155-2"><a href="module-2-dealing-with-missingness.html#cb155-2" tabindex="-1"></a></span>
+<span id="cb155-3"><a href="module-2-dealing-with-missingness.html#cb155-3" tabindex="-1"></a>?mice</span>
+<span id="cb155-4"><a href="module-2-dealing-with-missingness.html#cb155-4" tabindex="-1"></a></span>
+<span id="cb155-5"><a href="module-2-dealing-with-missingness.html#cb155-5" tabindex="-1"></a><span class="co"># Default methods for numeric and categorical traits are predictive mean matching and logistic regression, respectively. But you can try different methods and see which works best for your data.</span></span>
+<span id="cb155-6"><a href="module-2-dealing-with-missingness.html#cb155-6" tabindex="-1"></a><span class="fu">sapply</span>(dfMissing, class)</span>
+<span id="cb155-7"><a href="module-2-dealing-with-missingness.html#cb155-7" tabindex="-1"></a>myMethods <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;norm.predict&quot;</span>, <span class="st">&quot;cart&quot;</span>, <span class="st">&quot;pmm&quot;</span>, <span class="st">&quot;logreg&quot;</span>, <span class="st">&quot;logreg&quot;</span>, <span class="st">&quot;cart&quot;</span>, <span class="st">&quot;pmm&quot;</span>, <span class="st">&quot;cart&quot;</span>)</span>
+<span id="cb155-8"><a href="module-2-dealing-with-missingness.html#cb155-8" tabindex="-1"></a><span class="co"># data = dataframe with missing values, m = number of multiple imputations.</span></span>
+<span id="cb155-9"><a href="module-2-dealing-with-missingness.html#cb155-9" tabindex="-1"></a>miceMids <span class="ot">&lt;-</span> <span class="fu">mice</span>(<span class="at">data =</span> dfMissing, <span class="at">method =</span> myMethods, <span class="at">m =</span> <span class="dv">10</span>)</span>
+<span id="cb155-10"><a href="module-2-dealing-with-missingness.html#cb155-10" tabindex="-1"></a></span>
+<span id="cb155-11"><a href="module-2-dealing-with-missingness.html#cb155-11" tabindex="-1"></a><span class="co"># Check the class.</span></span>
+<span id="cb155-12"><a href="module-2-dealing-with-missingness.html#cb155-12" tabindex="-1"></a><span class="fu">class</span>(miceMids)</span>
+<span id="cb155-13"><a href="module-2-dealing-with-missingness.html#cb155-13" tabindex="-1"></a><span class="co"># mids is a special object that contains multiple imputed datasets.</span></span>
+<span id="cb155-14"><a href="module-2-dealing-with-missingness.html#cb155-14" tabindex="-1"></a>?mids</span>
+<span id="cb155-15"><a href="module-2-dealing-with-missingness.html#cb155-15" tabindex="-1"></a></span>
+<span id="cb155-16"><a href="module-2-dealing-with-missingness.html#cb155-16" tabindex="-1"></a><span class="co"># Number of imputed datasets</span></span>
+<span id="cb155-17"><a href="module-2-dealing-with-missingness.html#cb155-17" tabindex="-1"></a>miceMids<span class="sc">$</span>m</span>
+<span id="cb155-18"><a href="module-2-dealing-with-missingness.html#cb155-18" tabindex="-1"></a></span>
+<span id="cb155-19"><a href="module-2-dealing-with-missingness.html#cb155-19" tabindex="-1"></a><span class="co"># What variables were used as predictors (you can alter this matrix)</span></span>
+<span id="cb155-20"><a href="module-2-dealing-with-missingness.html#cb155-20" tabindex="-1"></a>miceMids<span class="sc">$</span>predictorMatrix</span>
+<span id="cb155-21"><a href="module-2-dealing-with-missingness.html#cb155-21" tabindex="-1"></a></span>
+<span id="cb155-22"><a href="module-2-dealing-with-missingness.html#cb155-22" tabindex="-1"></a><span class="co"># View imputed data.</span></span>
+<span id="cb155-23"><a href="module-2-dealing-with-missingness.html#cb155-23" tabindex="-1"></a><span class="fu">view</span>(miceMids<span class="sc">$</span>imp<span class="sc">$</span>maximum_svl) <span class="do">## This contains the imputed values for each of the 5 datasets.</span></span>
+<span id="cb155-24"><a href="module-2-dealing-with-missingness.html#cb155-24" tabindex="-1"></a><span class="fu">view</span>(miceMids<span class="sc">$</span>imp<span class="sc">$</span>insular_endemic)</span>
+<span id="cb155-25"><a href="module-2-dealing-with-missingness.html#cb155-25" tabindex="-1"></a></span>
+<span id="cb155-26"><a href="module-2-dealing-with-missingness.html#cb155-26" tabindex="-1"></a><span class="co"># If you are running a statistical analysis on data imputed using MICE, you will have to apply it to EACH of the imputed datasets. For example:</span></span>
+<span id="cb155-27"><a href="module-2-dealing-with-missingness.html#cb155-27" tabindex="-1"></a><span class="co"># Fitting a linear regression to the multiply imputed datasets using the with() function.</span></span>
+<span id="cb155-28"><a href="module-2-dealing-with-missingness.html#cb155-28" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(miceMids, <span class="fu">lm</span>(maximum_svl <span class="sc">~</span> latitude <span class="sc">+</span> insular_endemic))</span>
+<span id="cb155-29"><a href="module-2-dealing-with-missingness.html#cb155-29" tabindex="-1"></a></span>
+<span id="cb155-30"><a href="module-2-dealing-with-missingness.html#cb155-30" tabindex="-1"></a><span class="co"># What class is it?</span></span>
+<span id="cb155-31"><a href="module-2-dealing-with-missingness.html#cb155-31" tabindex="-1"></a><span class="fu">class</span>(fit) <span class="do">## special class called &quot;mira&quot; that contained results of analyses repeated across MI datasets</span></span>
+<span id="cb155-32"><a href="module-2-dealing-with-missingness.html#cb155-32" tabindex="-1"></a><span class="co"># Let&#39;s see what it contains.</span></span>
+<span id="cb155-33"><a href="module-2-dealing-with-missingness.html#cb155-33" tabindex="-1"></a>fit <span class="do">## Results of all the different regressions !</span></span>
+<span id="cb155-34"><a href="module-2-dealing-with-missingness.html#cb155-34" tabindex="-1"></a></span>
+<span id="cb155-35"><a href="module-2-dealing-with-missingness.html#cb155-35" tabindex="-1"></a><span class="co"># Let&#39;s pool the results together using the pool function.</span></span>
+<span id="cb155-36"><a href="module-2-dealing-with-missingness.html#cb155-36" tabindex="-1"></a><span class="co"># From the mice documentation: &quot;The pool() function combines the estimates from m repeated complete data analyses.&quot;</span></span>
+<span id="cb155-37"><a href="module-2-dealing-with-missingness.html#cb155-37" tabindex="-1"></a>pool.fit <span class="ot">&lt;-</span> <span class="fu">pool</span>(fit)</span>
+<span id="cb155-38"><a href="module-2-dealing-with-missingness.html#cb155-38" tabindex="-1"></a><span class="fu">summary</span>(pool.fit)</span>
+<span id="cb155-39"><a href="module-2-dealing-with-missingness.html#cb155-39" tabindex="-1"></a></span>
+<span id="cb155-40"><a href="module-2-dealing-with-missingness.html#cb155-40" tabindex="-1"></a>?pool <span class="do">## if you are interested in how the pooling is performed</span></span>
+<span id="cb155-41"><a href="module-2-dealing-with-missingness.html#cb155-41" tabindex="-1"></a></span>
+<span id="cb155-42"><a href="module-2-dealing-with-missingness.html#cb155-42" tabindex="-1"></a><span class="co"># Get a list of the imputed dataframes using the mice::complete() function. Since we specified &quot;all&quot;, it will return us a list containing all of the imputed dataframes. Should be length &quot;m&quot;.</span></span>
+<span id="cb155-43"><a href="module-2-dealing-with-missingness.html#cb155-43" tabindex="-1"></a>l_dfMICE <span class="ot">&lt;-</span> mice<span class="sc">::</span><span class="fu">complete</span>(miceMids, <span class="st">&quot;all&quot;</span>) </span>
+<span id="cb155-44"><a href="module-2-dealing-with-missingness.html#cb155-44" tabindex="-1"></a></span>
+<span id="cb155-45"><a href="module-2-dealing-with-missingness.html#cb155-45" tabindex="-1"></a><span class="fu">view</span>(l_dfMICE[[<span class="dv">1</span>]])</span>
+<span id="cb155-46"><a href="module-2-dealing-with-missingness.html#cb155-46" tabindex="-1"></a></span>
+<span id="cb155-47"><a href="module-2-dealing-with-missingness.html#cb155-47" tabindex="-1"></a><span class="co"># Back-transform all the imputed values in this list.</span></span>
+<span id="cb155-48"><a href="module-2-dealing-with-missingness.html#cb155-48" tabindex="-1"></a>l_dfMICE <span class="ot">&lt;-</span> <span class="fu">lapply</span>(l_dfMICE, <span class="cf">function</span>(x){</span>
+<span id="cb155-49"><a href="module-2-dealing-with-missingness.html#cb155-49" tabindex="-1"></a>  x[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(x[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp)</span>
+<span id="cb155-50"><a href="module-2-dealing-with-missingness.html#cb155-50" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb155-51"><a href="module-2-dealing-with-missingness.html#cb155-51" tabindex="-1"></a>})</span></code></pre></div>
+</div>
+<div id="error-rates" class="section level3 hasAnchor">
+<h3>Error Rates<a href="module-2-dealing-with-missingness.html#error-rates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="module-2-dealing-with-missingness.html#cb156-1" tabindex="-1"></a><span class="co"># Let&#39;s see how well the different imputation methods predicted the values. </span></span>
+<span id="cb156-2"><a href="module-2-dealing-with-missingness.html#cb156-2" tabindex="-1"></a></span>
+<span id="cb156-3"><a href="module-2-dealing-with-missingness.html#cb156-3" tabindex="-1"></a><span class="co"># First back-transform dfMissing for comparison purposes</span></span>
+<span id="cb156-4"><a href="module-2-dealing-with-missingness.html#cb156-4" tabindex="-1"></a>dfMissing[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfMissing[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp) </span>
+<span id="cb156-5"><a href="module-2-dealing-with-missingness.html#cb156-5" tabindex="-1"></a></span>
+<span id="cb156-6"><a href="module-2-dealing-with-missingness.html#cb156-6" tabindex="-1"></a><span class="co"># We can use did the missForest::mixError() function for obtaining error rates. </span></span>
+<span id="cb156-7"><a href="module-2-dealing-with-missingness.html#cb156-7" tabindex="-1"></a><span class="co"># mixError is a useful function because it tracks which values were imputed for you, as long as you can provide it with the original and missing dataframes.</span></span>
+<span id="cb156-8"><a href="module-2-dealing-with-missingness.html#cb156-8" tabindex="-1"></a>missForest<span class="sc">::</span><span class="fu">mixError</span>(<span class="at">ximp =</span> dfMeanModeImp, <span class="at">xmis =</span> dfMissing, <span class="at">xtrue =</span> dfCompleteCase)</span>
+<span id="cb156-9"><a href="module-2-dealing-with-missingness.html#cb156-9" tabindex="-1"></a></span>
+<span id="cb156-10"><a href="module-2-dealing-with-missingness.html#cb156-10" tabindex="-1"></a><span class="co"># NRMSE refers to the normalized root mean squared error for the numeric data and PFC refers to the proportion of falsely classified entries for the categorical variables. For both, lower is better.</span></span>
+<span id="cb156-11"><a href="module-2-dealing-with-missingness.html#cb156-11" tabindex="-1"></a></span>
+<span id="cb156-12"><a href="module-2-dealing-with-missingness.html#cb156-12" tabindex="-1"></a><span class="co"># If we wanted the error for one variable? </span></span>
+<span id="cb156-13"><a href="module-2-dealing-with-missingness.html#cb156-13" tabindex="-1"></a>missForest<span class="sc">::</span><span class="fu">mixError</span>(<span class="at">ximp =</span> dfMeanModeImp[<span class="st">&quot;maximum_svl&quot;</span>], <span class="at">xmis =</span> dfMissing[<span class="st">&quot;maximum_svl&quot;</span>], <span class="at">xtrue =</span> dfCompleteCase[<span class="st">&quot;maximum_svl&quot;</span>]) <span class="do">## Remember it wants a dataframe as input!</span></span>
+<span id="cb156-14"><a href="module-2-dealing-with-missingness.html#cb156-14" tabindex="-1"></a></span>
+<span id="cb156-15"><a href="module-2-dealing-with-missingness.html#cb156-15" tabindex="-1"></a><span class="co"># How about KNN?</span></span>
+<span id="cb156-16"><a href="module-2-dealing-with-missingness.html#cb156-16" tabindex="-1"></a>missForest<span class="sc">::</span><span class="fu">mixError</span>(<span class="at">ximp =</span> dfKNN, <span class="at">xmis =</span> dfMissing, <span class="at">xtrue =</span> dfCompleteCase)</span>
+<span id="cb156-17"><a href="module-2-dealing-with-missingness.html#cb156-17" tabindex="-1"></a><span class="co"># A bit better than mean/mode.</span></span>
+<span id="cb156-18"><a href="module-2-dealing-with-missingness.html#cb156-18" tabindex="-1"></a></span>
+<span id="cb156-19"><a href="module-2-dealing-with-missingness.html#cb156-19" tabindex="-1"></a><span class="co"># How about missForest?</span></span>
+<span id="cb156-20"><a href="module-2-dealing-with-missingness.html#cb156-20" tabindex="-1"></a>missForest<span class="sc">::</span><span class="fu">mixError</span>(<span class="at">ximp =</span> dfRF, <span class="at">xmis =</span> dfMissing, <span class="at">xtrue =</span> dfCompleteCase)</span>
+<span id="cb156-21"><a href="module-2-dealing-with-missingness.html#cb156-21" tabindex="-1"></a><span class="co"># Better on the numerical traits but worse on categorical compared to KNN.</span></span>
+<span id="cb156-22"><a href="module-2-dealing-with-missingness.html#cb156-22" tabindex="-1"></a></span>
+<span id="cb156-23"><a href="module-2-dealing-with-missingness.html#cb156-23" tabindex="-1"></a><span class="co"># What if we wanted to get the errors for the MICE datasets? </span></span>
+<span id="cb156-24"><a href="module-2-dealing-with-missingness.html#cb156-24" tabindex="-1"></a><span class="co"># Apply the mixError function across the imputed dataframes.</span></span>
+<span id="cb156-25"><a href="module-2-dealing-with-missingness.html#cb156-25" tabindex="-1"></a>l_MICEerrors <span class="ot">&lt;-</span> <span class="fu">lapply</span>(l_dfMICE, <span class="cf">function</span>(x) <span class="fu">mixError</span>(<span class="at">ximp =</span> x, <span class="at">xmis =</span> dfMissing, <span class="at">xtrue =</span> dfCompleteCase))</span>
+<span id="cb156-26"><a href="module-2-dealing-with-missingness.html#cb156-26" tabindex="-1"></a></span>
+<span id="cb156-27"><a href="module-2-dealing-with-missingness.html#cb156-27" tabindex="-1"></a><span class="co"># Let&#39;s average the errors using the Reduce() function, which can used to apply a function over a list and then return a single result. Here, we are adding the elements of l_Errors and dividing them by the length of l_Errors.</span></span>
+<span id="cb156-28"><a href="module-2-dealing-with-missingness.html#cb156-28" tabindex="-1"></a><span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, l_MICEerrors)<span class="sc">/</span><span class="fu">length</span>(l_MICEerrors) <span class="do">## probably need to pick better methods </span></span></code></pre></div>
+</div>
+<div id="impute-the-full-dataset" class="section level3 hasAnchor">
+<h3>Impute the Full Dataset<a href="module-2-dealing-with-missingness.html#impute-the-full-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="module-2-dealing-with-missingness.html#cb157-1" tabindex="-1"></a><span class="co"># From here, choose the best-performing method on the complete-case data and use it to impute your target dataset.</span></span>
+<span id="cb157-2"><a href="module-2-dealing-with-missingness.html#cb157-2" tabindex="-1"></a><span class="co"># Ideally, it would be the method that resulted in the lowest error rate for the majority of variables.</span></span>
+<span id="cb157-3"><a href="module-2-dealing-with-missingness.html#cb157-3" tabindex="-1"></a>imputeRes <span class="ot">&lt;-</span> <span class="fu">missForest</span>(<span class="at">xmis =</span> dfFiltered) <span class="do">## may take a while</span></span>
+<span id="cb157-4"><a href="module-2-dealing-with-missingness.html#cb157-4" tabindex="-1"></a></span>
+<span id="cb157-5"><a href="module-2-dealing-with-missingness.html#cb157-5" tabindex="-1"></a><span class="co"># Extract imputed dataset.</span></span>
+<span id="cb157-6"><a href="module-2-dealing-with-missingness.html#cb157-6" tabindex="-1"></a>dfImputed <span class="ot">&lt;-</span> imputeRes<span class="sc">$</span>ximp</span>
+<span id="cb157-7"><a href="module-2-dealing-with-missingness.html#cb157-7" tabindex="-1"></a></span>
+<span id="cb157-8"><a href="module-2-dealing-with-missingness.html#cb157-8" tabindex="-1"></a><span class="co"># Combine dataframes into list.</span></span>
+<span id="cb157-9"><a href="module-2-dealing-with-missingness.html#cb157-9" tabindex="-1"></a>l_dfAll <span class="ot">&lt;-</span> <span class="fu">list</span>(dfCompleteCase, dfRF, dfFiltered, dfImputed)</span>
+<span id="cb157-10"><a href="module-2-dealing-with-missingness.html#cb157-10" tabindex="-1"></a></span>
+<span id="cb157-11"><a href="module-2-dealing-with-missingness.html#cb157-11" tabindex="-1"></a><span class="co"># Name the list according to dataframe.</span></span>
+<span id="cb157-12"><a href="module-2-dealing-with-missingness.html#cb157-12" tabindex="-1"></a><span class="fu">names</span>(l_dfAll) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CC&quot;</span>, <span class="st">&quot;SIM&quot;</span>, <span class="st">&quot;O&quot;</span>, <span class="st">&quot;IMP&quot;</span>)</span>
+<span id="cb157-13"><a href="module-2-dealing-with-missingness.html#cb157-13" tabindex="-1"></a></span>
+<span id="cb157-14"><a href="module-2-dealing-with-missingness.html#cb157-14" tabindex="-1"></a><span class="co"># We need to make some alterations for plotting.</span></span>
+<span id="cb157-15"><a href="module-2-dealing-with-missingness.html#cb157-15" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(l_dfAll)){</span>
+<span id="cb157-16"><a href="module-2-dealing-with-missingness.html#cb157-16" tabindex="-1"></a>  </span>
+<span id="cb157-17"><a href="module-2-dealing-with-missingness.html#cb157-17" tabindex="-1"></a>  <span class="co"># Get name of dataframe.</span></span>
+<span id="cb157-18"><a href="module-2-dealing-with-missingness.html#cb157-18" tabindex="-1"></a>  ID <span class="ot">&lt;-</span> <span class="fu">names</span>(l_dfAll)[[i]]</span>
+<span id="cb157-19"><a href="module-2-dealing-with-missingness.html#cb157-19" tabindex="-1"></a>  </span>
+<span id="cb157-20"><a href="module-2-dealing-with-missingness.html#cb157-20" tabindex="-1"></a>  <span class="co"># Add ID to column names of dataframe so we can identify which dataframe it came from.</span></span>
+<span id="cb157-21"><a href="module-2-dealing-with-missingness.html#cb157-21" tabindex="-1"></a>  <span class="fu">names</span>(l_dfAll[[i]]) <span class="ot">&lt;-</span> <span class="fu">paste</span>(ID, <span class="fu">colnames</span>(l_dfAll[[i]]), <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb157-22"><a href="module-2-dealing-with-missingness.html#cb157-22" tabindex="-1"></a>  </span>
+<span id="cb157-23"><a href="module-2-dealing-with-missingness.html#cb157-23" tabindex="-1"></a>  <span class="co"># Add species col so we can merge them together.</span></span>
+<span id="cb157-24"><a href="module-2-dealing-with-missingness.html#cb157-24" tabindex="-1"></a>  l_dfAll[[i]]<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="fu">rownames</span>(l_dfAll[[i]]) </span>
+<span id="cb157-25"><a href="module-2-dealing-with-missingness.html#cb157-25" tabindex="-1"></a>  </span>
+<span id="cb157-26"><a href="module-2-dealing-with-missingness.html#cb157-26" tabindex="-1"></a>}</span>
+<span id="cb157-27"><a href="module-2-dealing-with-missingness.html#cb157-27" tabindex="-1"></a></span>
+<span id="cb157-28"><a href="module-2-dealing-with-missingness.html#cb157-28" tabindex="-1"></a><span class="fu">view</span>(l_dfAll[[<span class="dv">1</span>]])</span>
+<span id="cb157-29"><a href="module-2-dealing-with-missingness.html#cb157-29" tabindex="-1"></a></span>
+<span id="cb157-30"><a href="module-2-dealing-with-missingness.html#cb157-30" tabindex="-1"></a><span class="co"># Merge all the dataframes by species.</span></span>
+<span id="cb157-31"><a href="module-2-dealing-with-missingness.html#cb157-31" tabindex="-1"></a>dfAll <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="cf">function</span>(...) <span class="fu">merge</span>(..., <span class="at">by =</span> <span class="st">&quot;species&quot;</span>, <span class="at">all =</span> T), l_dfAll)</span>
+<span id="cb157-32"><a href="module-2-dealing-with-missingness.html#cb157-32" tabindex="-1"></a><span class="fu">names</span>(dfAll)</span>
+<span id="cb157-33"><a href="module-2-dealing-with-missingness.html#cb157-33" tabindex="-1"></a></span>
+<span id="cb157-34"><a href="module-2-dealing-with-missingness.html#cb157-34" tabindex="-1"></a><span class="co"># From here, we can make plots pretty easily.</span></span>
+<span id="cb157-35"><a href="module-2-dealing-with-missingness.html#cb157-35" tabindex="-1"></a>dfSubset <span class="ot">&lt;-</span> <span class="fu">select</span>(dfAll, <span class="fu">c</span>(CC_largest_clutch, SIM_largest_clutch, </span>
+<span id="cb157-36"><a href="module-2-dealing-with-missingness.html#cb157-36" tabindex="-1"></a>                            O_largest_clutch, IMP_largest_clutch))</span>
+<span id="cb157-37"><a href="module-2-dealing-with-missingness.html#cb157-37" tabindex="-1"></a></span>
+<span id="cb157-38"><a href="module-2-dealing-with-missingness.html#cb157-38" tabindex="-1"></a><span class="co"># Log transform data for better visualization.</span></span>
+<span id="cb157-39"><a href="module-2-dealing-with-missingness.html#cb157-39" tabindex="-1"></a>dfSubset <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(dfSubset, log)) <span class="do">## sometimes dataframe format is easier to deal</span></span>
+<span id="cb157-40"><a href="module-2-dealing-with-missingness.html#cb157-40" tabindex="-1"></a></span>
+<span id="cb157-41"><a href="module-2-dealing-with-missingness.html#cb157-41" tabindex="-1"></a><span class="co"># Get sample size counts for each column.</span></span>
+<span id="cb157-42"><a href="module-2-dealing-with-missingness.html#cb157-42" tabindex="-1"></a>sampleSizes <span class="ot">&lt;-</span> <span class="fu">sapply</span>(dfSubset, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb157-43"><a href="module-2-dealing-with-missingness.html#cb157-43" tabindex="-1"></a>sampleSizes</span>
+<span id="cb157-44"><a href="module-2-dealing-with-missingness.html#cb157-44" tabindex="-1"></a></span>
+<span id="cb157-45"><a href="module-2-dealing-with-missingness.html#cb157-45" tabindex="-1"></a><span class="co"># Pivot dataframe to long form so we can more easily plot variables by group.</span></span>
+<span id="cb157-46"><a href="module-2-dealing-with-missingness.html#cb157-46" tabindex="-1"></a>dfPivot <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(dfSubset, <span class="at">cols =</span> <span class="fu">colnames</span>(dfSubset))</span>
+<span id="cb157-47"><a href="module-2-dealing-with-missingness.html#cb157-47" tabindex="-1"></a><span class="fu">view</span>(dfPivot)</span>
+<span id="cb157-48"><a href="module-2-dealing-with-missingness.html#cb157-48" tabindex="-1"></a></span>
+<span id="cb157-49"><a href="module-2-dealing-with-missingness.html#cb157-49" tabindex="-1"></a><span class="co"># Convert to factor.</span></span>
+<span id="cb157-50"><a href="module-2-dealing-with-missingness.html#cb157-50" tabindex="-1"></a>dfPivot<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dfPivot<span class="sc">$</span>name)</span>
+<span id="cb157-51"><a href="module-2-dealing-with-missingness.html#cb157-51" tabindex="-1"></a></span>
+<span id="cb157-52"><a href="module-2-dealing-with-missingness.html#cb157-52" tabindex="-1"></a><span class="co"># X-axis label containing sample size information.</span></span>
+<span id="cb157-53"><a href="module-2-dealing-with-missingness.html#cb157-53" tabindex="-1"></a>dataType <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Complete case&quot;</span>, <span class="st">&quot;Sim-imputed&quot;</span>, <span class="st">&quot;Original&quot;</span>, <span class="st">&quot;Original - Post-imputation&quot;</span>)</span>
+<span id="cb157-54"><a href="module-2-dealing-with-missingness.html#cb157-54" tabindex="-1"></a></span>
+<span id="cb157-55"><a href="module-2-dealing-with-missingness.html#cb157-55" tabindex="-1"></a><span class="co"># Paste sample size onto dataType vector.</span></span>
+<span id="cb157-56"><a href="module-2-dealing-with-missingness.html#cb157-56" tabindex="-1"></a>xlabel <span class="ot">&lt;-</span> <span class="fu">paste</span>(dataType, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;(n = &quot;</span>, sampleSizes, <span class="st">&quot;)&quot;</span> , <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb157-57"><a href="module-2-dealing-with-missingness.html#cb157-57" tabindex="-1"></a></span>
+<span id="cb157-58"><a href="module-2-dealing-with-missingness.html#cb157-58" tabindex="-1"></a><span class="co"># GGplot comparing trait distributions</span></span>
+<span id="cb157-59"><a href="module-2-dealing-with-missingness.html#cb157-59" tabindex="-1"></a><span class="fu">ggplot</span>(dfPivot, <span class="fu">aes</span>(<span class="at">x =</span> name, <span class="at">y =</span> value, <span class="at">fill =</span> name)) <span class="sc">+</span></span>
+<span id="cb157-60"><a href="module-2-dealing-with-missingness.html#cb157-60" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb157-61"><a href="module-2-dealing-with-missingness.html#cb157-61" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> trait, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>)  <span class="sc">+</span></span>
+<span id="cb157-62"><a href="module-2-dealing-with-missingness.html#cb157-62" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> xlabel) <span class="sc">+</span> </span>
+<span id="cb157-63"><a href="module-2-dealing-with-missingness.html#cb157-63" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set3&quot;</span>) <span class="sc">+</span></span>
+<span id="cb157-64"><a href="module-2-dealing-with-missingness.html#cb157-64" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span> <span class="co"># Base font size</span></span>
+<span id="cb157-65"><a href="module-2-dealing-with-missingness.html#cb157-65" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb157-66"><a href="module-2-dealing-with-missingness.html#cb157-66" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="module-2-dealing-with-missingness.html#cb158-1" tabindex="-1"></a><span class="co"># Let&#39;s plot a categorical trait now!</span></span>
+<span id="cb158-2"><a href="module-2-dealing-with-missingness.html#cb158-2" tabindex="-1"></a><span class="fu">names</span>(dfAll)</span>
+<span id="cb158-3"><a href="module-2-dealing-with-missingness.html#cb158-3" tabindex="-1"></a></span>
+<span id="cb158-4"><a href="module-2-dealing-with-missingness.html#cb158-4" tabindex="-1"></a><span class="co"># Same steps as above.</span></span>
+<span id="cb158-5"><a href="module-2-dealing-with-missingness.html#cb158-5" tabindex="-1"></a>dfSubset <span class="ot">&lt;-</span> <span class="fu">select</span>(dfAll, <span class="fu">c</span>(CC_diet, SIM_diet, </span>
+<span id="cb158-6"><a href="module-2-dealing-with-missingness.html#cb158-6" tabindex="-1"></a>                            O_diet, IMP_diet))</span>
+<span id="cb158-7"><a href="module-2-dealing-with-missingness.html#cb158-7" tabindex="-1"></a></span>
+<span id="cb158-8"><a href="module-2-dealing-with-missingness.html#cb158-8" tabindex="-1"></a>sampleSizes <span class="ot">&lt;-</span> <span class="fu">sapply</span>(dfSubset, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb158-9"><a href="module-2-dealing-with-missingness.html#cb158-9" tabindex="-1"></a></span>
+<span id="cb158-10"><a href="module-2-dealing-with-missingness.html#cb158-10" tabindex="-1"></a><span class="co"># Create dataframe containing category counts for each group.</span></span>
+<span id="cb158-11"><a href="module-2-dealing-with-missingness.html#cb158-11" tabindex="-1"></a>dfPivot <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(dfSubset, <span class="at">cols =</span> <span class="fu">colnames</span>(dfSubset))</span>
+<span id="cb158-12"><a href="module-2-dealing-with-missingness.html#cb158-12" tabindex="-1"></a></span>
+<span id="cb158-13"><a href="module-2-dealing-with-missingness.html#cb158-13" tabindex="-1"></a><span class="co"># Convert to factor.</span></span>
+<span id="cb158-14"><a href="module-2-dealing-with-missingness.html#cb158-14" tabindex="-1"></a>dfPivot<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dfPivot<span class="sc">$</span>name)</span>
+<span id="cb158-15"><a href="module-2-dealing-with-missingness.html#cb158-15" tabindex="-1"></a></span>
+<span id="cb158-16"><a href="module-2-dealing-with-missingness.html#cb158-16" tabindex="-1"></a><span class="co"># Group by name and value to prepare data for plotting.</span></span>
+<span id="cb158-17"><a href="module-2-dealing-with-missingness.html#cb158-17" tabindex="-1"></a>dfCount <span class="ot">&lt;-</span> dfPivot <span class="sc">%&gt;%</span></span>
+<span id="cb158-18"><a href="module-2-dealing-with-missingness.html#cb158-18" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb158-19"><a href="module-2-dealing-with-missingness.html#cb158-19" tabindex="-1"></a>  <span class="fu">group_by</span>(name, value) <span class="sc">%&gt;%</span></span>
+<span id="cb158-20"><a href="module-2-dealing-with-missingness.html#cb158-20" tabindex="-1"></a>  <span class="co"># Get counts by group</span></span>
+<span id="cb158-21"><a href="module-2-dealing-with-missingness.html#cb158-21" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb158-22"><a href="module-2-dealing-with-missingness.html#cb158-22" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> count<span class="sc">/</span><span class="fu">sum</span>(count))</span>
+<span id="cb158-23"><a href="module-2-dealing-with-missingness.html#cb158-23" tabindex="-1"></a></span>
+<span id="cb158-24"><a href="module-2-dealing-with-missingness.html#cb158-24" tabindex="-1"></a><span class="fu">view</span>(dfCount)</span>
+<span id="cb158-25"><a href="module-2-dealing-with-missingness.html#cb158-25" tabindex="-1"></a></span>
+<span id="cb158-26"><a href="module-2-dealing-with-missingness.html#cb158-26" tabindex="-1"></a><span class="co"># Paste sample size onto dataType vector.</span></span>
+<span id="cb158-27"><a href="module-2-dealing-with-missingness.html#cb158-27" tabindex="-1"></a>xlabel <span class="ot">&lt;-</span> <span class="fu">paste</span>(dataType, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;(n = &quot;</span>, sampleSizes, <span class="st">&quot;)&quot;</span> , <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb158-28"><a href="module-2-dealing-with-missingness.html#cb158-28" tabindex="-1"></a></span>
+<span id="cb158-29"><a href="module-2-dealing-with-missingness.html#cb158-29" tabindex="-1"></a><span class="co"># Barplot comparing trait categories of complete-case, pre- and post-imputation.</span></span>
+<span id="cb158-30"><a href="module-2-dealing-with-missingness.html#cb158-30" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dfCount, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> name, <span class="at">y =</span> prop, <span class="at">fill =</span> value)) <span class="sc">+</span> </span>
+<span id="cb158-31"><a href="module-2-dealing-with-missingness.html#cb158-31" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb158-32"><a href="module-2-dealing-with-missingness.html#cb158-32" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> xlabel) <span class="sc">+</span></span>
+<span id="cb158-33"><a href="module-2-dealing-with-missingness.html#cb158-33" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Blues&quot;</span>) <span class="sc">+</span></span>
+<span id="cb158-34"><a href="module-2-dealing-with-missingness.html#cb158-34" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(prop, <span class="at">accuracy =</span> <span class="fl">0.1</span>)), <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">5</span>, </span>
+<span id="cb158-35"><a href="module-2-dealing-with-missingness.html#cb158-35" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb158-36"><a href="module-2-dealing-with-missingness.html#cb158-36" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb158-37"><a href="module-2-dealing-with-missingness.html#cb158-37" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> trait, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb158-38"><a href="module-2-dealing-with-missingness.html#cb158-38" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-2.png" width="672" /></p>
+</div>
+<div id="compare-inferences-obtained-from-complete-case-and-imputed-datasets" class="section level3 hasAnchor">
+<h3>Compare Inferences Obtained from Complete-case and Imputed Datasets<a href="module-2-dealing-with-missingness.html#compare-inferences-obtained-from-complete-case-and-imputed-datasets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="module-2-dealing-with-missingness.html#cb159-1" tabindex="-1"></a><span class="co"># Finally, something you should consider after finishing your analysis..re-doing the analysis using the complete-case dataset and comparing it to the results obtained using your final imputed dataset. </span></span>
+<span id="cb159-2"><a href="module-2-dealing-with-missingness.html#cb159-2" tabindex="-1"></a><span class="co"># How do the results change?</span></span>
+<span id="cb159-3"><a href="module-2-dealing-with-missingness.html#cb159-3" tabindex="-1"></a></span>
+<span id="cb159-4"><a href="module-2-dealing-with-missingness.html#cb159-4" tabindex="-1"></a><span class="co"># Logistic regression</span></span>
+<span id="cb159-5"><a href="module-2-dealing-with-missingness.html#cb159-5" tabindex="-1"></a>ccModel <span class="ot">&lt;-</span> <span class="fu">glm</span>(diet <span class="sc">~</span> activity_time <span class="sc">+</span> maximum_svl <span class="sc">+</span> reproductive_mode <span class="sc">+</span> insular_endemic <span class="sc">+</span></span>
+<span id="cb159-6"><a href="module-2-dealing-with-missingness.html#cb159-6" tabindex="-1"></a>                 latitude, <span class="at">data =</span> dfCompleteCase, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb159-7"><a href="module-2-dealing-with-missingness.html#cb159-7" tabindex="-1"></a><span class="fu">summary</span>(ccModel)</span>
+<span id="cb159-8"><a href="module-2-dealing-with-missingness.html#cb159-8" tabindex="-1"></a></span>
+<span id="cb159-9"><a href="module-2-dealing-with-missingness.html#cb159-9" tabindex="-1"></a>simModel <span class="ot">&lt;-</span> <span class="fu">glm</span>(diet <span class="sc">~</span> activity_time <span class="sc">+</span> maximum_svl <span class="sc">+</span> reproductive_mode <span class="sc">+</span> insular_endemic <span class="sc">+</span></span>
+<span id="cb159-10"><a href="module-2-dealing-with-missingness.html#cb159-10" tabindex="-1"></a>                 latitude, <span class="at">data =</span> dfRF, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb159-11"><a href="module-2-dealing-with-missingness.html#cb159-11" tabindex="-1"></a><span class="fu">summary</span>(simModel)</span>
+<span id="cb159-12"><a href="module-2-dealing-with-missingness.html#cb159-12" tabindex="-1"></a></span>
+<span id="cb159-13"><a href="module-2-dealing-with-missingness.html#cb159-13" tabindex="-1"></a>targetModel <span class="ot">&lt;-</span> <span class="fu">glm</span>(diet <span class="sc">~</span> activity_time <span class="sc">+</span> maximum_svl <span class="sc">+</span> reproductive_mode <span class="sc">+</span> insular_endemic <span class="sc">+</span></span>
+<span id="cb159-14"><a href="module-2-dealing-with-missingness.html#cb159-14" tabindex="-1"></a>                     latitude, <span class="at">data =</span> dfImputed, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb159-15"><a href="module-2-dealing-with-missingness.html#cb159-15" tabindex="-1"></a><span class="fu">summary</span>(targetModel)</span>
+<span id="cb159-16"><a href="module-2-dealing-with-missingness.html#cb159-16" tabindex="-1"></a></span>
+<span id="cb159-17"><a href="module-2-dealing-with-missingness.html#cb159-17" tabindex="-1"></a><span class="do">##### One last plot to compare how results change between complete-case and imputed models.</span></span>
+<span id="cb159-18"><a href="module-2-dealing-with-missingness.html#cb159-18" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#F3E79A&quot;</span>, <span class="st">&quot;#ED7C97&quot;</span>, <span class="st">&quot;#9F7FCD&quot;</span>)</span>
+<span id="cb159-19"><a href="module-2-dealing-with-missingness.html#cb159-19" tabindex="-1"></a><span class="co"># Create dataframe of p-values from complete-case and imputed models.</span></span>
+<span id="cb159-20"><a href="module-2-dealing-with-missingness.html#cb159-20" tabindex="-1"></a>dfPvalues <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb159-21"><a href="module-2-dealing-with-missingness.html#cb159-21" tabindex="-1"></a>  <span class="at">trait =</span> <span class="fu">c</span>(<span class="st">&quot;Activity time&quot;</span>, <span class="st">&quot;Max. SVL&quot;</span>, <span class="st">&quot;Repro. mode&quot;</span>, <span class="st">&quot;Insular/endemic&quot;</span>, <span class="st">&quot;Latitude&quot;</span>), </span>
+<span id="cb159-22"><a href="module-2-dealing-with-missingness.html#cb159-22" tabindex="-1"></a>  <span class="at">p_cc =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">2.37e-06</span>, <span class="fl">0.00270</span>, <span class="fl">0.00093</span>, <span class="fl">1.37e-06</span>, <span class="fl">9.66e-06</span>)), </span>
+<span id="cb159-23"><a href="module-2-dealing-with-missingness.html#cb159-23" tabindex="-1"></a>  <span class="at">p_sim =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">3.10e-07</span>, <span class="fl">0.000234</span>, <span class="fl">0.007901</span>, <span class="fl">1.95e-07</span>, <span class="fl">0.000108</span>)), </span>
+<span id="cb159-24"><a href="module-2-dealing-with-missingness.html#cb159-24" tabindex="-1"></a>  <span class="at">p_imp =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">2e-16</span>, <span class="fl">1.11e-09</span>, <span class="fl">0.143</span>, <span class="fl">6.27e-15</span>, <span class="fl">2e-16</span>)))</span>
+<span id="cb159-25"><a href="module-2-dealing-with-missingness.html#cb159-25" tabindex="-1"></a><span class="co"># Note that we use the -log to improve visualization and visibility of smaller p-values.</span></span>
+<span id="cb159-26"><a href="module-2-dealing-with-missingness.html#cb159-26" tabindex="-1"></a></span>
+<span id="cb159-27"><a href="module-2-dealing-with-missingness.html#cb159-27" tabindex="-1"></a><span class="co"># Dumbbell plot for comparing p-values.</span></span>
+<span id="cb159-28"><a href="module-2-dealing-with-missingness.html#cb159-28" tabindex="-1"></a><span class="co"># Complete-case vs. sim-imputed.</span></span>
+<span id="cb159-29"><a href="module-2-dealing-with-missingness.html#cb159-29" tabindex="-1"></a><span class="fu">ggplot</span>(dfPvalues) <span class="sc">+</span></span>
+<span id="cb159-30"><a href="module-2-dealing-with-missingness.html#cb159-30" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">xend =</span> trait, <span class="at">y =</span> p_cc, <span class="at">yend =</span> p_sim), <span class="at">color=</span><span class="st">&quot;#9F7FCD&quot;</span>, <span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">alpha =</span> .<span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb159-31"><a href="module-2-dealing-with-missingness.html#cb159-31" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">y =</span> p_cc), <span class="at">colour =</span> <span class="st">&quot;#ED7C97&quot;</span>, <span class="at">shape =</span> <span class="st">&quot;triangle&quot;</span>, <span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb159-32"><a href="module-2-dealing-with-missingness.html#cb159-32" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">y =</span> p_sim, <span class="at">ymin =</span> p_sim, <span class="at">ymax =</span> p_sim), <span class="at">colour =</span> <span class="st">&quot;#F3E79A&quot;</span>, <span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb159-33"><a href="module-2-dealing-with-missingness.html#cb159-33" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb159-34"><a href="module-2-dealing-with-missingness.html#cb159-34" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fl">0.05</span>), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb159-35"><a href="module-2-dealing-with-missingness.html#cb159-35" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;darkgray&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb159-36"><a href="module-2-dealing-with-missingness.html#cb159-36" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Complete-case vs. sim-imputed dataset&quot;</span>, </span>
+<span id="cb159-37"><a href="module-2-dealing-with-missingness.html#cb159-37" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Trait&quot;</span>, <span class="at">y =</span> <span class="st">&quot;-ln(P-value)</span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="sc">+</span></span>
+<span id="cb159-38"><a href="module-2-dealing-with-missingness.html#cb159-38" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>), </span>
+<span id="cb159-39"><a href="module-2-dealing-with-missingness.html#cb159-39" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb159-40"><a href="module-2-dealing-with-missingness.html#cb159-40" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb159-41"><a href="module-2-dealing-with-missingness.html#cb159-41" tabindex="-1"></a>        <span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="module-2-dealing-with-missingness.html#cb160-1" tabindex="-1"></a><span class="co"># Complete-case vs. full imputed dataset.</span></span>
+<span id="cb160-2"><a href="module-2-dealing-with-missingness.html#cb160-2" tabindex="-1"></a><span class="fu">ggplot</span>(dfPvalues) <span class="sc">+</span></span>
+<span id="cb160-3"><a href="module-2-dealing-with-missingness.html#cb160-3" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">xend =</span> trait, <span class="at">y =</span> p_cc, <span class="at">yend =</span> p_imp), <span class="at">color=</span><span class="st">&quot;#9F7FCD&quot;</span>, <span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">alpha =</span> .<span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb160-4"><a href="module-2-dealing-with-missingness.html#cb160-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">y =</span> p_cc), <span class="at">colour =</span> <span class="st">&quot;#ED7C97&quot;</span>, <span class="at">shape =</span> <span class="st">&quot;triangle&quot;</span>, <span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb160-5"><a href="module-2-dealing-with-missingness.html#cb160-5" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">y =</span> p_imp, <span class="at">ymin =</span> p_imp, <span class="at">ymax =</span> p_imp), <span class="at">colour =</span> <span class="st">&quot;#F3E79A&quot;</span>, <span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb160-6"><a href="module-2-dealing-with-missingness.html#cb160-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb160-7"><a href="module-2-dealing-with-missingness.html#cb160-7" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fl">0.05</span>), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb160-8"><a href="module-2-dealing-with-missingness.html#cb160-8" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;darkgray&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb160-9"><a href="module-2-dealing-with-missingness.html#cb160-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Complete-case vs. full imputed dataset&quot;</span>, </span>
+<span id="cb160-10"><a href="module-2-dealing-with-missingness.html#cb160-10" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Trait&quot;</span>, <span class="at">y =</span> <span class="st">&quot;-ln(P-value)</span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="sc">+</span></span>
+<span id="cb160-11"><a href="module-2-dealing-with-missingness.html#cb160-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>), </span>
+<span id="cb160-12"><a href="module-2-dealing-with-missingness.html#cb160-12" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb160-13"><a href="module-2-dealing-with-missingness.html#cb160-13" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb160-14"><a href="module-2-dealing-with-missingness.html#cb160-14" tabindex="-1"></a>        <span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-31-2.png" width="672" /></p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="module-2-dealing-with-missingness.html#cb161-1" tabindex="-1"></a><span class="co"># Reproductive mode did have a considerable amount of missingness (~40%)</span></span>
+<span id="cb161-2"><a href="module-2-dealing-with-missingness.html#cb161-2" tabindex="-1"></a></span>
+<span id="cb161-3"><a href="module-2-dealing-with-missingness.html#cb161-3" tabindex="-1"></a><span class="co"># It is important to consider how imputed values impact your results every step of the way, from accuracy of imputed values to the downstream impacts on inferences. But, imputation is a very powerful tool if used in the right way!</span></span></code></pre></div>
+<div class="callout-green">
+<span class="callout-icon"><i class="fas fa-circle-check" aria-hidden="true"></i></span>
+<div class="callout-content">
+<div class="callout-title-static" style="margin-bottom: 0.5em;">
+<p>Lab Completed!</p>
+</div>
+<p>Congratulations! You have completed Lab 2!</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="module-1-data-cleaning-and-exploration-review.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="module-3-modeling-part-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/bioinformaticsdotca/STAT_2024/blob/main/020-module-2.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

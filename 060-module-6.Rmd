@@ -1,0 +1,376 @@
+# Module 6: Introduction to Causal Intference
+
+## Lecture
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/b95iYue64DY?si=tCS_WQlz0fxeGqbV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<br>
+
+<iframe src="https://drive.google.com/file/d/1WmM0aBJqToy2aoi3gWesHjFlUcV-i_Lg/preview" width="640" height="480" allow="autoplay"></iframe>
+
+## Lab
+
+### Causal Interfence Introduction
+
+#### Estimating Propensity Scores
+
+First, we will look at how we can estimate propensity scores using the models we learned in previous modules including logistic regression and random forest.
+
+#### Load Libraries
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+library(tidyverse) # General functions and plots
+library(MatchIt)   # For propensity score estimation and matching
+library(cobalt)    # For balanced covariate check
+library(car)       # For diagnostics
+library(randomForest) # for random forest
+```
+
+#### Read in Data
+
+This dataset was taken from the "What If?" textbook by Robins & Hernan (2024). The codebook can be found at this [link](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fcdn1.sph.harvard.edu%2Fwp-content%2Fuploads%2Fsites%2F1268%2F2012%2F10%2FNHEFS_Codebook.xls&wdOrigin=BROWSELINK).
+
+Suppose we are interested in determining whether quitting smoking has a causal effect on weight gain. We are given this experimental data with important confounding variables such as smoking intensity, alcohol use, age, sex, race, education, and weight in 1971 that may impact individual's probabilities of quitting smoking. Let's account for these via propensity score analysis.
+```{r}
+# read in the data
+nhefs <- read.csv('./datasets/nhefs.csv') # Use your file path for this data
+```
+
+```{r,results='hide', message=FALSE, warning=FALSE}
+# look at dataset summary
+summary(nhefs)
+
+# look at structure of data
+str(nhefs)
+```
+
+```{r}
+# we want education, exercise, and active to be factors
+nhefs$education <- as.factor(nhefs$education)
+nhefs$exercise <- as.factor(nhefs$exercise)
+nhefs$active <- as.factor(nhefs$active)
+```
+
+Now let's look at missingness:
+```{r}
+# find % missingness
+apply(nhefs,2,function(x) sum(is.na(x)))/dim(nhefs)[1]
+```
+
+We might notice high levels of missingness in some columns. For those with moderate missingness, we can consider imputation while those with higher levels should be removed. However, it is important to look at the codebook to see if we can figure out why some of these have such high missingness. For instance, we will notice that alcoholhowmuch is missing for individuals who don't use alcohol. We can impute this with 0 for these individuals.
+```{r}
+# look at alcoholhowmuch across alcohol frequency
+nhefs %>% 
+  group_by(alcoholfreq) %>%
+  summarize(mean(alcoholhowmuch, na.rm=T))
+  
+
+# impute alcoholhowmuch
+nhefs <- nhefs %>%
+          mutate(alcoholhowmuch=case_when(
+            alcoholfreq==4~0,
+            alcoholfreq!=4~alcoholhowmuch
+          ))
+```
+
+For the purpose of this example, we will go ahead and just remove any observations with remaining missingness in the covariates of interest. However, in real applications, I would recommend imputing these values instead as long as the variable does not exhibit too high a percentage of missingness.
+```{r}
+# now let's see how that improved missingness
+apply(nhefs,2,function(x) sum(is.na(x)))/dim(nhefs)[1]
+
+# removing missing data for the purpose of example
+nhefs_c <- nhefs %>%
+  drop_na(qsmk, sex, race, age, education, smokeintensity, smokeyrs, 
+          exercise, active, wt71)
+```
+
+#### Looking at Balance
+
+Given that this dataset comes from an observational study, we should assess whether the covariates are balanced across our exposure groups (quit smoking/did not quit). To do this, we can use the cobalt package in R which has helpful functions bal.tab() and bal.plot().
+```{r}
+# For bal.tab, we can supply it with our propensity score formula
+bal.tab(qsmk ~ sex + race + age + education
+        + smokeintensity + smokeyrs
+        + exercise + active
+        + wt71, data = nhefs, m.threshold=0.1)
+
+# alternatively, we can visualize the balance with bal.plot()
+# sex plot
+bal.plot(qsmk ~ sex + race + age + education
+         + smokeintensity + smokeyrs
+         + exercise + active
+         + wt71, data = nhefs, var.name = "sex")
+
+# age plot
+bal.plot(qsmk ~ sex + race + age + education
+         + smokeintensity + smokeyrs
+         + exercise + active
+         + wt71, data = nhefs, var.name = "age")
+```
+
+#### Propensity Score Estimation
+
+We can estimate propensity scores for binary treatment variables using some of the methods we have learned in this course including logistic regression and random forest.
+
+##### Logistic Regression
+
+```{r}
+# fit the logistic regression
+fit1 <- glm(qsmk ~ sex + race + age + education
+            + smokeintensity + smokeyrs
+             + exercise + active
+            + wt71, data=nhefs, family=binomial())
+summary(fit1)
+
+# do we need any polynomial terms or transformations?
+crPlot(fit1, variable="smokeintensity")
+crPlot(fit1, variable="age")
+crPlot(fit1, variable="smokeyrs")
+crPlot(fit1, variable="wt71")
+
+# now extract the propensity score (i.e., predicted probability of quitting smoking)
+ps_log1 <- predict(fit1, nhefs, type="response")
+```
+
+We can also estimate these propensity scores with the matchit function from the MatchIt package, which will fit the logistic model for us. We can let it know to estimate propensity scores by setting distance = "glm".
+```{r}
+# we set method = NULL so that no matching will occur
+m.out0 <- matchit(qsmk ~ sex + race + age + education
+                  + smokeintensity +  smokeyrs +
+                    exercise + active
+                  + wt71, data=nhefs,
+                  method = NULL, distance = "glm")
+
+ps_log2 <- m.out0$distance
+```
+
+What do our propensity scores look like? Let's first see if the propensity scores we found are the same as those found by matchit. Then we can plot the distribution of the propensity score within each treatment group.
+```{r}
+# are propensity scores equal between logistic and matchit?
+sum(ps_log1==ps_log2)
+
+# let's add this propensity score to nhefs as "ps_log"
+nhefs$ps_log <- ps_log1
+
+# plot of distribution of propensity scores within each treatment
+# compare distributions of propensity scores for each group
+ggplot(nhefs, aes(x = ps_log, group = as.factor(qsmk), fill=as.factor(qsmk))) +
+  geom_histogram(position = "stack", bins = 30, color = "black", alpha = 0.7) +
+  labs(
+    title = "Stacked Histogram of Propensity Scores by Treatment Group",
+    x = "Propensity Score",
+    y = "Count",
+    fill = "Quit Smoking?"
+  ) +
+  theme_minimal()
+```
+
+#### Random Forest
+
+Let's fit a random forest model instead to calculate the propensity scores.
+```{r}
+# Fit the random forest model
+rf_model <- randomForest(as.factor(qsmk) ~ sex + race + age + education
+                  + smokeintensity +  smokeyrs +
+                    exercise + active
+                  + wt71, data=nhefs)
+
+# Print the model summary
+print(rf_model)
+
+# calculate propensity scores
+ps_rf1 <- predict(rf_model, type="prob")[,2]
+```
+
+Again, we can use the matchit function to fit this random forest for us by setting distance="randomforest".
+```{r}
+# we set method = NULL so that no matching will occur
+m.out.rf <- matchit(qsmk ~ sex + race + age + education
+                  + smokeintensity +  smokeyrs +
+                    exercise + active
+                  + wt71, data=nhefs,
+                  method = NULL, distance = "randomforest")
+
+ps_rf2 <- m.out.rf$distance
+```
+
+Let's compare the propensity scores calculated via our random forest and the random forest in matchit.
+```{r}
+# are propensity scores equal between our rf and matchit?
+sum(ps_rf1==ps_rf2)
+
+# let's add this propensity score to nhefs as "ps_rf"
+nhefs$ps_rf <- ps_rf1
+
+# plot of distribution of propensity scores within each treatment
+# compare distributions of propensity scores for each group
+ggplot(nhefs, aes(x = ps_rf, group = as.factor(qsmk), fill=as.factor(qsmk))) +
+  geom_histogram(position = "stack", bins = 30, color = "black", alpha = 0.7) +
+  labs(
+    title = "Stacked Histogram of Propensity Scores by Treatment Group",
+    x = "Propensity Score",
+    y = "Count",
+    fill = "Quit Smoking?"
+  ) +
+  theme_minimal()
+```
+
+Why are the propensity scores different for the random forest? Because of the 'random' part of random forest. We could have used set.seed() to avoid this.
+
+#### Accounting for Propensity Scores
+
+Now that we have our propensity scores we can use them in our analysis to estimate the causal effect of quitting smoking on weight gain.
+
+##### Matching
+
+First, we will look at an example of matching. The matchit function can conduct nearest matching for us by setting the method="nearest".
+```{r}
+# we can set distance to a propensity score method as we did previously:
+m.out1 <- matchit(qsmk ~ sex + race + age + education
+                  + smokeintensity +  smokeyrs +
+                    exercise + active
+                  + wt71, data=nhefs,
+                  method = "nearest", distance = "glm")
+m.out1 # notice that our matched sample is quite a bit smaller
+
+# or we can set distance to a pre-calculated propensity score:
+m.out2 <- matchit(qsmk ~ sex + race + age + education
+                  + smokeintensity +  smokeyrs +
+                    exercise + active
+                  + wt71, data=nhefs,
+                  method = "nearest", distance = nhefs$ps_rf)
+m.out2 # notice that our matched sample is quite a bit smaller
+```
+
+Now we can re-check the covariate balance in our new matched sample.
+```{r}
+
+# 1. for logistic regression propensity score
+# covariate balance summary table
+bal.tab(m.out1, m.threshold=0.1)
+
+# covariate balance plots
+bal.plot(m.out1, var.name = "sex")
+bal.plot(m.out1, var.name = "smokeyrs")
+
+# 2. for random forest propensity score
+# covariate balance summary table
+bal.tab(m.out2, m.threshold=0.1)
+
+# covariate balance plots
+bal.plot(m.out2, var.name = "sex")
+bal.plot(m.out2, var.name = "smokeyrs")
+```
+
+It looks like our logistic regression did a better job of correcting the balance between those who quit smoking and those who did not so we will continue with this option.
+
+Now let's estimate the effect of quitting smoking on weight gain in the matched sample from m.out1.
+```{r}
+# extract the matched data
+matched <- match.data(m.out1)
+
+# estimate ATT with linear regression model
+match_lm <- lm(wt82_71~qsmk, data=matched)
+summary(match_lm) # significant treatment effect in matched sample
+```
+
+We could also go ahead and conduct our model diagnostics here to make sure that our model fits the data well.
+```{r}
+# normality
+qqPlot(residuals(match_lm))
+# constant variance
+plot(residuals(match_lm)~fitted(match_lm))
+```
+
+We see in the plots that the residuals are not normally distributed which could be due to the fact that we only have one binary predictor which does not explain our data very well (R2=0.033). We can add in some of the covariates that we think might explain our outcome better if we wanted to try and improve model fit.
+
+##### Stratified
+
+We can create strata based on the propensity scores we calculated previously. Let's use the logistic regression propensity scores again.
+```{r}
+# calculation of deciles
+nhefs$ps.dec <- cut(nhefs$ps_log, 
+                    breaks=c(quantile(nhefs$ps_log, probs=seq(0,1,0.1))),
+                    labels=seq(1:10),
+                    include.lowest=TRUE)
+
+# how many in each strata?
+table(nhefs$ps.dec)
+```
+
+Now we want to check the balance within each strata. We can use the cluster argument in bal.tab to do this.
+```{r, results='hide', message=FALSE, warning=FALSE}
+# check balance within strata
+bal.tab(qsmk ~ sex + race + age + education
+        + smokeintensity + smokeyrs
+        + exercise + active
+        + wt71, data = nhefs, m.threshold=0.1, cluster=nhefs$ps.dec)
+```
+
+We can see that the balancing did not work for every strata. We can try playing around with the strata number to see if we can improve upon these results. For instance, we could use quantiles instead of deciles,
+```{r}
+nhefs$ps.dec2 <- cut(nhefs$ps_log, 
+                    breaks=c(quantile(nhefs$ps_log, probs=seq(0,1,0.2))),
+                    labels=seq(1:5),
+                    include.lowest=TRUE)
+```
+
+For now, let's stick with our 10 initial strata and estimate the treatment effect. The first method is to look at the treatment effect within each strata. To do this, let's conduct a t.test within each strata.
+```{r, results='hide', message=FALSE, warning=FALSE}
+# set up for loop for t test
+for (i in 1:10) {
+  print(t.test(wt82_71~qsmk, data=nhefs[nhefs$ps.dec==i,]))
+}
+```
+
+Alternatively, we can include the clusters in a regression model with or without an interaction between strata and treatment. We will also include some of the covariates that were not properly balanced to make sure we are accounting for them.
+```{r}
+# Fit linear model for treatment effect
+strat_mod <- lm(wt82_71~qsmk+ps.dec+wt71+smokeintensity+smokeyrs, data=nhefs)
+summary(strat_mod)
+```
+
+##### Inverse Probability Weighting
+
+For inverse probability weighting, we need to calculate the weights given the propensity scores as
+
+$w_i = \frac{A_i}{\pi_i}+\frac{(1-A_i)}{1-\pi_i},$
+
+where $A_i$ is the treatment level for individual i and $\pi_i$ is the propensity score for individual i.
+```{r, results='hide', message=FALSE, warning=FALSE}
+# with the propensity scores, let's calculate the weights
+nhefs <- nhefs %>%
+          mutate(weights = case_when(qsmk==1~1/ps_log,
+                                     qsmk==0~1/(1-ps_log)))
+nhefs$weights
+
+# let's visualize the weights
+hist(nhefs$weights)
+boxplot(nhefs$weights)
+
+# let's look at the treatment and propensity score for largest weight and smallest weight
+nhefs[which.min(nhefs$weights), c("ps_log", "qsmk")]
+nhefs[which.max(nhefs$weights), c("ps_log", "qsmk")]
+```
+
+Now that we have our weights, we can check the balance in the weighted sample using the weights argument in bal.tab
+```{r}
+# now check balance in weighted sample
+bal.tab(qsmk ~ sex + race + age + education
+        + smokeintensity + smokeyrs
+        + exercise + active
+        + wt71, data = nhefs, m.threshold=0.1, weights=nhefs$weights)
+```
+
+Finally, let's estimate the treatment effect again.
+```{r}
+# now we can fit our linear model to the weighted sample
+weight_lm <- lm(wt82_71~qsmk, weights=weights, data=nhefs)
+summary(weight_lm)
+```
+
+:::: {.callout type="green" title="Lab Completed!"}
+
+Congratulations! You have completed Lab 6!
+
+::::

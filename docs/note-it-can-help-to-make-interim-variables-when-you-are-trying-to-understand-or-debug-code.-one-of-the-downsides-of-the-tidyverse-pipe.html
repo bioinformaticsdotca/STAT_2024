@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Note: it can help to make interim variables when you are trying to understand or debug code. One of the downsides of the tidyverse pipe! | Help! What Statistical Model Should I Use? 2024</title>
+  <meta name="description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Note: it can help to make interim variables when you are trying to understand or debug code. One of the downsides of the tidyverse pipe! | Help! What Statistical Model Should I Use? 2024" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://cbw-dev.github.io/STAT_2024/img/bioinformatics_logo.png" />
+  <meta property="og:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="github-repo" content="cbw-dev/STAT_2024" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Note: it can help to make interim variables when you are trying to understand or debug code. One of the downsides of the tidyverse pipe! | Help! What Statistical Model Should I Use? 2024" />
+  
+  <meta name="twitter:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="twitter:image" content="https://cbw-dev.github.io/STAT_2024/img/bioinformatics_logo.png" />
+
+<meta name="author" content="Faculty: Patrick McMillan, Alysha Cooper, Jacqueline May" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="module-2-dealing-with-missingness.html"/>
+<link rel="next" href="module-3-modeling-part-1.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<a href="https://bioinformaticsdotca.github.io/">
+ <img src="img/bioinformatics_logo.png" width="90%" alt="bioinformatics.ca logo" style="display:block; margin-left:auto; margin-right:auto; margin-top:15px;">
+ </a>
+<li><center><strong><a href="./"><br>Help! What Statistical Model Should I Use?<br><br></a></strong></center></li>
+<a href="./">
+ <img src="img/STAT_2024_icon.png" width="70%" alt="Help! What Statistical Model Should I Use? logo" style="display:block; margin-left:auto; margin-right:auto; ">
+ </a>
+<br>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Workshop Info</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i>Schedule</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#pre-work"><i class="fa fa-check"></i>Pre-work</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-and-compute-setup.html"><a href="data-and-compute-setup.html"><i class="fa fa-check"></i>Data and Compute Setup</a></li>
+<li class="part"><span><b>II Modules</b></span></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html"><i class="fa fa-check"></i>Module 1: Data Cleaning and Exploration Review</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lecture"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lab"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#load-libraries--"><i class="fa fa-check"></i>Load Libraries —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#read-in-data--"><i class="fa fa-check"></i>Read in Data —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#looking-at-your-data.--"><i class="fa fa-check"></i>Looking at your data. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#working-with-different-data-types.--"><i class="fa fa-check"></i>Working with different data types. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#summary-stats.--"><i class="fa fa-check"></i>Summary stats. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#exploratory-plots.--"><i class="fa fa-check"></i>Exploratory plots. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#outlier-detection.--"><i class="fa fa-check"></i>Outlier detection. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#dimensionality-reduction.--"><i class="fa fa-check"></i>Dimensionality reduction. —-</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html"><i class="fa fa-check"></i>Module 2: Dealing with Missingness</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lecture-1"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lab-1"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#load-libraries.--"><i class="fa fa-check"></i>Load libraries. —-</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#read-in-data.--"><i class="fa fa-check"></i>Read in data. —-</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#missing-data-exploration.--"><i class="fa fa-check"></i>Missing data exploration. —-</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><i class="fa fa-check"></i>Note: it can help to make interim variables when you are trying to understand or debug code. One of the downsides of the tidyverse pipe!</a>
+<ul>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#imputation-prep.--"><i class="fa fa-check"></i>Imputation prep. —-</a></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#missingness-simulation.--"><i class="fa fa-check"></i>Missingness simulation. —-</a></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#meanmode-imputation.--"><i class="fa fa-check"></i>Mean/mode imputation. —-</a></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#k-nearest-neighbour-imputation--"><i class="fa fa-check"></i>K-Nearest Neighbour Imputation —-</a></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#random-forest-imputation--"><i class="fa fa-check"></i>Random forest imputation —-</a></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#mice.--"><i class="fa fa-check"></i>MICE. —-</a></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#error-rates.--"><i class="fa fa-check"></i>Error rates. —-</a></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#impute-the-full-dataset.--"><i class="fa fa-check"></i>Impute the full dataset. —-</a></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#compare-inferences-obtained-from-complete-case-and-imputed-datasets.--"><i class="fa fa-check"></i>Compare inferences obtained from complete-case and imputed datasets. —-</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html"><i class="fa fa-check"></i>Module 3: Modeling Part 1</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lecture-2"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#regression"><i class="fa fa-check"></i>Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#generalized-linear-models"><i class="fa fa-check"></i>Generalized Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lab-2"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#loading-the-libraries"><i class="fa fa-check"></i>Loading the Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#multiple-linear-regression-and-the-dietswap-data"><i class="fa fa-check"></i>Multiple Linear Regression and the Dietswap Data</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#logistic-regression"><i class="fa fa-check"></i>Logistic Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#binomial-regression"><i class="fa fa-check"></i>Binomial Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#poisson-regression"><i class="fa fa-check"></i>Poisson Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#negative-binomial"><i class="fa fa-check"></i>Negative Binomial</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#independent-work"><i class="fa fa-check"></i>Independent Work</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html"><i class="fa fa-check"></i>Module 4: Modeling Part 2</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lecture-3"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lab-3"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html"><i class="fa fa-check"></i>Module 5: Putting it all Together</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lecture-4"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lab-4"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html"><i class="fa fa-check"></i>Module 6: Introduction to Causal Intference</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lecture-5"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lab-5"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="divider"></li>
+<h1 id="sponsors">Sponsors</h1>
+<center>
+
+<a href="https://oicr.on.ca/"><img src="img/sponsors/oicr.png" width=25% style="display:inline-block;" style="padding-bottom: 20px" alt="Ontario Institute for Cancer Research logo.">
+<a href="https://www.hpcforhealth.ca/"><img src="img/sponsors/hpc4health.png" width=60% style="display:inline-block;" style="padding-bottom: 20px "alt="HPC4Health logo.">
+<br>
+<a href="https://genomecanada.ca/"><img src="img/sponsors/genomecanada.png" height="70" style="display:inline-block;"  style="padding-bottom: 20px" alt="Genome Canada logo.">
+<a href="https://www.ontariogenomics.ca/"><img src="img/sponsors/ontariogenomics.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Ontario Genomics logo.">
+<br>
+<a href="https://computationalgenomics.ca/"><img src="img/sponsors/c3g.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Canadian Centre for Computational Genomics logo.">
+<br><br>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Help! What Statistical Model Should I Use? 2024</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe" class="section level1 hasAnchor">
+<h1>Note: it can help to make interim variables when you are trying to understand or debug code. One of the downsides of the tidyverse pipe!<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb134-1" tabindex="-1"></a><span class="co"># ggplot for missingness visualization</span></span>
+<span id="cb134-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb134-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(dfMissing) <span class="sc">+</span></span>
+<span id="cb134-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb134-3" tabindex="-1"></a>  <span class="co"># Barplot ordered by missingness</span></span>
+<span id="cb134-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb134-4" tabindex="-1"></a>  <span class="co"># reorder function from R documentation: &quot;The &quot;default&quot; method treats its first argument as a categorical variable, and reorders its levels based on the values of a second variable, usually numeric.&quot;</span></span>
+<span id="cb134-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb134-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(trait, <span class="fu">desc</span>(pct_missing)), <span class="at">y =</span> pct_missing), </span>
+<span id="cb134-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb134-6" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="at">fill =</span> <span class="st">&quot;seagreen&quot;</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb134-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb134-7" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb134-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb134-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Percentage of Missing Values by Trait&quot;</span>, <span class="at">x =</span> <span class="st">&#39;Trait&#39;</span>, <span class="at">y =</span> <span class="st">&quot;% of Missing Values&quot;</span>) <span class="sc">+</span></span>
+<span id="cb134-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb134-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) </span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb135-1" tabindex="-1"></a><span class="co"># Using the package &quot;naniar&quot; to visualize missing data.</span></span>
+<span id="cb135-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb135-2" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(dfTraits[traits])</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb136-1" tabindex="-1"></a><span class="co"># Clustering by missingness may help you see patterns</span></span>
+<span id="cb136-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb136-2" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(dfTraits[traits], <span class="at">cluster =</span> T, <span class="at">sort_miss =</span> T)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-21-3.png" width="672" /></p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb137-1" tabindex="-1"></a><span class="co"># Upset plots to identify missingness combinations.</span></span>
+<span id="cb137-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb137-2" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">gg_miss_upset</span>(dfTraits[traits])</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-21-4.png" width="672" /></p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb138-1" tabindex="-1"></a><span class="co"># Here&#39;s the kicker! How many species do we lose if we use complete case observations?</span></span>
+<span id="cb138-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb138-2" tabindex="-1"></a>dfCompleteCase <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(dfTraits)</span>
+<span id="cb138-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb138-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;We lose&quot;</span>, <span class="fu">nrow</span>(dfTraits) <span class="sc">-</span> <span class="fu">nrow</span>(dfCompleteCase), <span class="st">&quot;species!&quot;</span>)</span></code></pre></div>
+<pre><code>## We lose 6283 species!</code></pre>
+<div id="imputation-prep.--" class="section level3 hasAnchor">
+<h3>Imputation prep. —-<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#imputation-prep.--" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb140-1" tabindex="-1"></a><span class="co"># Only some traits are amenable to imputation and we need to do some more preprocessing before we impute our values.</span></span>
+<span id="cb140-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb140-2" tabindex="-1"></a><span class="fu">names</span>(dfTraits)</span></code></pre></div>
+<pre><code>##  [1] &quot;family&quot;                  &quot;genus&quot;                  
+##  [3] &quot;species&quot;                 &quot;latitude&quot;               
+##  [5] &quot;insular_endemic&quot;         &quot;maximum_svl&quot;            
+##  [7] &quot;hatchling_neonate_svl&quot;   &quot;activity_time&quot;          
+##  [9] &quot;diet&quot;                    &quot;foraging_mode&quot;          
+## [11] &quot;reproductive_mode&quot;       &quot;largest_clutch&quot;         
+## [13] &quot;age_first_breeding&quot;      &quot;iucn_redlist_assessment&quot;</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-1" tabindex="-1"></a><span class="co"># Set row names as species so we have a form of ID.</span></span>
+<span id="cb142-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-2" tabindex="-1"></a><span class="fu">rownames</span>(dfTraits) <span class="ot">&lt;-</span> dfTraits<span class="sc">$</span>species</span>
+<span id="cb142-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-3" tabindex="-1"></a></span>
+<span id="cb142-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-4" tabindex="-1"></a><span class="co"># Imputing traits with high proportions of missingness could be problematic. Based on our visualizations, let&#39;s set a threshold of 60% missingness as our cutoff.</span></span>
+<span id="cb142-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-5" tabindex="-1"></a><span class="co"># Note: this is an arbitrary threshold I am using right now. In reality, this is something you could perform sensitivity analyses on. There is no &quot;right&quot; answer for how much missingness is too much. It&#39;s a combination of many factors (e.g., sample size, strength of relationships between variables, missingness mechanism, etc.). So you probably don&#39;t want to impute a variable with only a few observations and 90% missingness, for example.</span></span>
+<span id="cb142-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-6" tabindex="-1"></a>dfFiltered <span class="ot">&lt;-</span> dfTraits <span class="sc">%&gt;%</span> </span>
+<span id="cb142-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-7" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="fu">all_of</span>(taxCols), <span class="do">## leave out taxonomy also for imputation purposes</span></span>
+<span id="cb142-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-8" tabindex="-1"></a>            age_first_breeding, foraging_mode, hatchling_neonate_svl)) <span class="do">## traits with most amount of missingness)) </span></span>
+<span id="cb142-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-9" tabindex="-1"></a></span>
+<span id="cb142-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-10" tabindex="-1"></a><span class="co"># Update our trait vectors.</span></span>
+<span id="cb142-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-11" tabindex="-1"></a>catTraits <span class="ot">&lt;-</span> catTraits[<span class="sc">!</span>catTraits <span class="sc">%in%</span> <span class="st">&quot;foraging_mode&quot;</span>]</span>
+<span id="cb142-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-12" tabindex="-1"></a>contTraits <span class="ot">&lt;-</span> contTraits[<span class="sc">!</span>contTraits <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;age_first_breeding&quot;</span>, <span class="st">&quot;hatchling_neonate_svl&quot;</span>)]</span>
+<span id="cb142-13"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-13" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(catTraits, contTraits)</span>
+<span id="cb142-14"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-14" tabindex="-1"></a></span>
+<span id="cb142-15"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-15" tabindex="-1"></a><span class="co"># Visualize the missingness of our subset. This also gives you an idea of which combination of traits would give you the largest complete-case dataset.</span></span>
+<span id="cb142-16"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb142-16" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(dfFiltered, <span class="at">cluster =</span> T, <span class="at">sort_miss =</span> T)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb143-1" tabindex="-1"></a><span class="co"># Imputation methods can be sensitive to class imbalance issues, as some categories may be over or underrepresented.</span></span>
+<span id="cb143-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb143-2" tabindex="-1"></a><span class="co"># Let&#39;s check our categorical traits for severe class imbalances or lack of variation or just for categories we should fix in general.</span></span>
+<span id="cb143-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb143-3" tabindex="-1"></a><span class="fu">lapply</span>(dfFiltered[catTraits], table)</span></code></pre></div>
+<pre><code>## $insular_endemic
+## 
+##      no unknown     yes 
+##    4610       1    2001 
+## 
+## $activity_time
+## 
+## Cathemeral    Diurnal  Nocturnal 
+##        267       3570       1243 
+## 
+## $diet
+## 
+## Carnivorous Herbivorous  Omnivorous 
+##        2681         157         509 
+## 
+## $reproductive_mode
+## 
+##      Mixed  Oviparous    unclear Viviparous 
+##         20       3304         11        707 
+## 
+## $iucn_redlist_assessment
+## 
+##    CR    DD    EN    LC LR/lc LR/nt    NE    NT    VU 
+##   139   451   322  2148     4     8  3009   253   278</code></pre>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb145-1" tabindex="-1"></a><span class="co"># Look at diet. &quot;Herbivorous&quot; is a minor category. We check if this category makes up more than 10% of the observed data.</span></span>
+<span id="cb145-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb145-2" tabindex="-1"></a><span class="fu">sum</span>(dfFiltered<span class="sc">$</span>diet <span class="sc">==</span> <span class="st">&quot;Herbivorous&quot;</span>, <span class="at">na.rm =</span> T)<span class="sc">/</span><span class="fu">sum</span>(dfFiltered<span class="sc">$</span>diet <span class="sc">!=</span> <span class="st">&quot;Herbivorous&quot;</span>, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>## [1] 0.0492163</code></pre>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-1" tabindex="-1"></a><span class="co"># Consider removing rare categories (those less than 10% of the data, for example). You could use a different threshold for your data if you had a large enough sample size.</span></span>
+<span id="cb147-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-2" tabindex="-1"></a><span class="co"># Let&#39;s remove the rare categories:</span></span>
+<span id="cb147-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-3" tabindex="-1"></a>dfFiltered <span class="ot">&lt;-</span> dfFiltered <span class="sc">%&gt;%</span></span>
+<span id="cb147-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-4" tabindex="-1"></a>  <span class="fu">filter</span>(diet <span class="sc">!=</span> <span class="st">&quot;Herbivorous&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(diet),</span>
+<span id="cb147-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-5" tabindex="-1"></a>         activity_time <span class="sc">!=</span> <span class="st">&quot;Cathemeral&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(activity_time),</span>
+<span id="cb147-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-6" tabindex="-1"></a>         insular_endemic <span class="sc">!=</span> <span class="st">&quot;unknown&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(insular_endemic),</span>
+<span id="cb147-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-7" tabindex="-1"></a>         reproductive_mode <span class="sc">==</span> <span class="st">&quot;Oviparous&quot;</span> <span class="sc">|</span> reproductive_mode <span class="sc">==</span> <span class="st">&quot;Viviparous&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(reproductive_mode),</span>
+<span id="cb147-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-8" tabindex="-1"></a>         iucn_redlist_assessment <span class="sc">==</span> <span class="st">&quot;LC&quot;</span> <span class="sc">|</span> iucn_redlist_assessment <span class="sc">==</span> <span class="st">&quot;NE&quot;</span> <span class="sc">|</span> <span class="fu">is.na</span>(iucn_redlist_assessment)</span>
+<span id="cb147-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-9" tabindex="-1"></a>         ) <span class="do">## need to specify that we are keeping NAs because filter will remove them!</span></span>
+<span id="cb147-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-10" tabindex="-1"></a></span>
+<span id="cb147-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-11" tabindex="-1"></a><span class="co"># Check distributions of numerical traits once more.</span></span>
+<span id="cb147-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb147-12" tabindex="-1"></a><span class="fu">lapply</span>(dfFiltered[contTraits], hist)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-22-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-22-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-22-4.png" width="672" /></p>
+<pre><code>## $latitude
+## $breaks
+##  [1] -60 -50 -40 -30 -20 -10   0  10  20  30  40  50  60
+## 
+## $counts
+##  [1]   3  73 257 678 663 631 771 846 505 282  75   3
+## 
+## $density
+##  [1] 6.266973e-05 1.524963e-03 5.368707e-03 1.416336e-02 1.385001e-02
+##  [6] 1.318153e-02 1.610612e-02 1.767286e-02 1.054940e-02 5.890955e-03
+## [11] 1.566743e-03 6.266973e-05
+## 
+## $mids
+##  [1] -55 -45 -35 -25 -15  -5   5  15  25  35  45  55
+## 
+## $xname
+## [1] &quot;X[[i]]&quot;
+## 
+## $equidist
+## [1] TRUE
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;histogram&quot;
+## 
+## $maximum_svl
+## $breaks
+##  [1]    0  100  200  300  400  500  600  700  800  900 1000 1100 1200
+## 
+## $counts
+##  [1] 3540  997  140   50   17   23    5    7    3    2    0    1
+## 
+## $density
+##  [1] 7.398119e-03 2.083595e-03 2.925810e-04 1.044932e-04 3.552769e-05
+##  [6] 4.806688e-05 1.044932e-05 1.462905e-05 6.269592e-06 4.179728e-06
+## [11] 0.000000e+00 2.089864e-06
+## 
+## $mids
+##  [1]   50  150  250  350  450  550  650  750  850  950 1050 1150
+## 
+## $xname
+## [1] &quot;X[[i]]&quot;
+## 
+## $equidist
+## [1] TRUE
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;histogram&quot;
+## 
+## $largest_clutch
+## $breaks
+##  [1]   0  10  20  30  40  50  60  70  80  90 100
+## 
+## $counts
+##  [1] 2315  209   42   18    8    8    5    1    0    2
+## 
+## $density
+##  [1] 8.876534e-02 8.013804e-03 1.610429e-03 6.901840e-04 3.067485e-04
+##  [6] 3.067485e-04 1.917178e-04 3.834356e-05 0.000000e+00 7.668712e-05
+## 
+## $mids
+##  [1]  5 15 25 35 45 55 65 75 85 95
+## 
+## $xname
+## [1] &quot;X[[i]]&quot;
+## 
+## $equidist
+## [1] TRUE
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;histogram&quot;</code></pre>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb149-1" tabindex="-1"></a><span class="co"># Finally, let&#39;s ensure we have the correct data classes.</span></span>
+<span id="cb149-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb149-2" tabindex="-1"></a>dfFiltered[contTraits] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfFiltered[contTraits], as.numeric)</span>
+<span id="cb149-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb149-3" tabindex="-1"></a><span class="co"># Factor is the class required for imputation of categorical traits. It is also the data class required for categorical variables in many statistical analyses.</span></span>
+<span id="cb149-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb149-4" tabindex="-1"></a>dfFiltered[catTraits] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfFiltered[catTraits], as.factor)</span></code></pre></div>
+</div>
+<div id="missingness-simulation.--" class="section level3 hasAnchor">
+<h3>Missingness simulation. —-<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#missingness-simulation.--" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-1" tabindex="-1"></a><span class="co"># The first thing we are going to do is make a complete-case dataset.</span></span>
+<span id="cb150-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-2" tabindex="-1"></a>dfCompleteCase <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(dfFiltered)</span>
+<span id="cb150-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-3" tabindex="-1"></a></span>
+<span id="cb150-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-4" tabindex="-1"></a><span class="co"># We are going to log-transform our skewed numerical traits to make the distributions approximately normal. This can help with certain types of imputation methods, but isn&#39;t always necessary. </span></span>
+<span id="cb150-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-5" tabindex="-1"></a>dfLog <span class="ot">&lt;-</span> dfCompleteCase <span class="do">## making a copy of the complete-case dataframe</span></span>
+<span id="cb150-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-6" tabindex="-1"></a>dfLog[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfLog[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], log)</span>
+<span id="cb150-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-7" tabindex="-1"></a></span>
+<span id="cb150-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-8" tabindex="-1"></a><span class="co"># Now, set the seed so you can reproduce your results. This is VERY important!</span></span>
+<span id="cb150-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-9" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb150-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-10" tabindex="-1"></a><span class="co"># To simulate missingness, let&#39;s introduce some NAs into the dataset using the prodNA function. Any data introduced using this function is missing completely at random (MCAR). If you are interested in simulated MAR or MNAR data, check out the mice::ampute function.</span></span>
+<span id="cb150-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-11" tabindex="-1"></a>?prodNA</span>
+<span id="cb150-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-12" tabindex="-1"></a><span class="co"># noNA = the proportion of missingness we want to introduce</span></span>
+<span id="cb150-13"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-13" tabindex="-1"></a>dfMissing <span class="ot">&lt;-</span> <span class="fu">prodNA</span>(dfLog, <span class="at">noNA =</span> <span class="fl">0.1</span>)</span>
+<span id="cb150-14"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-14" tabindex="-1"></a><span class="co"># Let&#39;s make sure it worked.</span></span>
+<span id="cb150-15"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb150-15" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(dfMissing))<span class="sc">/</span><span class="fu">prod</span>(<span class="fu">dim</span>(dfMissing))</span></code></pre></div>
+<pre><code>## [1] 0.1</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb152-1" tabindex="-1"></a><span class="fu">view</span>(dfMissing)</span></code></pre></div>
+</div>
+<div id="meanmode-imputation.--" class="section level3 hasAnchor">
+<h3>Mean/mode imputation. —-<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#meanmode-imputation.--" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb153-1" tabindex="-1"></a><span class="co"># Mean/mode is the simplest imputation method and it is pretty easy to do. It&#39;s a good baseline to compare other methods to.</span></span>
+<span id="cb153-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb153-2" tabindex="-1"></a></span>
+<span id="cb153-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb153-3" tabindex="-1"></a><span class="co"># Make a copy of dfMissing.</span></span>
+<span id="cb153-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb153-4" tabindex="-1"></a>dfMeanModeImp <span class="ot">&lt;-</span> dfMissing</span>
+<span id="cb153-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb153-5" tabindex="-1"></a></span>
+<span id="cb153-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb153-6" tabindex="-1"></a><span class="co"># Impute traits with mean for numerical traits and mode for categorical traits.</span></span>
+<span id="cb153-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb153-7" tabindex="-1"></a></span>
+<span id="cb153-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb153-8" tabindex="-1"></a><span class="co"># Mean value</span></span>
+<span id="cb153-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb153-9" tabindex="-1"></a><span class="fu">mean</span>(dfMeanModeImp<span class="sc">$</span>latitude, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>## [1] 0.06018001</code></pre>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb155-1" tabindex="-1"></a><span class="co"># Mode value</span></span>
+<span id="cb155-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb155-2" tabindex="-1"></a><span class="fu">table</span>(dfMeanModeImp<span class="sc">$</span>activity_time)</span></code></pre></div>
+<pre><code>## 
+##   Diurnal Nocturnal 
+##      1271       338</code></pre>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb157-1" tabindex="-1"></a><span class="fu">which.max</span>(<span class="fu">table</span>(dfMeanModeImp<span class="sc">$</span>activity_time))</span></code></pre></div>
+<pre><code>## Diurnal 
+##       1</code></pre>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb159-1" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(dfMeanModeImp<span class="sc">$</span>activity_time)))</span></code></pre></div>
+<pre><code>## [1] &quot;Diurnal&quot;</code></pre>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-1" tabindex="-1"></a><span class="co"># Use a for loop!:</span></span>
+<span id="cb161-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-2" tabindex="-1"></a><span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(traits)) {</span>
+<span id="cb161-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-3" tabindex="-1"></a>  </span>
+<span id="cb161-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-4" tabindex="-1"></a>  <span class="co"># Take the name of the tth trait.</span></span>
+<span id="cb161-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-5" tabindex="-1"></a>  trait <span class="ot">&lt;-</span> traits[[t]]</span>
+<span id="cb161-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-6" tabindex="-1"></a>  </span>
+<span id="cb161-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-7" tabindex="-1"></a>  <span class="co"># Identify missing values in the trait.</span></span>
+<span id="cb161-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-8" tabindex="-1"></a>  index <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">is.na</span>(dfMeanModeImp[trait]))</span>
+<span id="cb161-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-9" tabindex="-1"></a>  </span>
+<span id="cb161-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-10" tabindex="-1"></a>  <span class="co"># If trait is numeric..</span></span>
+<span id="cb161-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-11" tabindex="-1"></a>  <span class="cf">if</span>(trait <span class="sc">%in%</span> contTraits){</span>
+<span id="cb161-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-12" tabindex="-1"></a>    </span>
+<span id="cb161-13"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-13" tabindex="-1"></a>    <span class="co"># Replace all NA values with the mean of the known observations for the variable.</span></span>
+<span id="cb161-14"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-14" tabindex="-1"></a>    dfMeanModeImp[index, trait] <span class="ot">&lt;-</span> <span class="fu">mean</span>(dfMeanModeImp[[trait]], <span class="at">na.rm =</span> T)</span>
+<span id="cb161-15"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-15" tabindex="-1"></a>    </span>
+<span id="cb161-16"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-16" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(trait <span class="sc">%in%</span> catTraits){</span>
+<span id="cb161-17"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-17" tabindex="-1"></a>    </span>
+<span id="cb161-18"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-18" tabindex="-1"></a>    <span class="co"># Replace all NA values with the mode of the known observations for the variable.</span></span>
+<span id="cb161-19"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-19" tabindex="-1"></a>    dfMeanModeImp[index, trait] <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(dfMeanModeImp[[trait]])))</span>
+<span id="cb161-20"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-20" tabindex="-1"></a>    </span>
+<span id="cb161-21"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-21" tabindex="-1"></a>  }</span>
+<span id="cb161-22"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-22" tabindex="-1"></a>  </span>
+<span id="cb161-23"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-23" tabindex="-1"></a>}</span>
+<span id="cb161-24"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-24" tabindex="-1"></a></span>
+<span id="cb161-25"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-25" tabindex="-1"></a><span class="co"># Back-transform the log-transformed data because we will need to compare it to the original data to get our error rates.</span></span>
+<span id="cb161-26"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb161-26" tabindex="-1"></a>dfMeanModeImp[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfMeanModeImp[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp)</span></code></pre></div>
+</div>
+<div id="k-nearest-neighbour-imputation--" class="section level3 hasAnchor">
+<h3>K-Nearest Neighbour Imputation —-<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#k-nearest-neighbour-imputation--" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-1" tabindex="-1"></a><span class="co"># Let&#39;s try using KNN (K-Nearest Neighbour Imputation). Using a distance matrix, determines k neighbours that are closest to the observation with missing values. It then uses the information from the nearest neighbours to fill in the missing values.</span></span>
+<span id="cb162-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-2" tabindex="-1"></a>?kNN</span>
+<span id="cb162-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-3" tabindex="-1"></a></span>
+<span id="cb162-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-4" tabindex="-1"></a><span class="co"># data = dataframe with missing values, k = number of nearest neighbours used. Rule of thumb for k is to take the square root of n (sample size). This might be a parameter you want to tune, however.</span></span>
+<span id="cb162-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-5" tabindex="-1"></a>neighbours <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="fu">nrow</span>(dfMissing)))</span>
+<span id="cb162-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-6" tabindex="-1"></a>dfKNN <span class="ot">&lt;-</span> <span class="fu">kNN</span>(<span class="at">data =</span> dfMissing, <span class="at">k =</span> neighbours)</span>
+<span id="cb162-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-7" tabindex="-1"></a></span>
+<span id="cb162-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-8" tabindex="-1"></a><span class="fu">view</span>(dfKNN) <span class="do">## This is nice because it lets you track your imputed values.</span></span>
+<span id="cb162-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-9" tabindex="-1"></a></span>
+<span id="cb162-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-10" tabindex="-1"></a><span class="co"># Subset to only take the imputed values and not the indicator columns.</span></span>
+<span id="cb162-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-11" tabindex="-1"></a>dfKNN <span class="ot">&lt;-</span> dfKNN[, <span class="sc">-</span><span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">&quot;_imp&quot;</span>, <span class="at">x =</span> <span class="fu">names</span>(dfKNN))]</span>
+<span id="cb162-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-12" tabindex="-1"></a><span class="co"># Back-transform the log-transformed data.</span></span>
+<span id="cb162-13"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb162-13" tabindex="-1"></a>dfKNN[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfKNN[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp)</span></code></pre></div>
+</div>
+<div id="random-forest-imputation--" class="section level3 hasAnchor">
+<h3>Random forest imputation —-<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#random-forest-imputation--" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb163-1" tabindex="-1"></a><span class="co"># Builds a Random Forest model using the observed data to estimate those values that are missing. It is an iterative process that repeats until the imputed values stabilize.</span></span>
+<span id="cb163-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb163-2" tabindex="-1"></a>?missForest</span>
+<span id="cb163-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb163-3" tabindex="-1"></a></span>
+<span id="cb163-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb163-4" tabindex="-1"></a><span class="co"># xmix = dataframe with missing values, maxiter = max # of iterations performed, ntree = number of trees in the forest</span></span>
+<span id="cb163-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb163-5" tabindex="-1"></a>RFresult <span class="ot">&lt;-</span> <span class="fu">missForest</span>(<span class="at">xmis =</span> dfMissing, <span class="at">maxiter =</span> <span class="dv">10</span>, <span class="at">ntree =</span> <span class="dv">100</span>)</span>
+<span id="cb163-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb163-6" tabindex="-1"></a></span>
+<span id="cb163-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb163-7" tabindex="-1"></a><span class="co"># Look at the imputed dataframe.</span></span>
+<span id="cb163-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb163-8" tabindex="-1"></a><span class="fu">view</span>(RFresult<span class="sc">$</span>ximp)</span>
+<span id="cb163-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb163-9" tabindex="-1"></a><span class="fu">class</span>(RFresult<span class="sc">$</span>ximp)</span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb165-1" tabindex="-1"></a><span class="co"># Assign to dataframe.</span></span>
+<span id="cb165-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb165-2" tabindex="-1"></a>dfRF <span class="ot">&lt;-</span> RFresult<span class="sc">$</span>ximp</span>
+<span id="cb165-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb165-3" tabindex="-1"></a></span>
+<span id="cb165-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb165-4" tabindex="-1"></a><span class="co"># Again, back-transform the data.</span></span>
+<span id="cb165-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb165-5" tabindex="-1"></a>dfRF[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfRF[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp)</span></code></pre></div>
+</div>
+<div id="mice.--" class="section level3 hasAnchor">
+<h3>MICE. —-<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#mice.--" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb166-1" tabindex="-1"></a><span class="co"># MICE is a framework for performing multiple imputation. Single imputation is performed several times, so it can provides a measure of uncertainty for your imputed values</span></span>
+<span id="cb166-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb166-2" tabindex="-1"></a></span>
+<span id="cb166-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb166-3" tabindex="-1"></a>?mice</span>
+<span id="cb166-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb166-4" tabindex="-1"></a></span>
+<span id="cb166-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb166-5" tabindex="-1"></a><span class="co"># Default methods for numeric and categorical traits are predictive mean matching and logistic regression, respectively. But you can try different methods and see which works best for your data.</span></span>
+<span id="cb166-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb166-6" tabindex="-1"></a><span class="fu">sapply</span>(dfMissing, class)</span></code></pre></div>
+<pre><code>##                latitude         insular_endemic             maximum_svl 
+##               &quot;numeric&quot;                &quot;factor&quot;               &quot;numeric&quot; 
+##           activity_time                    diet       reproductive_mode 
+##                &quot;factor&quot;                &quot;factor&quot;                &quot;factor&quot; 
+##          largest_clutch iucn_redlist_assessment 
+##               &quot;numeric&quot;                &quot;factor&quot;</code></pre>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb168-1" tabindex="-1"></a>myMethods <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;norm.predict&quot;</span>, <span class="st">&quot;cart&quot;</span>, <span class="st">&quot;pmm&quot;</span>, <span class="st">&quot;logreg&quot;</span>, <span class="st">&quot;logreg&quot;</span>, <span class="st">&quot;cart&quot;</span>, <span class="st">&quot;pmm&quot;</span>, <span class="st">&quot;cart&quot;</span>)</span>
+<span id="cb168-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb168-2" tabindex="-1"></a><span class="co"># data = dataframe with missing values, m = number of multiple imputations.</span></span>
+<span id="cb168-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb168-3" tabindex="-1"></a>miceMids <span class="ot">&lt;-</span> <span class="fu">mice</span>(<span class="at">data =</span> dfMissing, <span class="at">method =</span> myMethods, <span class="at">m =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## 
+##  iter imp variable
+##   1   1  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   1   2  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   1   3  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   1   4  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   1   5  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   1   6  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   1   7  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   1   8  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   1   9  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   1   10  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   1  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   2  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   3  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   4  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   5  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   6  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   7  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   8  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   9  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   2   10  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   1  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   2  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   3  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   4  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   5  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   6  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   7  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   8  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   9  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   3   10  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   1  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   2  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   3  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   4  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   5  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   6  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   7  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   8  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   9  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   4   10  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   1  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   2  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   3  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   4  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   5  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   6  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   7  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   8  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   9  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment
+##   5   10  latitude  insular_endemic  maximum_svl  activity_time  diet  reproductive_mode  largest_clutch  iucn_redlist_assessment</code></pre>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb170-1" tabindex="-1"></a><span class="co"># Check the class.</span></span>
+<span id="cb170-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb170-2" tabindex="-1"></a><span class="fu">class</span>(miceMids)</span></code></pre></div>
+<pre><code>## [1] &quot;mids&quot;</code></pre>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb172-1" tabindex="-1"></a><span class="co"># mids is a special object that contains multiple imputed datasets.</span></span>
+<span id="cb172-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb172-2" tabindex="-1"></a>?mids</span>
+<span id="cb172-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb172-3" tabindex="-1"></a></span>
+<span id="cb172-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb172-4" tabindex="-1"></a><span class="co"># Number of imputed datasets</span></span>
+<span id="cb172-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb172-5" tabindex="-1"></a>miceMids<span class="sc">$</span>m</span></code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb174-1" tabindex="-1"></a><span class="co"># What variables were used as predictors (you can alter this matrix)</span></span>
+<span id="cb174-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb174-2" tabindex="-1"></a>miceMids<span class="sc">$</span>predictorMatrix</span></code></pre></div>
+<pre><code>##                         latitude insular_endemic maximum_svl activity_time diet
+## latitude                       0               1           1             1    1
+## insular_endemic                1               0           1             1    1
+## maximum_svl                    1               1           0             1    1
+## activity_time                  1               1           1             0    1
+## diet                           1               1           1             1    0
+## reproductive_mode              1               1           1             1    1
+## largest_clutch                 1               1           1             1    1
+## iucn_redlist_assessment        1               1           1             1    1
+##                         reproductive_mode largest_clutch
+## latitude                                1              1
+## insular_endemic                         1              1
+## maximum_svl                             1              1
+## activity_time                           1              1
+## diet                                    1              1
+## reproductive_mode                       0              1
+## largest_clutch                          1              0
+## iucn_redlist_assessment                 1              1
+##                         iucn_redlist_assessment
+## latitude                                      1
+## insular_endemic                               1
+## maximum_svl                                   1
+## activity_time                                 1
+## diet                                          1
+## reproductive_mode                             1
+## largest_clutch                                1
+## iucn_redlist_assessment                       0</code></pre>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-1" tabindex="-1"></a><span class="co"># View imputed data.</span></span>
+<span id="cb176-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-2" tabindex="-1"></a><span class="fu">view</span>(miceMids<span class="sc">$</span>imp<span class="sc">$</span>maximum_svl) <span class="do">## This contains the imputed values for each of the 5 datasets.</span></span>
+<span id="cb176-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-3" tabindex="-1"></a><span class="fu">view</span>(miceMids<span class="sc">$</span>imp<span class="sc">$</span>insular_endemic)</span>
+<span id="cb176-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-4" tabindex="-1"></a></span>
+<span id="cb176-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-5" tabindex="-1"></a><span class="co"># If you are running a statistical analysis on data imputed using MICE, you will have to apply it to EACH of the imputed datasets. For example:</span></span>
+<span id="cb176-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-6" tabindex="-1"></a><span class="co"># Fitting a linear regression to the multiply imputed datasets using the with() function.</span></span>
+<span id="cb176-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-7" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(miceMids, <span class="fu">lm</span>(maximum_svl <span class="sc">~</span> latitude <span class="sc">+</span> insular_endemic))</span>
+<span id="cb176-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-8" tabindex="-1"></a></span>
+<span id="cb176-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-9" tabindex="-1"></a><span class="co"># What class is it?</span></span>
+<span id="cb176-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb176-10" tabindex="-1"></a><span class="fu">class</span>(fit) <span class="do">## special class called &quot;mira&quot; that contained results of analyses repeated across MI datasets</span></span></code></pre></div>
+<pre><code>## [1] &quot;mira&quot;</code></pre>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb178-1" tabindex="-1"></a><span class="co"># Let&#39;s see what it contains.</span></span>
+<span id="cb178-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb178-2" tabindex="-1"></a>fit <span class="do">## Results of all the different regressions !</span></span></code></pre></div>
+<pre><code>## call :
+## with.mids(data = miceMids, expr = lm(maximum_svl ~ latitude + 
+##     insular_endemic))
+## 
+## call1 :
+## mice(data = dfMissing, m = 10, method = myMethods)
+## 
+## nmis :
+## [1] 169 185 194 171 187 186 165 167
+## 
+## analyses :
+## [[1]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##          4.465e+00          -3.141e-05           1.061e-03  
+## 
+## 
+## [[2]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##          4.468e+00           5.258e-05          -4.513e-03  
+## 
+## 
+## [[3]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##          4.4669414          -0.0002638          -0.0028137  
+## 
+## 
+## [[4]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##          4.475e+00           2.564e-08          -1.438e-02  
+## 
+## 
+## [[5]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##          4.466e+00           2.001e-05          -1.013e-02  
+## 
+## 
+## [[6]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##          4.4705728          -0.0001386          -0.0062157  
+## 
+## 
+## [[7]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##           4.471273           -0.000274            0.002231  
+## 
+## 
+## [[8]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##          4.4668600          -0.0001707          -0.0019305  
+## 
+## 
+## [[9]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##          4.471e+00          -4.724e-05          -7.133e-03  
+## 
+## 
+## [[10]]
+## 
+## Call:
+## lm(formula = maximum_svl ~ latitude + insular_endemic)
+## 
+## Coefficients:
+##        (Intercept)            latitude  insular_endemicyes  
+##          4.474e+00           5.694e-05          -1.976e-02</code></pre>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb180-1" tabindex="-1"></a><span class="co"># Let&#39;s pool the results together using the pool function.</span></span>
+<span id="cb180-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb180-2" tabindex="-1"></a><span class="co"># From the mice documentation: &quot;The pool() function combines the estimates from m repeated complete data analyses.&quot;</span></span>
+<span id="cb180-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb180-3" tabindex="-1"></a>pool.fit <span class="ot">&lt;-</span> <span class="fu">pool</span>(fit)</span>
+<span id="cb180-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb180-4" tabindex="-1"></a><span class="fu">summary</span>(pool.fit)</span></code></pre></div>
+<pre><code>##                 term      estimate    std.error   statistic       df   p.value
+## 1        (Intercept)  4.469515e+00 0.0144972337 308.3012204 1000.691 0.0000000
+## 2           latitude -7.961913e-05 0.0005610285  -0.1419164 1086.460 0.8871724
+## 3 insular_endemicyes -6.357860e-03 0.0312562266  -0.2034110 1103.494 0.8388513</code></pre>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-1" tabindex="-1"></a>?pool <span class="do">## if you are interested in how the pooling is performed</span></span>
+<span id="cb182-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-2" tabindex="-1"></a></span>
+<span id="cb182-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-3" tabindex="-1"></a><span class="co"># Get a list of the imputed dataframes using the mice::complete() function. Since we specified &quot;all&quot;, it will return us a list containing all of the imputed dataframes. Should be length &quot;m&quot;.</span></span>
+<span id="cb182-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-4" tabindex="-1"></a>l_dfMICE <span class="ot">&lt;-</span> mice<span class="sc">::</span><span class="fu">complete</span>(miceMids, <span class="st">&quot;all&quot;</span>) </span>
+<span id="cb182-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-5" tabindex="-1"></a></span>
+<span id="cb182-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-6" tabindex="-1"></a><span class="fu">view</span>(l_dfMICE[[<span class="dv">1</span>]])</span>
+<span id="cb182-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-7" tabindex="-1"></a></span>
+<span id="cb182-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-8" tabindex="-1"></a><span class="co"># Back-transform all the imputed values in this list.</span></span>
+<span id="cb182-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-9" tabindex="-1"></a>l_dfMICE <span class="ot">&lt;-</span> <span class="fu">lapply</span>(l_dfMICE, <span class="cf">function</span>(x){</span>
+<span id="cb182-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-10" tabindex="-1"></a>  x[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(x[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp)</span>
+<span id="cb182-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-11" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb182-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb182-12" tabindex="-1"></a>})</span></code></pre></div>
+</div>
+<div id="error-rates.--" class="section level3 hasAnchor">
+<h3>Error rates. —-<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#error-rates.--" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb183-1" tabindex="-1"></a><span class="co"># Let&#39;s see how well the different imputation methods predicted the values. </span></span>
+<span id="cb183-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb183-2" tabindex="-1"></a></span>
+<span id="cb183-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb183-3" tabindex="-1"></a><span class="co"># First back-transform dfMissing for comparison purposes</span></span>
+<span id="cb183-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb183-4" tabindex="-1"></a>dfMissing[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dfMissing[<span class="fu">c</span>(<span class="st">&quot;maximum_svl&quot;</span>, <span class="st">&quot;largest_clutch&quot;</span>)], exp) </span>
+<span id="cb183-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb183-5" tabindex="-1"></a></span>
+<span id="cb183-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb183-6" tabindex="-1"></a><span class="co"># We can use did the missForest::mixError() function for obtaining error rates. </span></span>
+<span id="cb183-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb183-7" tabindex="-1"></a><span class="co"># mixError is a useful function because it tracks which values were imputed for you, as long as you can provide it with the original and missing dataframes.</span></span>
+<span id="cb183-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb183-8" tabindex="-1"></a>missForest<span class="sc">::</span><span class="fu">mixError</span>(<span class="at">ximp =</span> dfMeanModeImp, <span class="at">xmis =</span> dfMissing, <span class="at">xtrue =</span> dfCompleteCase)</span></code></pre></div>
+<pre><code>##     NRMSE       PFC 
+## 0.7478356 0.2332589</code></pre>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb185-1" tabindex="-1"></a><span class="co"># NRMSE refers to the normalized root mean squared error for the numeric data and PFC refers to the proportion of falsely classified entries for the categorical variables. For both, lower is better.</span></span>
+<span id="cb185-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb185-2" tabindex="-1"></a></span>
+<span id="cb185-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb185-3" tabindex="-1"></a><span class="co"># If we wanted the error for one variable? </span></span>
+<span id="cb185-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb185-4" tabindex="-1"></a>missForest<span class="sc">::</span><span class="fu">mixError</span>(<span class="at">ximp =</span> dfMeanModeImp[<span class="st">&quot;maximum_svl&quot;</span>], <span class="at">xmis =</span> dfMissing[<span class="st">&quot;maximum_svl&quot;</span>], <span class="at">xtrue =</span> dfCompleteCase[<span class="st">&quot;maximum_svl&quot;</span>]) <span class="do">## Remember it wants a dataframe as input!</span></span></code></pre></div>
+<pre><code>##    NRMSE 
+## 1.013817</code></pre>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb187-1" tabindex="-1"></a><span class="co"># How about KNN?</span></span>
+<span id="cb187-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb187-2" tabindex="-1"></a>missForest<span class="sc">::</span><span class="fu">mixError</span>(<span class="at">ximp =</span> dfKNN, <span class="at">xmis =</span> dfMissing, <span class="at">xtrue =</span> dfCompleteCase)</span></code></pre></div>
+<pre><code>##     NRMSE       PFC 
+## 0.7023635 0.2064732</code></pre>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb189-1" tabindex="-1"></a><span class="co"># A bit better than mean/mode.</span></span>
+<span id="cb189-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb189-2" tabindex="-1"></a></span>
+<span id="cb189-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb189-3" tabindex="-1"></a><span class="co"># How about missForest?</span></span>
+<span id="cb189-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb189-4" tabindex="-1"></a>missForest<span class="sc">::</span><span class="fu">mixError</span>(<span class="at">ximp =</span> dfRF, <span class="at">xmis =</span> dfMissing, <span class="at">xtrue =</span> dfCompleteCase)</span></code></pre></div>
+<pre><code>##     NRMSE       PFC 
+## 0.6684458 0.2276786</code></pre>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb191-1" tabindex="-1"></a><span class="co"># Better on the numerical traits but worse on categorical compared to KNN.</span></span>
+<span id="cb191-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb191-2" tabindex="-1"></a></span>
+<span id="cb191-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb191-3" tabindex="-1"></a><span class="co"># What if we wanted to get the errors for the MICE datasets? </span></span>
+<span id="cb191-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb191-4" tabindex="-1"></a><span class="co"># Apply the mixError function across the imputed dataframes.</span></span>
+<span id="cb191-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb191-5" tabindex="-1"></a>l_MICEerrors <span class="ot">&lt;-</span> <span class="fu">lapply</span>(l_dfMICE, <span class="cf">function</span>(x) <span class="fu">mixError</span>(<span class="at">ximp =</span> x, <span class="at">xmis =</span> dfMissing, <span class="at">xtrue =</span> dfCompleteCase))</span>
+<span id="cb191-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb191-6" tabindex="-1"></a></span>
+<span id="cb191-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb191-7" tabindex="-1"></a><span class="co"># Let&#39;s average the errors using the Reduce() function, which can used to apply a function over a list and then return a single result. Here, we are adding the elements of l_Errors and dividing them by the length of l_Errors.</span></span>
+<span id="cb191-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb191-8" tabindex="-1"></a><span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, l_MICEerrors)<span class="sc">/</span><span class="fu">length</span>(l_MICEerrors) <span class="do">## probably need to pick better methods </span></span></code></pre></div>
+<pre><code>##     NRMSE       PFC 
+## 0.8791144 0.2703125</code></pre>
+</div>
+<div id="impute-the-full-dataset.--" class="section level3 hasAnchor">
+<h3>Impute the full dataset. —-<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#impute-the-full-dataset.--" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-1" tabindex="-1"></a><span class="co"># From here, choose the best-performing method on the complete-case data and use it to impute your target dataset.</span></span>
+<span id="cb193-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-2" tabindex="-1"></a><span class="co"># Ideally, it would be the method that resulted in the lowest error rate for the majority of variables.</span></span>
+<span id="cb193-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-3" tabindex="-1"></a>imputeRes <span class="ot">&lt;-</span> <span class="fu">missForest</span>(<span class="at">xmis =</span> dfFiltered) <span class="do">## may take a while</span></span>
+<span id="cb193-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-4" tabindex="-1"></a></span>
+<span id="cb193-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-5" tabindex="-1"></a><span class="co"># Extract imputed dataset.</span></span>
+<span id="cb193-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-6" tabindex="-1"></a>dfImputed <span class="ot">&lt;-</span> imputeRes<span class="sc">$</span>ximp</span>
+<span id="cb193-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-7" tabindex="-1"></a></span>
+<span id="cb193-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-8" tabindex="-1"></a><span class="co"># Combine dataframes into list.</span></span>
+<span id="cb193-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-9" tabindex="-1"></a>l_dfAll <span class="ot">&lt;-</span> <span class="fu">list</span>(dfCompleteCase, dfRF, dfFiltered, dfImputed)</span>
+<span id="cb193-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-10" tabindex="-1"></a></span>
+<span id="cb193-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-11" tabindex="-1"></a><span class="co"># Name the list according to dataframe.</span></span>
+<span id="cb193-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-12" tabindex="-1"></a><span class="fu">names</span>(l_dfAll) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CC&quot;</span>, <span class="st">&quot;SIM&quot;</span>, <span class="st">&quot;O&quot;</span>, <span class="st">&quot;IMP&quot;</span>)</span>
+<span id="cb193-13"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-13" tabindex="-1"></a></span>
+<span id="cb193-14"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-14" tabindex="-1"></a><span class="co"># We need to make some alterations for plotting.</span></span>
+<span id="cb193-15"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-15" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(l_dfAll)){</span>
+<span id="cb193-16"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-16" tabindex="-1"></a>  </span>
+<span id="cb193-17"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-17" tabindex="-1"></a>  <span class="co"># Get name of dataframe.</span></span>
+<span id="cb193-18"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-18" tabindex="-1"></a>  ID <span class="ot">&lt;-</span> <span class="fu">names</span>(l_dfAll)[[i]]</span>
+<span id="cb193-19"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-19" tabindex="-1"></a>  </span>
+<span id="cb193-20"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-20" tabindex="-1"></a>  <span class="co"># Add ID to column names of dataframe so we can identify which dataframe it came from.</span></span>
+<span id="cb193-21"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-21" tabindex="-1"></a>  <span class="fu">names</span>(l_dfAll[[i]]) <span class="ot">&lt;-</span> <span class="fu">paste</span>(ID, <span class="fu">colnames</span>(l_dfAll[[i]]), <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb193-22"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-22" tabindex="-1"></a>  </span>
+<span id="cb193-23"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-23" tabindex="-1"></a>  <span class="co"># Add species col so we can merge them together.</span></span>
+<span id="cb193-24"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-24" tabindex="-1"></a>  l_dfAll[[i]]<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="fu">rownames</span>(l_dfAll[[i]]) </span>
+<span id="cb193-25"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-25" tabindex="-1"></a>  </span>
+<span id="cb193-26"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-26" tabindex="-1"></a>}</span>
+<span id="cb193-27"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-27" tabindex="-1"></a></span>
+<span id="cb193-28"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-28" tabindex="-1"></a><span class="fu">view</span>(l_dfAll[[<span class="dv">1</span>]])</span>
+<span id="cb193-29"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-29" tabindex="-1"></a></span>
+<span id="cb193-30"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-30" tabindex="-1"></a><span class="co"># Merge all the dataframes by species.</span></span>
+<span id="cb193-31"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-31" tabindex="-1"></a>dfAll <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="cf">function</span>(...) <span class="fu">merge</span>(..., <span class="at">by =</span> <span class="st">&quot;species&quot;</span>, <span class="at">all =</span> T), l_dfAll)</span>
+<span id="cb193-32"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb193-32" tabindex="-1"></a><span class="fu">names</span>(dfAll)</span></code></pre></div>
+<pre><code>##  [1] &quot;species&quot;                     &quot;CC_latitude&quot;                
+##  [3] &quot;CC_insular_endemic&quot;          &quot;CC_maximum_svl&quot;             
+##  [5] &quot;CC_activity_time&quot;            &quot;CC_diet&quot;                    
+##  [7] &quot;CC_reproductive_mode&quot;        &quot;CC_largest_clutch&quot;          
+##  [9] &quot;CC_iucn_redlist_assessment&quot;  &quot;SIM_latitude&quot;               
+## [11] &quot;SIM_insular_endemic&quot;         &quot;SIM_maximum_svl&quot;            
+## [13] &quot;SIM_activity_time&quot;           &quot;SIM_diet&quot;                   
+## [15] &quot;SIM_reproductive_mode&quot;       &quot;SIM_largest_clutch&quot;         
+## [17] &quot;SIM_iucn_redlist_assessment&quot; &quot;O_latitude&quot;                 
+## [19] &quot;O_insular_endemic&quot;           &quot;O_maximum_svl&quot;              
+## [21] &quot;O_activity_time&quot;             &quot;O_diet&quot;                     
+## [23] &quot;O_reproductive_mode&quot;         &quot;O_largest_clutch&quot;           
+## [25] &quot;O_iucn_redlist_assessment&quot;   &quot;IMP_latitude&quot;               
+## [27] &quot;IMP_insular_endemic&quot;         &quot;IMP_maximum_svl&quot;            
+## [29] &quot;IMP_activity_time&quot;           &quot;IMP_diet&quot;                   
+## [31] &quot;IMP_reproductive_mode&quot;       &quot;IMP_largest_clutch&quot;         
+## [33] &quot;IMP_iucn_redlist_assessment&quot;</code></pre>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-1" tabindex="-1"></a><span class="co"># From here, we can make plots pretty easily.</span></span>
+<span id="cb195-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-2" tabindex="-1"></a>dfSubset <span class="ot">&lt;-</span> <span class="fu">select</span>(dfAll, <span class="fu">c</span>(CC_largest_clutch, SIM_largest_clutch, </span>
+<span id="cb195-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-3" tabindex="-1"></a>                            O_largest_clutch, IMP_largest_clutch))</span>
+<span id="cb195-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-4" tabindex="-1"></a></span>
+<span id="cb195-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-5" tabindex="-1"></a><span class="co"># Log transform data for better visualization.</span></span>
+<span id="cb195-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-6" tabindex="-1"></a>dfSubset <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(dfSubset, log)) <span class="do">## sometimes dataframe format is easier to deal</span></span>
+<span id="cb195-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-7" tabindex="-1"></a></span>
+<span id="cb195-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-8" tabindex="-1"></a><span class="co"># Get sample size counts for each column.</span></span>
+<span id="cb195-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-9" tabindex="-1"></a>sampleSizes <span class="ot">&lt;-</span> <span class="fu">sapply</span>(dfSubset, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb195-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb195-10" tabindex="-1"></a>sampleSizes</span></code></pre></div>
+<pre><code>##  CC_largest_clutch SIM_largest_clutch   O_largest_clutch IMP_largest_clutch 
+##               1780               1780               2608               4803</code></pre>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-1" tabindex="-1"></a><span class="co"># Pivot dataframe to long form so we can more easily plot variables by group.</span></span>
+<span id="cb197-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-2" tabindex="-1"></a>dfPivot <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(dfSubset, <span class="at">cols =</span> <span class="fu">colnames</span>(dfSubset))</span>
+<span id="cb197-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-3" tabindex="-1"></a><span class="fu">view</span>(dfPivot)</span>
+<span id="cb197-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-4" tabindex="-1"></a></span>
+<span id="cb197-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-5" tabindex="-1"></a><span class="co"># Convert to factor.</span></span>
+<span id="cb197-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-6" tabindex="-1"></a>dfPivot<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dfPivot<span class="sc">$</span>name)</span>
+<span id="cb197-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-7" tabindex="-1"></a></span>
+<span id="cb197-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-8" tabindex="-1"></a><span class="co"># X-axis label containing sample size information.</span></span>
+<span id="cb197-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-9" tabindex="-1"></a>dataType <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Complete case&quot;</span>, <span class="st">&quot;Sim-imputed&quot;</span>, <span class="st">&quot;Original&quot;</span>, <span class="st">&quot;Original - Post-imputation&quot;</span>)</span>
+<span id="cb197-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-10" tabindex="-1"></a></span>
+<span id="cb197-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-11" tabindex="-1"></a><span class="co"># Paste sample size onto dataType vector.</span></span>
+<span id="cb197-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-12" tabindex="-1"></a>xlabel <span class="ot">&lt;-</span> <span class="fu">paste</span>(dataType, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;(n = &quot;</span>, sampleSizes, <span class="st">&quot;)&quot;</span> , <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb197-13"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-13" tabindex="-1"></a></span>
+<span id="cb197-14"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-14" tabindex="-1"></a><span class="co"># GGplot comparing trait distributions</span></span>
+<span id="cb197-15"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-15" tabindex="-1"></a><span class="fu">ggplot</span>(dfPivot, <span class="fu">aes</span>(<span class="at">x =</span> name, <span class="at">y =</span> value, <span class="at">fill =</span> name)) <span class="sc">+</span></span>
+<span id="cb197-16"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-16" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb197-17"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-17" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> trait, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>)  <span class="sc">+</span></span>
+<span id="cb197-18"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-18" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> xlabel) <span class="sc">+</span> </span>
+<span id="cb197-19"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-19" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set3&quot;</span>) <span class="sc">+</span></span>
+<span id="cb197-20"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-20" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span> <span class="co"># Base font size</span></span>
+<span id="cb197-21"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-21" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb197-22"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb197-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb198-1" tabindex="-1"></a><span class="co"># Let&#39;s plot a categorical trait now!</span></span>
+<span id="cb198-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb198-2" tabindex="-1"></a><span class="fu">names</span>(dfAll)</span></code></pre></div>
+<pre><code>##  [1] &quot;species&quot;                     &quot;CC_latitude&quot;                
+##  [3] &quot;CC_insular_endemic&quot;          &quot;CC_maximum_svl&quot;             
+##  [5] &quot;CC_activity_time&quot;            &quot;CC_diet&quot;                    
+##  [7] &quot;CC_reproductive_mode&quot;        &quot;CC_largest_clutch&quot;          
+##  [9] &quot;CC_iucn_redlist_assessment&quot;  &quot;SIM_latitude&quot;               
+## [11] &quot;SIM_insular_endemic&quot;         &quot;SIM_maximum_svl&quot;            
+## [13] &quot;SIM_activity_time&quot;           &quot;SIM_diet&quot;                   
+## [15] &quot;SIM_reproductive_mode&quot;       &quot;SIM_largest_clutch&quot;         
+## [17] &quot;SIM_iucn_redlist_assessment&quot; &quot;O_latitude&quot;                 
+## [19] &quot;O_insular_endemic&quot;           &quot;O_maximum_svl&quot;              
+## [21] &quot;O_activity_time&quot;             &quot;O_diet&quot;                     
+## [23] &quot;O_reproductive_mode&quot;         &quot;O_largest_clutch&quot;           
+## [25] &quot;O_iucn_redlist_assessment&quot;   &quot;IMP_latitude&quot;               
+## [27] &quot;IMP_insular_endemic&quot;         &quot;IMP_maximum_svl&quot;            
+## [29] &quot;IMP_activity_time&quot;           &quot;IMP_diet&quot;                   
+## [31] &quot;IMP_reproductive_mode&quot;       &quot;IMP_largest_clutch&quot;         
+## [33] &quot;IMP_iucn_redlist_assessment&quot;</code></pre>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-1" tabindex="-1"></a><span class="co"># Same steps as above.</span></span>
+<span id="cb200-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-2" tabindex="-1"></a>dfSubset <span class="ot">&lt;-</span> <span class="fu">select</span>(dfAll, <span class="fu">c</span>(CC_diet, SIM_diet, </span>
+<span id="cb200-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-3" tabindex="-1"></a>                            O_diet, IMP_diet))</span>
+<span id="cb200-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-4" tabindex="-1"></a></span>
+<span id="cb200-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-5" tabindex="-1"></a>sampleSizes <span class="ot">&lt;-</span> <span class="fu">sapply</span>(dfSubset, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb200-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-6" tabindex="-1"></a></span>
+<span id="cb200-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-7" tabindex="-1"></a><span class="co"># Create dataframe containing category counts for each group.</span></span>
+<span id="cb200-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-8" tabindex="-1"></a>dfPivot <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(dfSubset, <span class="at">cols =</span> <span class="fu">colnames</span>(dfSubset))</span>
+<span id="cb200-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-9" tabindex="-1"></a></span>
+<span id="cb200-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-10" tabindex="-1"></a><span class="co"># Convert to factor.</span></span>
+<span id="cb200-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-11" tabindex="-1"></a>dfPivot<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dfPivot<span class="sc">$</span>name)</span>
+<span id="cb200-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-12" tabindex="-1"></a></span>
+<span id="cb200-13"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-13" tabindex="-1"></a><span class="co"># Group by name and value to prepare data for plotting.</span></span>
+<span id="cb200-14"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-14" tabindex="-1"></a>dfCount <span class="ot">&lt;-</span> dfPivot <span class="sc">%&gt;%</span></span>
+<span id="cb200-15"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-15" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb200-16"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-16" tabindex="-1"></a>  <span class="fu">group_by</span>(name, value) <span class="sc">%&gt;%</span></span>
+<span id="cb200-17"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-17" tabindex="-1"></a>  <span class="co"># Get counts by group</span></span>
+<span id="cb200-18"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-18" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb200-19"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-19" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> count<span class="sc">/</span><span class="fu">sum</span>(count))</span>
+<span id="cb200-20"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-20" tabindex="-1"></a></span>
+<span id="cb200-21"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-21" tabindex="-1"></a><span class="fu">view</span>(dfCount)</span>
+<span id="cb200-22"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-22" tabindex="-1"></a></span>
+<span id="cb200-23"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-23" tabindex="-1"></a><span class="co"># Paste sample size onto dataType vector.</span></span>
+<span id="cb200-24"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-24" tabindex="-1"></a>xlabel <span class="ot">&lt;-</span> <span class="fu">paste</span>(dataType, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;(n = &quot;</span>, sampleSizes, <span class="st">&quot;)&quot;</span> , <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb200-25"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-25" tabindex="-1"></a></span>
+<span id="cb200-26"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-26" tabindex="-1"></a><span class="co"># Barplot comparing trait categories of complete-case, pre- and post-imputation.</span></span>
+<span id="cb200-27"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-27" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dfCount, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> name, <span class="at">y =</span> prop, <span class="at">fill =</span> value)) <span class="sc">+</span> </span>
+<span id="cb200-28"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-28" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb200-29"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-29" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> xlabel) <span class="sc">+</span></span>
+<span id="cb200-30"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-30" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Blues&quot;</span>) <span class="sc">+</span></span>
+<span id="cb200-31"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-31" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(prop, <span class="at">accuracy =</span> <span class="fl">0.1</span>)), <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">5</span>, </span>
+<span id="cb200-32"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-32" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb200-33"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-33" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb200-34"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-34" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> trait, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb200-35"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb200-35" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
+</div>
+<div id="compare-inferences-obtained-from-complete-case-and-imputed-datasets.--" class="section level2 hasAnchor">
+<h2>Compare inferences obtained from complete-case and imputed datasets. —-<a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#compare-inferences-obtained-from-complete-case-and-imputed-datasets.--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb201-1" tabindex="-1"></a><span class="co"># Finally, something you should consider after finishing your analysis..re-doing the analysis using the complete-case dataset and comparing it to the results obtained using your final imputed dataset. </span></span>
+<span id="cb201-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb201-2" tabindex="-1"></a><span class="co"># How do the results change?</span></span>
+<span id="cb201-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb201-3" tabindex="-1"></a></span>
+<span id="cb201-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb201-4" tabindex="-1"></a><span class="co"># Logistic regression</span></span>
+<span id="cb201-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb201-5" tabindex="-1"></a>ccModel <span class="ot">&lt;-</span> <span class="fu">glm</span>(diet <span class="sc">~</span> activity_time <span class="sc">+</span> maximum_svl <span class="sc">+</span> reproductive_mode <span class="sc">+</span> insular_endemic <span class="sc">+</span></span>
+<span id="cb201-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb201-6" tabindex="-1"></a>                 latitude, <span class="at">data =</span> dfCompleteCase, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb201-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb201-7" tabindex="-1"></a><span class="fu">summary</span>(ccModel)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = diet ~ activity_time + maximum_svl + reproductive_mode + 
+##     insular_endemic + latitude, family = &quot;binomial&quot;, data = dfCompleteCase)
+## 
+## Coefficients:
+##                               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                 -1.9375240  0.1141541 -16.973  &lt; 2e-16 ***
+## activity_timeNocturnal      -1.0051180  0.2129979  -4.719 2.37e-06 ***
+## maximum_svl                  0.0017179  0.0005726   3.000  0.00270 ** 
+## reproductive_modeViviparous  0.5796650  0.1750743   3.311  0.00093 ***
+## insular_endemicyes           0.7014360  0.1452242   4.830 1.37e-06 ***
+## latitude                    -0.0130895  0.0029584  -4.425 9.66e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1608.3  on 1779  degrees of freedom
+## Residual deviance: 1506.2  on 1774  degrees of freedom
+## AIC: 1518.2
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb203-1" tabindex="-1"></a>simModel <span class="ot">&lt;-</span> <span class="fu">glm</span>(diet <span class="sc">~</span> activity_time <span class="sc">+</span> maximum_svl <span class="sc">+</span> reproductive_mode <span class="sc">+</span> insular_endemic <span class="sc">+</span></span>
+<span id="cb203-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb203-2" tabindex="-1"></a>                 latitude, <span class="at">data =</span> dfRF, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb203-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb203-3" tabindex="-1"></a><span class="fu">summary</span>(simModel)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = diet ~ activity_time + maximum_svl + reproductive_mode + 
+##     insular_endemic + latitude, family = &quot;binomial&quot;, data = dfRF)
+## 
+## Coefficients:
+##                               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                 -1.8507258  0.1147529 -16.128  &lt; 2e-16 ***
+## activity_timeNocturnal      -1.2084763  0.2192151  -5.513 3.53e-08 ***
+## maximum_svl                  0.0016004  0.0005932   2.698 0.006982 ** 
+## reproductive_modeViviparous  0.6139212  0.1721120   3.567 0.000361 ***
+## insular_endemicyes           0.7330967  0.1430379   5.125 2.97e-07 ***
+## latitude                    -0.0145821  0.0030482  -4.784 1.72e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1658.6  on 1779  degrees of freedom
+## Residual deviance: 1531.4  on 1774  degrees of freedom
+## AIC: 1543.4
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb205-1" tabindex="-1"></a>targetModel <span class="ot">&lt;-</span> <span class="fu">glm</span>(diet <span class="sc">~</span> activity_time <span class="sc">+</span> maximum_svl <span class="sc">+</span> reproductive_mode <span class="sc">+</span> insular_endemic <span class="sc">+</span></span>
+<span id="cb205-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb205-2" tabindex="-1"></a>                     latitude, <span class="at">data =</span> dfImputed, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb205-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb205-3" tabindex="-1"></a><span class="fu">summary</span>(targetModel)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = diet ~ activity_time + maximum_svl + reproductive_mode + 
+##     insular_endemic + latitude, family = &quot;binomial&quot;, data = dfImputed)
+## 
+## Coefficients:
+##                               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                 -2.1887911  0.0878843 -24.905  &lt; 2e-16 ***
+## activity_timeNocturnal      -2.0953635  0.1693743 -12.371  &lt; 2e-16 ***
+## maximum_svl                  0.0027241  0.0004414   6.172 6.76e-10 ***
+## reproductive_modeViviparous  0.2534003  0.1072325   2.363   0.0181 *  
+## insular_endemicyes           0.7659941  0.1003000   7.637 2.22e-14 ***
+## latitude                    -0.0277722  0.0024163 -11.494  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 3687.3  on 4802  degrees of freedom
+## Residual deviance: 3150.5  on 4797  degrees of freedom
+## AIC: 3162.5
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-1" tabindex="-1"></a><span class="do">##### One last plot to compare how results change between complete-case and imputed models.</span></span>
+<span id="cb207-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-2" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#F3E79A&quot;</span>, <span class="st">&quot;#ED7C97&quot;</span>, <span class="st">&quot;#9F7FCD&quot;</span>)</span>
+<span id="cb207-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-3" tabindex="-1"></a><span class="co"># Create dataframe of p-values from complete-case and imputed models.</span></span>
+<span id="cb207-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-4" tabindex="-1"></a>dfPvalues <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb207-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-5" tabindex="-1"></a>  <span class="at">trait =</span> <span class="fu">c</span>(<span class="st">&quot;Activity time&quot;</span>, <span class="st">&quot;Max. SVL&quot;</span>, <span class="st">&quot;Repro. mode&quot;</span>, <span class="st">&quot;Insular/endemic&quot;</span>, <span class="st">&quot;Latitude&quot;</span>), </span>
+<span id="cb207-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-6" tabindex="-1"></a>  <span class="at">p_cc =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">2.37e-06</span>, <span class="fl">0.00270</span>, <span class="fl">0.00093</span>, <span class="fl">1.37e-06</span>, <span class="fl">9.66e-06</span>)), </span>
+<span id="cb207-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-7" tabindex="-1"></a>  <span class="at">p_sim =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">3.10e-07</span>, <span class="fl">0.000234</span>, <span class="fl">0.007901</span>, <span class="fl">1.95e-07</span>, <span class="fl">0.000108</span>)), </span>
+<span id="cb207-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-8" tabindex="-1"></a>  <span class="at">p_imp =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fu">c</span>(<span class="fl">2e-16</span>, <span class="fl">1.11e-09</span>, <span class="fl">0.143</span>, <span class="fl">6.27e-15</span>, <span class="fl">2e-16</span>)))</span>
+<span id="cb207-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-9" tabindex="-1"></a><span class="co"># Note that we use the -log to improve visualization and visibility of smaller p-values.</span></span>
+<span id="cb207-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-10" tabindex="-1"></a></span>
+<span id="cb207-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-11" tabindex="-1"></a><span class="co"># Dumbbell plot for comparing p-values.</span></span>
+<span id="cb207-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-12" tabindex="-1"></a><span class="co"># Complete-case vs. sim-imputed.</span></span>
+<span id="cb207-13"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-13" tabindex="-1"></a><span class="fu">ggplot</span>(dfPvalues) <span class="sc">+</span></span>
+<span id="cb207-14"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-14" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">xend =</span> trait, <span class="at">y =</span> p_cc, <span class="at">yend =</span> p_sim), <span class="at">color=</span><span class="st">&quot;#9F7FCD&quot;</span>, <span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">alpha =</span> .<span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb207-15"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-15" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">y =</span> p_cc), <span class="at">colour =</span> <span class="st">&quot;#ED7C97&quot;</span>, <span class="at">shape =</span> <span class="st">&quot;triangle&quot;</span>, <span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb207-16"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-16" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">y =</span> p_sim, <span class="at">ymin =</span> p_sim, <span class="at">ymax =</span> p_sim), <span class="at">colour =</span> <span class="st">&quot;#F3E79A&quot;</span>, <span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb207-17"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-17" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb207-18"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-18" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fl">0.05</span>), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb207-19"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-19" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;darkgray&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb207-20"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-20" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Complete-case vs. sim-imputed dataset&quot;</span>, </span>
+<span id="cb207-21"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-21" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Trait&quot;</span>, <span class="at">y =</span> <span class="st">&quot;-ln(P-value)</span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="sc">+</span></span>
+<span id="cb207-22"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>), </span>
+<span id="cb207-23"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-23" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb207-24"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-24" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb207-25"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb207-25" tabindex="-1"></a>        <span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-1" tabindex="-1"></a><span class="co"># Complete-case vs. full imputed dataset.</span></span>
+<span id="cb208-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-2" tabindex="-1"></a><span class="fu">ggplot</span>(dfPvalues) <span class="sc">+</span></span>
+<span id="cb208-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-3" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">xend =</span> trait, <span class="at">y =</span> p_cc, <span class="at">yend =</span> p_imp), <span class="at">color=</span><span class="st">&quot;#9F7FCD&quot;</span>, <span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">alpha =</span> .<span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb208-4"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">y =</span> p_cc), <span class="at">colour =</span> <span class="st">&quot;#ED7C97&quot;</span>, <span class="at">shape =</span> <span class="st">&quot;triangle&quot;</span>, <span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb208-5"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-5" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> trait, <span class="at">y =</span> p_imp, <span class="at">ymin =</span> p_imp, <span class="at">ymax =</span> p_imp), <span class="at">colour =</span> <span class="st">&quot;#F3E79A&quot;</span>, <span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb208-6"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb208-7"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-7" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">log</span>(<span class="fl">0.05</span>), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb208-8"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-8" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;darkgray&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb208-9"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Complete-case vs. full imputed dataset&quot;</span>, </span>
+<span id="cb208-10"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-10" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Trait&quot;</span>, <span class="at">y =</span> <span class="st">&quot;-ln(P-value)</span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="sc">+</span></span>
+<span id="cb208-11"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>), </span>
+<span id="cb208-12"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-12" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb208-13"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-13" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb208-14"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb208-14" tabindex="-1"></a>        <span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-2.png" width="672" /></p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb209-1" tabindex="-1"></a><span class="co"># Reproductive mode did have a considerable amount of missingness (~40%)</span></span>
+<span id="cb209-2"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb209-2" tabindex="-1"></a></span>
+<span id="cb209-3"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html#cb209-3" tabindex="-1"></a><span class="co"># It is important to consider how imputed values impact your results every step of the way, from accuracy of imputed values to the downstream impacts on inferences. But, imputation is a very powerful tool if used in the right way!</span></span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="module-2-dealing-with-missingness.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="module-3-modeling-part-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/cbw-dev/STAT_2024/blob/main/020-module-2.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

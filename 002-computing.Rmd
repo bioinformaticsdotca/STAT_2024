@@ -1,0 +1,23 @@
+<!--
+IF YOUR WORKSHOP DOES NOT INCLUDE COMPUTE:
+- REMOVE "AND COMPUTE SETUP" FROM THE TOP-LEVEL HEADER
+- DELETE THE LAST SECTION (COMPUTE SETUP)
+
+IF YOUR WORKSHOP INCLUDES COMPUTE:
+- AFTER THE WORKSHOP, ADD DATA DOWNLOAD LINKS, AWS MACHINE IMAGE INSTRUCTIONS, ETC.
+- IF IT IS MORE APPROPRIATE, YOU CAN INCLUDE THE DATA DOWNLOAD LINKS IN EACH OF THE MODULES.
+-->
+
+# Data Setup
+
+#### Course Data Downloads
+* [Appendix S1 - Lizard data version 1.0.csv](./datasets/Appendix+S1+-+Lizard+data+version+1.0.csv)
+* [df_traits.csv](./datasets/df_traits.csv)
+* [faramea.csv](./datasets/faramea.csv)
+* [smoker_epigenetic_df.csv](./datasets/smoker_epigenetic_df.csv)
+* [healthcare_demand.csv](./datasets/healthcare_demand.csv)
+* [clustering_expression_data.csv](./datasets/clustering_expression_data.csv)
+* [clustering_clinical_data.csv](./datasets/clustering_clinical_data.csv)
+* [geneexpression_clustering.rda](./datasets/geneexpression_clustering.rda)
+* [nhefs.csv](./datasets/nhefs.csv)
+* [methylation_cancer.csv](./datsets/methylation_cancer.csv)

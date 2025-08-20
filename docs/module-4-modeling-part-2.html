@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Module 4: Modeling Part 2 | Help! What Statistical Model Should I Use? 2024</title>
+  <meta name="description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Module 4: Modeling Part 2 | Help! What Statistical Model Should I Use? 2024" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://bioinformaticsdotca.github.io/STAT_2024/img/bioinformatics_logo.png" />
+  <meta property="og:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="github-repo" content="bioinformaticsdotca/STAT_2024" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Module 4: Modeling Part 2 | Help! What Statistical Model Should I Use? 2024" />
+  
+  <meta name="twitter:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="twitter:image" content="https://bioinformaticsdotca.github.io/STAT_2024/img/bioinformatics_logo.png" />
+
+<meta name="author" content="Faculty: Patrick McMillan, Alysha Cooper, and Jacqueline May" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="module-3-modeling-part-1.html"/>
+<link rel="next" href="module-5-putting-it-all-together.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<a href="https://bioinformaticsdotca.github.io/">
+ <img src="img/bioinformatics_logo.png" width="90%" alt="bioinformatics.ca logo" style="display:block; margin-left:auto; margin-right:auto; margin-top:15px;">
+ </a>
+<li><center><strong><a href="./"><br>Help! What Statistical Model Should I Use?<br><br></a></strong></center></li>
+<a href="./">
+ <img src="img/STAT_2024_icon.png" width="70%" alt="Help! What Statistical Model Should I Use? logo" style="display:block; margin-left:auto; margin-right:auto; ">
+ </a>
+<br>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Workshop Info</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i>Schedule</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#pre-work"><i class="fa fa-check"></i>Pre-work</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-setup.html"><a href="data-setup.html"><i class="fa fa-check"></i>Data Setup</a></li>
+<li class="part"><span><b>II Modules</b></span></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html"><i class="fa fa-check"></i>Module 1: Data Cleaning and Exploration Review</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lecture"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lab"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#load-libraries"><i class="fa fa-check"></i>Load Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#read-in-data"><i class="fa fa-check"></i>Read in Data</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#looking-at-your-data"><i class="fa fa-check"></i>Looking at your Data</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#working-with-different-data-types"><i class="fa fa-check"></i>Working with Different Data Types</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#summary-stats"><i class="fa fa-check"></i>Summary Stats</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#exploratory-plots"><i class="fa fa-check"></i>Exploratory Plots</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#outlier-detection"><i class="fa fa-check"></i>Outlier Detection</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#dimensionality-reduction"><i class="fa fa-check"></i>Dimensionality Reduction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html"><i class="fa fa-check"></i>Module 2: Dealing with Missingness</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lecture-1"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lab-1"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#load-libraries-1"><i class="fa fa-check"></i>Load Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#read-in-data-1"><i class="fa fa-check"></i>Read in Data</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#missing-data-exploration"><i class="fa fa-check"></i>Missing Data Exploration</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#imputation-prep"><i class="fa fa-check"></i>Imputation Prep</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#missingness-simulation"><i class="fa fa-check"></i>Missingness Simulation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#meanmode-imputation"><i class="fa fa-check"></i>Mean/mode Imputation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#k-nearest-neighbour-imputation"><i class="fa fa-check"></i>K-Nearest Neighbour Imputation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#random-forest-imputation"><i class="fa fa-check"></i>Random Forest Imputation</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#mice"><i class="fa fa-check"></i>MICE</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#error-rates"><i class="fa fa-check"></i>Error Rates</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#impute-the-full-dataset"><i class="fa fa-check"></i>Impute the Full Dataset</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#compare-inferences-obtained-from-complete-case-and-imputed-datasets"><i class="fa fa-check"></i>Compare Inferences Obtained from Complete-case and Imputed Datasets</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html"><i class="fa fa-check"></i>Module 3: Modeling Part 1</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lecture-2"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#regression"><i class="fa fa-check"></i>Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#generalized-linear-models"><i class="fa fa-check"></i>Generalized Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lab-2"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#load-libraries-2"><i class="fa fa-check"></i>Load Libraries</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#multiple-linear-regression-and-the-dietswap-data"><i class="fa fa-check"></i>Multiple Linear Regression and the Dietswap Data</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#logistic-regression"><i class="fa fa-check"></i>Logistic Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#binomial-regression"><i class="fa fa-check"></i>Binomial Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#poisson-regression"><i class="fa fa-check"></i>Poisson Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#negative-binomial"><i class="fa fa-check"></i>Negative Binomial</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#independent-work"><i class="fa fa-check"></i>Independent Work</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html"><i class="fa fa-check"></i>Module 4: Modeling Part 2</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lecture-3"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#classification"><i class="fa fa-check"></i>Classification</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#clustering"><i class="fa fa-check"></i>Clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lab-3"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#classification-1"><i class="fa fa-check"></i>Classification</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#clustering-1"><i class="fa fa-check"></i>Clustering</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html"><i class="fa fa-check"></i>Module 5: Putting it all Together</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lecture-4"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lab-4"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#breast-cancer"><i class="fa fa-check"></i>Breast Cancer</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#gene-expression"><i class="fa fa-check"></i>Gene Expression</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#genomic-prediction"><i class="fa fa-check"></i>Genomic Prediction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html"><i class="fa fa-check"></i>Module 6: Introduction to Causal Intference</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lecture-5"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lab-5"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#causal-interfence-introduction"><i class="fa fa-check"></i>Causal Interfence Introduction</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<h1 id="sponsors">Sponsors</h1>
+<center>
+<a href="https://genomecanada.ca/"><img src="img/sponsors/genomecanada.png" height="70" style="display:inline-block;"  style="padding-bottom: 20px" alt="Genome Canada logo.">
+<a href="https://www.ontariogenomics.ca/"><img src="img/sponsors/ontariogenomics.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Ontario Genomics logo.">
+<br><br>
+<a href="https://oicr.on.ca/"><img src="img/sponsors/oicr.png" width=25% style="display:inline-block;" style="padding-bottom: 20px" alt="Ontario Institute for Cancer Research logo.">
+<a href="https://www.hpcforhealth.ca/"><img src="img/sponsors/hpc4health.png" width=60% style="display:inline-block;" style="padding-bottom: 20px "alt="HPC4Health logo.">
+<br><br>
+<a href="https://computationalgenomics.ca/"><img src="img/sponsors/c3g.png" style="display:inline-block;" width=35% style="padding-bottom: 20px" alt="Canadian Centre for Computational Genomcis logo.">
+
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li></center>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Help! What Statistical Model Should I Use? 2024</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="module-4-modeling-part-2" class="section level1 hasAnchor">
+<h1>Module 4: Modeling Part 2<a href="module-4-modeling-part-2.html#module-4-modeling-part-2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="lecture-3" class="section level2 hasAnchor">
+<h2>Lecture<a href="module-4-modeling-part-2.html#lecture-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="classification" class="section level3 hasAnchor">
+<h3>Classification<a href="module-4-modeling-part-2.html#classification" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/nH4Bou92FzE?si=tNxvZVaGtF0dbZtg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
+<p><br></p>
+<iframe src="https://drive.google.com/file/d/1CfFIOW9UpTAbI6B1aihF7atPWw5OmkXk/preview" width="640" height="480" allow="autoplay">
+</iframe>
+</div>
+<div id="clustering" class="section level3 hasAnchor">
+<h3>Clustering<a href="module-4-modeling-part-2.html#clustering" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/ziVEe99JZXQ?si=9vy4SU6iH3r_1IWE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
+<p><br></p>
+<iframe src="https://drive.google.com/file/d/1ua6fFAoelblHpd8ycUQBkh3LVtFX3rON/preview" width="640" height="480" allow="autoplay">
+</iframe>
+</div>
+</div>
+<div id="lab-3" class="section level2 hasAnchor">
+<h2>Lab<a href="module-4-modeling-part-2.html#lab-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="classification-1" class="section level3 hasAnchor">
+<h3>Classification<a href="module-4-modeling-part-2.html#classification-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In this example we’ll be looking at the Pima Indians Diabetes Database collected by the National Institute of Diabetes and Digestive and Kidney Diseases. The dataset contain 768 observations on 9 variables related to the onset of diabetes in women.</p>
+<div id="load-libraries-3" class="section level4 hasAnchor">
+<h4>Load Libraries<a href="module-4-modeling-part-2.html#load-libraries-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="module-4-modeling-part-2.html#cb304-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># General functions and plots</span></span>
+<span id="cb304-2"><a href="module-4-modeling-part-2.html#cb304-2" tabindex="-1"></a><span class="fu">library</span>(mlbench) <span class="co"># Source of the dataset</span></span>
+<span id="cb304-3"><a href="module-4-modeling-part-2.html#cb304-3" tabindex="-1"></a><span class="fu">library</span>(glmnet) <span class="co"># For penalized regression</span></span>
+<span id="cb304-4"><a href="module-4-modeling-part-2.html#cb304-4" tabindex="-1"></a><span class="fu">library</span>(pROC) <span class="co"># For AUC calculations</span></span>
+<span id="cb304-5"><a href="module-4-modeling-part-2.html#cb304-5" tabindex="-1"></a><span class="fu">library</span>(randomForest) <span class="co"># AFor the random forest model</span></span></code></pre></div>
+</div>
+<div id="read-in-data-3" class="section level4 hasAnchor">
+<h4>Read in Data<a href="module-4-modeling-part-2.html#read-in-data-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="module-4-modeling-part-2.html#cb305-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;PimaIndiansDiabetes&quot;</span>)</span>
+<span id="cb305-2"><a href="module-4-modeling-part-2.html#cb305-2" tabindex="-1"></a></span>
+<span id="cb305-3"><a href="module-4-modeling-part-2.html#cb305-3" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb305-4"><a href="module-4-modeling-part-2.html#cb305-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span></code></pre></div>
+<p>We’ll need to convert the labelled response variable into a numeric binary value.</p>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="module-4-modeling-part-2.html#cb306-1" tabindex="-1"></a>diabetes.data <span class="ot">&lt;-</span> PimaIndiansDiabetes <span class="sc">%&gt;%</span></span>
+<span id="cb306-2"><a href="module-4-modeling-part-2.html#cb306-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diabetes =</span> <span class="fu">case_when</span>(diabetes <span class="sc">==</span> <span class="st">&#39;pos&#39;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb306-3"><a href="module-4-modeling-part-2.html#cb306-3" tabindex="-1"></a>                              diabetes <span class="sc">==</span> <span class="st">&#39;neg&#39;</span> <span class="sc">~</span> <span class="dv">0</span>))</span></code></pre></div>
+</div>
+<div id="exploratory-data-analysis" class="section level4 hasAnchor">
+<h4>Exploratory Data Analysis<a href="module-4-modeling-part-2.html#exploratory-data-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="module-4-modeling-part-2.html#cb307-1" tabindex="-1"></a>diabetes.pc <span class="ot">&lt;-</span> diabetes.data  <span class="sc">%&gt;%</span></span>
+<span id="cb307-2"><a href="module-4-modeling-part-2.html#cb307-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="fu">where</span>(is.numeric)), <span class="sc">~</span>(.x<span class="sc">-</span><span class="fu">mean</span>(.x))<span class="sc">/</span><span class="fu">sd</span>(.x))) <span class="sc">%&gt;%</span></span>
+<span id="cb307-3"><a href="module-4-modeling-part-2.html#cb307-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">%&gt;%</span></span>
+<span id="cb307-4"><a href="module-4-modeling-part-2.html#cb307-4" tabindex="-1"></a>  <span class="fu">cor</span>()</span>
+<span id="cb307-5"><a href="module-4-modeling-part-2.html#cb307-5" tabindex="-1"></a></span>
+<span id="cb307-6"><a href="module-4-modeling-part-2.html#cb307-6" tabindex="-1"></a>diabetes.pc <span class="sc">%&gt;%</span></span>
+<span id="cb307-7"><a href="module-4-modeling-part-2.html#cb307-7" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb307-8"><a href="module-4-modeling-part-2.html#cb307-8" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;Variable_1&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb307-9"><a href="module-4-modeling-part-2.html#cb307-9" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>Variable_1, <span class="at">names_to =</span> <span class="st">&quot;Variable_2&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Correlation&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb307-10"><a href="module-4-modeling-part-2.html#cb307-10" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x =</span> Variable_1, <span class="at">y =</span> Variable_2, <span class="at">fill =</span> Correlation)) <span class="sc">+</span></span>
+<span id="cb307-11"><a href="module-4-modeling-part-2.html#cb307-11" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb307-12"><a href="module-4-modeling-part-2.html#cb307-12" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb307-13"><a href="module-4-modeling-part-2.html#cb307-13" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">limit =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">space =</span> <span class="st">&quot;Lab&quot;</span>,</span>
+<span id="cb307-14"><a href="module-4-modeling-part-2.html#cb307-14" tabindex="-1"></a>                       <span class="at">name =</span> <span class="st">&quot;Correlation&quot;</span>) <span class="sc">+</span></span>
+<span id="cb307-15"><a href="module-4-modeling-part-2.html#cb307-15" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb307-16"><a href="module-4-modeling-part-2.html#cb307-16" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb307-17"><a href="module-4-modeling-part-2.html#cb307-17" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb307-18"><a href="module-4-modeling-part-2.html#cb307-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Correlation Matrix of Diabetes Dataset&quot;</span>,</span>
+<span id="cb307-19"><a href="module-4-modeling-part-2.html#cb307-19" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb307-20"><a href="module-4-modeling-part-2.html#cb307-20" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+</div>
+<div id="create-training-and-testing-sets" class="section level4 hasAnchor">
+<h4>Create Training and Testing Sets<a href="module-4-modeling-part-2.html#create-training-and-testing-sets" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="module-4-modeling-part-2.html#cb308-1" tabindex="-1"></a><span class="co"># Split training data into explanatory and response variables</span></span>
+<span id="cb308-2"><a href="module-4-modeling-part-2.html#cb308-2" tabindex="-1"></a>Training.dat <span class="ot">&lt;-</span> diabetes.data <span class="sc">%&gt;%</span></span>
+<span id="cb308-3"><a href="module-4-modeling-part-2.html#cb308-3" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.75</span>)</span>
+<span id="cb308-4"><a href="module-4-modeling-part-2.html#cb308-4" tabindex="-1"></a></span>
+<span id="cb308-5"><a href="module-4-modeling-part-2.html#cb308-5" tabindex="-1"></a>Train.X <span class="ot">&lt;-</span> Training.dat <span class="sc">%&gt;%</span></span>
+<span id="cb308-6"><a href="module-4-modeling-part-2.html#cb308-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>diabetes) <span class="sc">%&gt;%</span></span>
+<span id="cb308-7"><a href="module-4-modeling-part-2.html#cb308-7" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb308-8"><a href="module-4-modeling-part-2.html#cb308-8" tabindex="-1"></a></span>
+<span id="cb308-9"><a href="module-4-modeling-part-2.html#cb308-9" tabindex="-1"></a>Train.Y <span class="ot">&lt;-</span> Training.dat <span class="sc">%&gt;%</span></span>
+<span id="cb308-10"><a href="module-4-modeling-part-2.html#cb308-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(diabetes) <span class="sc">%&gt;%</span></span>
+<span id="cb308-11"><a href="module-4-modeling-part-2.html#cb308-11" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb308-12"><a href="module-4-modeling-part-2.html#cb308-12" tabindex="-1"></a></span>
+<span id="cb308-13"><a href="module-4-modeling-part-2.html#cb308-13" tabindex="-1"></a><span class="co"># Do the same for the testing data</span></span>
+<span id="cb308-14"><a href="module-4-modeling-part-2.html#cb308-14" tabindex="-1"></a>Testing.dat <span class="ot">&lt;-</span> diabetes.data <span class="sc">%&gt;%</span></span>
+<span id="cb308-15"><a href="module-4-modeling-part-2.html#cb308-15" tabindex="-1"></a>  <span class="fu">anti_join</span>(., Training.dat)</span></code></pre></div>
+<pre><code>## Joining with `by = join_by(pregnant, glucose, pressure, triceps,
+## insulin, mass, pedigree, age, diabetes)`</code></pre>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="module-4-modeling-part-2.html#cb310-1" tabindex="-1"></a>Test.X <span class="ot">&lt;-</span> Testing.dat <span class="sc">%&gt;%</span></span>
+<span id="cb310-2"><a href="module-4-modeling-part-2.html#cb310-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>diabetes) <span class="sc">%&gt;%</span></span>
+<span id="cb310-3"><a href="module-4-modeling-part-2.html#cb310-3" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb310-4"><a href="module-4-modeling-part-2.html#cb310-4" tabindex="-1"></a></span>
+<span id="cb310-5"><a href="module-4-modeling-part-2.html#cb310-5" tabindex="-1"></a>Test.Y <span class="ot">&lt;-</span> Testing.dat <span class="sc">%&gt;%</span></span>
+<span id="cb310-6"><a href="module-4-modeling-part-2.html#cb310-6" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(diabetes) <span class="sc">%&gt;%</span></span>
+<span id="cb310-7"><a href="module-4-modeling-part-2.html#cb310-7" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span></code></pre></div>
+</div>
+<div id="fit-a-logistic-regression-model" class="section level4 hasAnchor">
+<h4>Fit a Logistic Regression Model<a href="module-4-modeling-part-2.html#fit-a-logistic-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="module-4-modeling-part-2.html#cb311-1" tabindex="-1"></a><span class="co"># Fit a Logistic Regression model</span></span>
+<span id="cb311-2"><a href="module-4-modeling-part-2.html#cb311-2" tabindex="-1"></a>logistic.mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(diabetes <span class="sc">~</span> ., <span class="at">data =</span> Training.dat, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb311-3"><a href="module-4-modeling-part-2.html#cb311-3" tabindex="-1"></a></span>
+<span id="cb311-4"><a href="module-4-modeling-part-2.html#cb311-4" tabindex="-1"></a><span class="co"># Predict on training and testing sets</span></span>
+<span id="cb311-5"><a href="module-4-modeling-part-2.html#cb311-5" tabindex="-1"></a>logistic.train <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic.mod, <span class="at">newdata =</span> Training.dat, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb311-6"><a href="module-4-modeling-part-2.html#cb311-6" tabindex="-1"></a>logistic.test <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic.mod, <span class="at">newdata =</span> Testing.dat, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb311-7"><a href="module-4-modeling-part-2.html#cb311-7" tabindex="-1"></a></span>
+<span id="cb311-8"><a href="module-4-modeling-part-2.html#cb311-8" tabindex="-1"></a><span class="co"># Calculate AUC for Logistic Regression</span></span>
+<span id="cb311-9"><a href="module-4-modeling-part-2.html#cb311-9" tabindex="-1"></a>logistic.train.auc <span class="ot">&lt;-</span> <span class="fu">roc</span>(<span class="fu">c</span>(Train.Y), <span class="fu">c</span>(logistic.train))</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="module-4-modeling-part-2.html#cb314-1" tabindex="-1"></a>logistic.train.auc</span></code></pre></div>
+<pre><code>## 
+## Call:
+## roc.default(response = c(Train.Y), predictor = c(logistic.train))
+## 
+## Data: c(logistic.train) in 375 controls (c(Train.Y) 0) &lt; 201 cases (c(Train.Y) 1).
+## Area under the curve: 0.8412</code></pre>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="module-4-modeling-part-2.html#cb316-1" tabindex="-1"></a>logistic.test.auc <span class="ot">&lt;-</span> <span class="fu">roc</span>(<span class="fu">c</span>(Test.Y), <span class="fu">c</span>(logistic.test))</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1
+## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="module-4-modeling-part-2.html#cb318-1" tabindex="-1"></a>logistic.test.auc</span></code></pre></div>
+<pre><code>## 
+## Call:
+## roc.default(response = c(Test.Y), predictor = c(logistic.test))
+## 
+## Data: c(logistic.test) in 125 controls (c(Test.Y) 0) &lt; 67 cases (c(Test.Y) 1).
+## Area under the curve: 0.8326</code></pre>
+</div>
+<div id="fit-an-elastic-net-model" class="section level4 hasAnchor">
+<h4>Fit an Elastic Net Model<a href="module-4-modeling-part-2.html#fit-an-elastic-net-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>First, you need to identify an optimal lambda value.</p>
+<p>Using cross validation for this helps to identify a lambda value which generalizes well as the best one should perform well across all folds.</p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="module-4-modeling-part-2.html#cb320-1" tabindex="-1"></a><span class="co"># Need to conduct cross validation for a more robust estimate or the optimal lambda</span></span>
+<span id="cb320-2"><a href="module-4-modeling-part-2.html#cb320-2" tabindex="-1"></a>foldid <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">length.out =</span> <span class="fu">nrow</span>(Training.dat)))</span>
+<span id="cb320-3"><a href="module-4-modeling-part-2.html#cb320-3" tabindex="-1"></a></span>
+<span id="cb320-4"><a href="module-4-modeling-part-2.html#cb320-4" tabindex="-1"></a>EN.cv.results <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(Train.X, Train.Y, <span class="at">type.measure=</span><span class="st">&quot;deviance&quot;</span>, <span class="at">family=</span><span class="st">&quot;binomial&quot;</span>, <span class="at">foldid=</span>foldid, <span class="at">alpha=</span><span class="fl">0.5</span>)</span>
+<span id="cb320-5"><a href="module-4-modeling-part-2.html#cb320-5" tabindex="-1"></a></span>
+<span id="cb320-6"><a href="module-4-modeling-part-2.html#cb320-6" tabindex="-1"></a><span class="do">## plot results of 5-fold CV</span></span>
+<span id="cb320-7"><a href="module-4-modeling-part-2.html#cb320-7" tabindex="-1"></a><span class="fu">plot</span>(EN.cv.results)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
+<p>From the deviance-lambda value plot, we see that some amount of regularization is beneficial to model performance, but larger lambda values lead to poor model performance.</p>
+<p>Now using the optimal lambda, fit the EN model.</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="module-4-modeling-part-2.html#cb321-1" tabindex="-1"></a>EN.mod <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(Train.X, Train.Y, <span class="at">type.measure=</span><span class="st">&quot;deviance&quot;</span>, <span class="at">family=</span><span class="st">&quot;binomial&quot;</span>, <span class="at">lambda =</span> EN.cv.results<span class="sc">$</span>lambda.min, <span class="at">alpha=</span><span class="fl">0.5</span>)</span>
+<span id="cb321-2"><a href="module-4-modeling-part-2.html#cb321-2" tabindex="-1"></a></span>
+<span id="cb321-3"><a href="module-4-modeling-part-2.html#cb321-3" tabindex="-1"></a><span class="do">## Assess the model performance on the training and testing sets</span></span>
+<span id="cb321-4"><a href="module-4-modeling-part-2.html#cb321-4" tabindex="-1"></a>EN.train <span class="ot">&lt;-</span> <span class="fu">predict</span>(EN.mod, <span class="at">newx =</span> Train.X, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>, <span class="at">s=</span>EN.cv.results<span class="sc">$</span>lambda<span class="fl">.1</span>se)</span>
+<span id="cb321-5"><a href="module-4-modeling-part-2.html#cb321-5" tabindex="-1"></a>EN.test <span class="ot">&lt;-</span> <span class="fu">predict</span>(EN.mod, <span class="at">newx =</span> Test.X, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>, <span class="at">s=</span>EN.cv.results<span class="sc">$</span>lambda<span class="fl">.1</span>se)</span>
+<span id="cb321-6"><a href="module-4-modeling-part-2.html#cb321-6" tabindex="-1"></a></span>
+<span id="cb321-7"><a href="module-4-modeling-part-2.html#cb321-7" tabindex="-1"></a><span class="do">## Calculate the auc for each model</span></span>
+<span id="cb321-8"><a href="module-4-modeling-part-2.html#cb321-8" tabindex="-1"></a>EN.train.auc <span class="ot">&lt;-</span> <span class="fu">roc</span>(<span class="fu">c</span>(Train.Y), <span class="fu">c</span>(EN.train))</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="module-4-modeling-part-2.html#cb324-1" tabindex="-1"></a>EN.test.auc <span class="ot">&lt;-</span> <span class="fu">roc</span>(<span class="fu">c</span>(Test.Y), <span class="fu">c</span>(EN.test))</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1
+## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="module-4-modeling-part-2.html#cb326-1" tabindex="-1"></a><span class="do">## Identify and capture the best index for each model</span></span>
+<span id="cb326-2"><a href="module-4-modeling-part-2.html#cb326-2" tabindex="-1"></a>train.snsp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(EN.train.auc<span class="sc">$</span>sensitivities, EN.train.auc<span class="sc">$</span>specificities) </span>
+<span id="cb326-3"><a href="module-4-modeling-part-2.html#cb326-3" tabindex="-1"></a>train.snsp.best <span class="ot">&lt;-</span> <span class="fu">which.max</span>(<span class="fu">apply</span>(train.snsp, <span class="at">MARGIN =</span> <span class="dv">1</span> , <span class="at">FUN =</span> min))</span>
+<span id="cb326-4"><a href="module-4-modeling-part-2.html#cb326-4" tabindex="-1"></a></span>
+<span id="cb326-5"><a href="module-4-modeling-part-2.html#cb326-5" tabindex="-1"></a><span class="do">## For the testing set</span></span>
+<span id="cb326-6"><a href="module-4-modeling-part-2.html#cb326-6" tabindex="-1"></a>test.snsp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(EN.test.auc<span class="sc">$</span>sensitivities, EN.test.auc<span class="sc">$</span>specificities) </span>
+<span id="cb326-7"><a href="module-4-modeling-part-2.html#cb326-7" tabindex="-1"></a>test.snsp.best <span class="ot">&lt;-</span> <span class="fu">which.max</span>(<span class="fu">apply</span>(test.snsp, <span class="at">MARGIN =</span> <span class="dv">1</span> , <span class="at">FUN =</span> min))</span>
+<span id="cb326-8"><a href="module-4-modeling-part-2.html#cb326-8" tabindex="-1"></a></span>
+<span id="cb326-9"><a href="module-4-modeling-part-2.html#cb326-9" tabindex="-1"></a><span class="do">## Calculate thresholds scores</span></span>
+<span id="cb326-10"><a href="module-4-modeling-part-2.html#cb326-10" tabindex="-1"></a>EN.train.auc.threshold <span class="ot">&lt;-</span> EN.train.auc<span class="sc">$</span>thresholds[train.snsp.best]</span>
+<span id="cb326-11"><a href="module-4-modeling-part-2.html#cb326-11" tabindex="-1"></a>EN.test.auc.threshold <span class="ot">&lt;-</span> EN.test.auc<span class="sc">$</span>thresholds[test.snsp.best]</span>
+<span id="cb326-12"><a href="module-4-modeling-part-2.html#cb326-12" tabindex="-1"></a></span>
+<span id="cb326-13"><a href="module-4-modeling-part-2.html#cb326-13" tabindex="-1"></a><span class="co"># Extract the coefficients for the chosen lambda</span></span>
+<span id="cb326-14"><a href="module-4-modeling-part-2.html#cb326-14" tabindex="-1"></a>coefficients <span class="ot">&lt;-</span> <span class="fu">coef</span>(EN.mod, <span class="at">s =</span> <span class="st">&#39;lambda.min&#39;</span>)</span>
+<span id="cb326-15"><a href="module-4-modeling-part-2.html#cb326-15" tabindex="-1"></a></span>
+<span id="cb326-16"><a href="module-4-modeling-part-2.html#cb326-16" tabindex="-1"></a><span class="co"># Count the number of non-zero coefficients</span></span>
+<span id="cb326-17"><a href="module-4-modeling-part-2.html#cb326-17" tabindex="-1"></a>num_coefficients <span class="ot">&lt;-</span> <span class="fu">apply</span>(coefficients <span class="sc">!=</span> <span class="dv">0</span>, <span class="dv">2</span>, sum)</span>
+<span id="cb326-18"><a href="module-4-modeling-part-2.html#cb326-18" tabindex="-1"></a></span>
+<span id="cb326-19"><a href="module-4-modeling-part-2.html#cb326-19" tabindex="-1"></a><span class="do">## join results into a dataframe to return</span></span>
+<span id="cb326-20"><a href="module-4-modeling-part-2.html#cb326-20" tabindex="-1"></a>test.Results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb326-21"><a href="module-4-modeling-part-2.html#cb326-21" tabindex="-1"></a>  <span class="at">lambda =</span> EN.cv.results<span class="sc">$</span>lambda.min,</span>
+<span id="cb326-22"><a href="module-4-modeling-part-2.html#cb326-22" tabindex="-1"></a>  <span class="at">train_AUC =</span> <span class="fu">as.double</span>(EN.train.auc<span class="sc">$</span>auc),</span>
+<span id="cb326-23"><a href="module-4-modeling-part-2.html#cb326-23" tabindex="-1"></a>  <span class="at">test_AUC =</span> <span class="fu">as.double</span>(EN.test.auc<span class="sc">$</span>auc),</span>
+<span id="cb326-24"><a href="module-4-modeling-part-2.html#cb326-24" tabindex="-1"></a>  <span class="at">NumCoefficients =</span> num_coefficients</span>
+<span id="cb326-25"><a href="module-4-modeling-part-2.html#cb326-25" tabindex="-1"></a>)</span>
+<span id="cb326-26"><a href="module-4-modeling-part-2.html#cb326-26" tabindex="-1"></a>test.Results</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 4
+##   lambda train_AUC test_AUC NumCoefficients
+##    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;           &lt;int&gt;
+## 1 0.0147     0.841    0.829               8</code></pre>
+</div>
+<div id="dataset-overview" class="section level4 hasAnchor">
+<h4>Dataset Overview<a href="module-4-modeling-part-2.html#dataset-overview" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The <code>GlobalPatterns</code> dataset includes:</p>
+<ul>
+<li><strong>Operational Taxonomic Units (OTUs)</strong>: OTUs are groups of related organisms. The OTU table records the abundance of each OTU in different samples</li>
+<li><strong>Sample Metadata</strong>: This includes information about each sample, such as its source (e.g., soil, freshwater, human gut), which helps us to interpret the clustering results</li>
+<li><strong>Phylogenetic Tree</strong>: This tree represents the evolutionary relationships among OTUs</li>
+<li><strong>Taxonomy Data</strong>: This provides detailed taxonomic classification (e.g., genus, species) for each OTU</li>
+</ul>
+<p>We can use these data to cluster samples based on their microbial community composition, allowing us to explore similarities and differences across environmental samples.</p>
+</div>
+</div>
+<div id="clustering-1" class="section level3 hasAnchor">
+<h3>Clustering<a href="module-4-modeling-part-2.html#clustering-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="load-libraries-4" class="section level4 hasAnchor">
+<h4>Load Libraries<a href="module-4-modeling-part-2.html#load-libraries-4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="module-4-modeling-part-2.html#cb328-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># General functions and plots</span></span>
+<span id="cb328-2"><a href="module-4-modeling-part-2.html#cb328-2" tabindex="-1"></a><span class="fu">library</span>(phyloseq) <span class="co"># Data source</span></span>
+<span id="cb328-3"><a href="module-4-modeling-part-2.html#cb328-3" tabindex="-1"></a><span class="fu">library</span>(FNN) <span class="co"># K-Nearest Neighbors</span></span>
+<span id="cb328-4"><a href="module-4-modeling-part-2.html#cb328-4" tabindex="-1"></a><span class="fu">library</span>(cluster) <span class="co"># Hierarchical Clustering</span></span>
+<span id="cb328-5"><a href="module-4-modeling-part-2.html#cb328-5" tabindex="-1"></a><span class="fu">library</span>(ggdendro) <span class="co"># For visualizing dendrograms</span></span></code></pre></div>
+</div>
+<div id="read-in-data-4" class="section level4 hasAnchor">
+<h4>Read in Data<a href="module-4-modeling-part-2.html#read-in-data-4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="module-4-modeling-part-2.html#cb329-1" tabindex="-1"></a><span class="co"># Load example microbiome dataset from phyloseq</span></span>
+<span id="cb329-2"><a href="module-4-modeling-part-2.html#cb329-2" tabindex="-1"></a><span class="fu">data</span>(GlobalPatterns)</span>
+<span id="cb329-3"><a href="module-4-modeling-part-2.html#cb329-3" tabindex="-1"></a>microbiome.data <span class="ot">&lt;-</span> GlobalPatterns</span>
+<span id="cb329-4"><a href="module-4-modeling-part-2.html#cb329-4" tabindex="-1"></a></span>
+<span id="cb329-5"><a href="module-4-modeling-part-2.html#cb329-5" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb329-6"><a href="module-4-modeling-part-2.html#cb329-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span></code></pre></div>
+<p>We need to extract the necessary data for the analysis from the data source. We’ll also take a look at the structure of the data.</p>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="module-4-modeling-part-2.html#cb330-1" tabindex="-1"></a><span class="co"># Extract the Operational Taxonomic Units (OTU) table and sample data</span></span>
+<span id="cb330-2"><a href="module-4-modeling-part-2.html#cb330-2" tabindex="-1"></a>OTU.data <span class="ot">&lt;-</span> <span class="fu">otu_table</span>(microbiome.data) <span class="sc">%&gt;%</span></span>
+<span id="cb330-3"><a href="module-4-modeling-part-2.html#cb330-3" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb330-4"><a href="module-4-modeling-part-2.html#cb330-4" tabindex="-1"></a>Sample.data <span class="ot">&lt;-</span> <span class="fu">sample_data</span>(microbiome.data)</span></code></pre></div>
+<p>Looking at the structure of the OTU data, we can see that the range of values for the variables are quite large and so we’ll need to normalize the data.</p>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="module-4-modeling-part-2.html#cb331-1" tabindex="-1"></a><span class="fu">summary</span>(OTU.data)</span></code></pre></div>
+<pre><code>##       CL3                CC1                SV1             M31Fcsw        
+##  Min.   :    0.00   Min.   :    0.00   Min.   :    0.0   Min.   :     0.0  
+##  1st Qu.:    0.00   1st Qu.:    0.00   1st Qu.:    0.0   1st Qu.:     0.0  
+##  Median :    0.00   Median :    0.00   Median :    0.0   Median :     0.0  
+##  Mean   :   44.97   Mean   :   59.09   Mean   :   36.3   Mean   :    80.3  
+##  3rd Qu.:    3.00   3rd Qu.:    4.00   3rd Qu.:    1.0   3rd Qu.:     0.0  
+##  Max.   :33783.00   Max.   :36632.00   Max.   :11788.0   Max.   :354695.0  
+##     M11Fcsw            M31Plmr             M11Plmr            F21Plmr         
+##  Min.   :     0.0   Min.   :     0.00   Min.   :    0.00   Min.   :    0.000  
+##  1st Qu.:     0.0   1st Qu.:     0.00   1st Qu.:    0.00   1st Qu.:    0.000  
+##  Median :     0.0   Median :     0.00   Median :    0.00   Median :    0.000  
+##  Mean   :   108.1   Mean   :    37.41   Mean   :   22.58   Mean   :    9.695  
+##  3rd Qu.:     0.0   3rd Qu.:     0.00   3rd Qu.:    0.00   3rd Qu.:    0.000  
+##  Max.   :452219.0   Max.   :160536.00   Max.   :84880.00   Max.   :14859.000  
+##     M31Tong            M11Tong             LMEpi24M           SLEpi20M       
+##  Min.   :     0.0   Min.   :    0.000   Min.   :     0.0   Min.   :     0.0  
+##  1st Qu.:     0.0   1st Qu.:    0.000   1st Qu.:     0.0   1st Qu.:     0.0  
+##  Median :     0.0   Median :    0.000   Median :     0.0   Median :     0.0  
+##  Mean   :   104.1   Mean   :    5.214   Mean   :   110.2   Mean   :    63.3  
+##  3rd Qu.:     0.0   3rd Qu.:    0.000   3rd Qu.:     0.0   3rd Qu.:     0.0  
+##  Max.   :540850.0   Max.   :18746.000   Max.   :914209.0   Max.   :323914.0  
+##      AQC1cm             AQC4cm              AQC7cm              NP2          
+##  Min.   :     0.0   Min.   :      0.0   Min.   :     0.0   Min.   :    0.00  
+##  1st Qu.:     0.0   1st Qu.:      0.0   1st Qu.:     0.0   1st Qu.:    0.00  
+##  Median :     0.0   Median :      0.0   Median :     0.0   Median :    0.00  
+##  Mean   :    60.8   Mean   :    122.7   Mean   :    88.4   Mean   :   27.25  
+##  3rd Qu.:     1.0   3rd Qu.:      2.0   3rd Qu.:     1.0   3rd Qu.:    0.00  
+##  Max.   :554198.0   Max.   :1177685.0   Max.   :711043.0   Max.   :87667.00  
+##       NP3                 NP5               TRRsed1            TRRsed2        
+##  Min.   :     0.00   Min.   :     0.00   Min.   :   0.000   Min.   :    0.00  
+##  1st Qu.:     0.00   1st Qu.:     0.00   1st Qu.:   0.000   1st Qu.:    0.00  
+##  Median :     0.00   Median :     0.00   Median :   0.000   Median :    0.00  
+##  Mean   :    76.97   Mean   :    86.01   Mean   :   3.054   Mean   :   25.66  
+##  3rd Qu.:     0.00   3rd Qu.:     0.00   3rd Qu.:   0.000   3rd Qu.:    1.00  
+##  Max.   :148400.00   Max.   :161687.00   Max.   :3177.000   Max.   :59245.00  
+##     TRRsed3              TS28               TS29               Even1          
+##  Min.   :    0.00   Min.   :    0.00   Min.   :     0.00   Min.   :     0.00  
+##  1st Qu.:    0.00   1st Qu.:    0.00   1st Qu.:     0.00   1st Qu.:     0.00  
+##  Median :    0.00   Median :    0.00   Median :     0.00   Median :     0.00  
+##  Mean   :   14.56   Mean   :   48.79   Mean   :    63.02   Mean   :    63.29  
+##  3rd Qu.:    0.00   3rd Qu.:    0.00   3rd Qu.:     0.00   3rd Qu.:     0.00  
+##  Max.   :27172.00   Max.   :92915.00   Max.   :251215.00   Max.   :141771.00  
+##      Even2               Even3          
+##  Min.   :     0.00   Min.   :     0.00  
+##  1st Qu.:     0.00   1st Qu.:     0.00  
+##  Median :     0.00   Median :     0.00  
+##  Mean   :    50.53   Mean   :    56.11  
+##  3rd Qu.:     0.00   3rd Qu.:     0.00  
+##  Max.   :114624.00   Max.   :124394.00</code></pre>
+<p>After normalizing the data the ranges are much more consistent.</p>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="module-4-modeling-part-2.html#cb333-1" tabindex="-1"></a>OTU.scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(OTU.data, <span class="at">scale =</span> T, <span class="at">center =</span> T)</span>
+<span id="cb333-2"><a href="module-4-modeling-part-2.html#cb333-2" tabindex="-1"></a><span class="fu">summary</span>(OTU.scaled)</span></code></pre></div>
+<pre><code>##       CL3                CC1                SV1             M31Fcsw         
+##  Min.   :-0.09916   Min.   :-0.10482   Min.   :-0.1193   Min.   : -0.02682  
+##  1st Qu.:-0.09916   1st Qu.:-0.10482   1st Qu.:-0.1193   1st Qu.: -0.02682  
+##  Median :-0.09916   Median :-0.10482   Median :-0.1193   Median : -0.02682  
+##  Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.0000   Mean   :  0.00000  
+##  3rd Qu.:-0.09255   3rd Qu.:-0.09772   3rd Qu.:-0.1160   3rd Qu.: -0.02682  
+##  Max.   :74.40189   Max.   :64.87727   Max.   :38.6148   Max.   :118.40433  
+##     M11Fcsw             M31Plmr             M11Plmr            F21Plmr        
+##  Min.   : -0.02402   Min.   : -0.02896   Min.   : -0.0329   Min.   :-0.04842  
+##  1st Qu.: -0.02402   1st Qu.: -0.02896   1st Qu.: -0.0329   1st Qu.:-0.04842  
+##  Median : -0.02402   Median : -0.02896   Median : -0.0329   Median :-0.04842  
+##  Mean   :  0.00000   Mean   :  0.00000   Mean   :  0.0000   Mean   : 0.00000  
+##  3rd Qu.: -0.02402   3rd Qu.: -0.02896   3rd Qu.: -0.0329   3rd Qu.:-0.04842  
+##  Max.   :100.48741   Max.   :124.24329   Max.   :123.6427   Max.   :74.16059  
+##     M31Tong             M11Tong            LMEpi24M            SLEpi20M        
+##  Min.   : -0.01946   Min.   : -0.0285   Min.   : -0.01623   Min.   : -0.02369  
+##  1st Qu.: -0.01946   1st Qu.: -0.0285   1st Qu.: -0.01623   1st Qu.: -0.02369  
+##  Median : -0.01946   Median : -0.0285   Median : -0.01623   Median : -0.02369  
+##  Mean   :  0.00000   Mean   :  0.0000   Mean   :  0.00000   Mean   :  0.00000  
+##  3rd Qu.: -0.01946   3rd Qu.: -0.0285   3rd Qu.: -0.01623   3rd Qu.: -0.02369  
+##  Max.   :101.08524   Max.   :102.4517   Max.   :134.60323   Max.   :121.10293  
+##      AQC1cm              AQC4cm              AQC7cm         
+##  Min.   : -0.01488   Min.   : -0.01414   Min.   : -0.01691  
+##  1st Qu.: -0.01488   1st Qu.: -0.01414   1st Qu.: -0.01691  
+##  Median : -0.01488   Median : -0.01414   Median : -0.01691  
+##  Mean   :  0.00000   Mean   :  0.00000   Mean   :  0.00000  
+##  3rd Qu.: -0.01463   3rd Qu.: -0.01391   3rd Qu.: -0.01672  
+##  Max.   :135.67447   Max.   :135.76022   Max.   :135.93943  
+##       NP2                 NP3              NP5              TRRsed1        
+##  Min.   : -0.03338   Min.   :-0.043   Min.   :-0.04556   Min.   :-0.08325  
+##  1st Qu.: -0.03338   1st Qu.:-0.043   1st Qu.:-0.04556   1st Qu.:-0.08325  
+##  Median : -0.03338   Median :-0.043   Median :-0.04556   Median :-0.08325  
+##  Mean   :  0.00000   Mean   : 0.000   Mean   : 0.00000   Mean   : 0.00000  
+##  3rd Qu.: -0.03338   3rd Qu.:-0.043   3rd Qu.:-0.04556   3rd Qu.:-0.08325  
+##  Max.   :107.33978   Max.   :82.863   Max.   :85.59311   Max.   :86.51186  
+##     TRRsed2            TRRsed3              TS28               TS29          
+##  Min.   :-0.03810   Min.   :-0.05323   Min.   :-0.03868   Min.   : -0.02521  
+##  1st Qu.:-0.03810   1st Qu.:-0.05323   1st Qu.:-0.03868   1st Qu.: -0.02521  
+##  Median :-0.03810   Median :-0.05323   Median :-0.03868   Median : -0.02521  
+##  Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.00000   Mean   :  0.00000  
+##  3rd Qu.:-0.03661   3rd Qu.:-0.05323   3rd Qu.:-0.03868   3rd Qu.: -0.02521  
+##  Max.   :87.91653   Max.   :99.31863   Max.   :73.63814   Max.   :100.47936  
+##      Even1              Even2            Even3         
+##  Min.   :-0.04048   Min.   :-0.038   Min.   :-0.03995  
+##  1st Qu.:-0.04048   1st Qu.:-0.038   1st Qu.:-0.03995  
+##  Median :-0.04048   Median :-0.038   Median :-0.03995  
+##  Mean   : 0.00000   Mean   : 0.000   Mean   : 0.00000  
+##  3rd Qu.:-0.04048   3rd Qu.:-0.038   3rd Qu.:-0.03995  
+##  Max.   :90.64845   Max.   :86.160   Max.   :88.52158</code></pre>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="module-4-modeling-part-2.html#cb335-1" tabindex="-1"></a><span class="co"># We also need to transpose the data</span></span>
+<span id="cb335-2"><a href="module-4-modeling-part-2.html#cb335-2" tabindex="-1"></a>OTU.scaled <span class="ot">&lt;-</span> <span class="fu">t</span>(OTU.scaled)</span></code></pre></div>
+<p>Looking at the sample data we get an idea of how the experiment was designed and the different sources of the samples.</p>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="module-4-modeling-part-2.html#cb336-1" tabindex="-1"></a><span class="fu">summary</span>(Sample.data)</span></code></pre></div>
+<pre><code>##    X.SampleID     Primer   Final_Barcode Barcode_truncated_plus_T
+##  AQC1cm : 1   ILBC_01: 1   AACGCA : 1    AACTGT : 1              
+##  AQC4cm : 1   ILBC_02: 1   AACTCG : 1    ACAGGT : 1              
+##  AQC7cm : 1   ILBC_03: 1   AACTGT : 1    ACAGTT : 1              
+##  CC1    : 1   ILBC_04: 1   AAGAGA : 1    ACATGT : 1              
+##  CL3    : 1   ILBC_05: 1   AAGCTG : 1    ACGATT : 1              
+##  Even1  : 1   ILBC_07: 1   AATCGT : 1    AGCTGT : 1              
+##  (Other):20   (Other):20   (Other):20    (Other):20              
+##   Barcode_full_length              SampleType
+##  AGAGAGACAGG: 1       Feces             :4   
+##  AGCCGACTCTG: 1       Freshwater (creek):3   
+##  ATGAAGCACTG: 1       Mock              :3   
+##  CAAGCTAGCTG: 1       Ocean             :3   
+##  CACGTGACATG: 1       Sediment (estuary):3   
+##  CATCGACGAGT: 1       Skin              :3   
+##  (Other)    :20       (Other)           :7   
+##                                    Description
+##  Tijuana River Reserve, depth 2          : 2  
+##  Allequash Creek, 0-1cm depth            : 1  
+##  Allequash Creek, 3-4 cm depth           : 1  
+##  Allequash Creek, 6-7 cm depth           : 1  
+##  Calhoun South Carolina Pine soil, pH 4.9: 1  
+##  Cedar Creek Minnesota, grassland, pH 6.1: 1  
+##  (Other)                                 :19</code></pre>
+</div>
+<div id="k-means" class="section level4 hasAnchor">
+<h4>K Means<a href="module-4-modeling-part-2.html#k-means" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="module-4-modeling-part-2.html#cb338-1" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Lets use 3 clusters </span></span>
+<span id="cb338-2"><a href="module-4-modeling-part-2.html#cb338-2" tabindex="-1"></a></span>
+<span id="cb338-3"><a href="module-4-modeling-part-2.html#cb338-3" tabindex="-1"></a>kmeans.result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(OTU.scaled, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb338-4"><a href="module-4-modeling-part-2.html#cb338-4" tabindex="-1"></a></span>
+<span id="cb338-5"><a href="module-4-modeling-part-2.html#cb338-5" tabindex="-1"></a><span class="fu">as.factor</span>(kmeans.result<span class="sc">$</span>cluster)</span></code></pre></div>
+<pre><code>##      CL3      CC1      SV1  M31Fcsw  M11Fcsw  M31Plmr  M11Plmr  F21Plmr 
+##        1        1        1        2        2        1        1        1 
+##  M31Tong  M11Tong LMEpi24M SLEpi20M   AQC1cm   AQC4cm   AQC7cm      NP2 
+##        1        1        1        1        3        3        3        1 
+##      NP3      NP5  TRRsed1  TRRsed2  TRRsed3     TS28     TS29    Even1 
+##        1        1        2        2        2        2        2        2 
+##    Even2    Even3 
+##        2        2 
+## Levels: 1 2 3</code></pre>
+<p>How do we decide how to choose the number of clusters, K? We can calculate the Within-Cluster Sum of Squares (WCSS). A lower WCSS indicates that data points are closer to their cluster centroids, implying more cohesive clusters.</p>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="module-4-modeling-part-2.html#cb340-1" tabindex="-1"></a><span class="co"># Calculate WCSS for different numbers of clusters - Max is 25 as we have 26 groups and min is 2 since having only 1 group is not useful. </span></span>
+<span id="cb340-2"><a href="module-4-modeling-part-2.html#cb340-2" tabindex="-1"></a>wcss <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">25</span>, <span class="cf">function</span>(k) {</span>
+<span id="cb340-3"><a href="module-4-modeling-part-2.html#cb340-3" tabindex="-1"></a>  <span class="fu">kmeans</span>(OTU.scaled, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">10</span>)<span class="sc">$</span>tot.withinss</span>
+<span id="cb340-4"><a href="module-4-modeling-part-2.html#cb340-4" tabindex="-1"></a>})</span>
+<span id="cb340-5"><a href="module-4-modeling-part-2.html#cb340-5" tabindex="-1"></a></span>
+<span id="cb340-6"><a href="module-4-modeling-part-2.html#cb340-6" tabindex="-1"></a><span class="co"># Plot WCSS against the number of clusters</span></span>
+<span id="cb340-7"><a href="module-4-modeling-part-2.html#cb340-7" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">25</span>, wcss, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">frame =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb340-8"><a href="module-4-modeling-part-2.html#cb340-8" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of Clusters K&quot;</span>,</span>
+<span id="cb340-9"><a href="module-4-modeling-part-2.html#cb340-9" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Within-Clusters Sum of Squares&quot;</span>,</span>
+<span id="cb340-10"><a href="module-4-modeling-part-2.html#cb340-10" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Elbow Method for Determining Optimal Number of Clusters&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
+<p>There is no distinct ‘elbow’ on the plot which makes identifying an optimal number of clusters difficult. We’ll refit the model and see how it influences cluster assignments.</p>
+<p>Lets set k=15, seems like WCSS doesn’t reduce as quickly after that point.</p>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="module-4-modeling-part-2.html#cb341-1" tabindex="-1"></a>kmeans.result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(OTU.scaled, <span class="at">centers =</span> <span class="dv">15</span>, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb341-2"><a href="module-4-modeling-part-2.html#cb341-2" tabindex="-1"></a></span>
+<span id="cb341-3"><a href="module-4-modeling-part-2.html#cb341-3" tabindex="-1"></a><span class="fu">as.factor</span>(kmeans.result<span class="sc">$</span>cluster)</span></code></pre></div>
+<pre><code>##      CL3      CC1      SV1  M31Fcsw  M11Fcsw  M31Plmr  M11Plmr  F21Plmr 
+##        3        1       15        7        7       14       12       14 
+##  M31Tong  M11Tong LMEpi24M SLEpi20M   AQC1cm   AQC4cm   AQC7cm      NP2 
+##        5        5        2       11        4        4        4       10 
+##      NP3      NP5  TRRsed1  TRRsed2  TRRsed3     TS28     TS29    Even1 
+##        6       10        8        8        8       13       13        9 
+##    Even2    Even3 
+##        9        9 
+## Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</code></pre>
+<p>These clusters represent groups of samples that are found to be more similar to each other in terms of their OTU abundances.</p>
+<p>Let’s evaluate using PCA:</p>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="module-4-modeling-part-2.html#cb343-1" tabindex="-1"></a>pca_results <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(OTU.scaled, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb343-2"><a href="module-4-modeling-part-2.html#cb343-2" tabindex="-1"></a>pca_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(pca_results<span class="sc">$</span>x, <span class="at">Cluster =</span> <span class="fu">as.factor</span>(kmeans.result<span class="sc">$</span>cluster))</span>
+<span id="cb343-3"><a href="module-4-modeling-part-2.html#cb343-3" tabindex="-1"></a></span>
+<span id="cb343-4"><a href="module-4-modeling-part-2.html#cb343-4" tabindex="-1"></a><span class="fu">ggplot</span>(pca_data, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> Cluster)) <span class="sc">+</span></span>
+<span id="cb343-5"><a href="module-4-modeling-part-2.html#cb343-5" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb343-6"><a href="module-4-modeling-part-2.html#cb343-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;PCA of OTU Data with 15 K-Means Clusters&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+<p>The PCA plot for the 15 cluster K-Means results indicates that we’re probably using too many clusters. Lets reassess with only 4 clusters this time.</p>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="module-4-modeling-part-2.html#cb344-1" tabindex="-1"></a>kmeans.result2 <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(OTU.scaled, <span class="at">centers =</span> <span class="dv">4</span>, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb344-2"><a href="module-4-modeling-part-2.html#cb344-2" tabindex="-1"></a></span>
+<span id="cb344-3"><a href="module-4-modeling-part-2.html#cb344-3" tabindex="-1"></a>pca_results2 <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(OTU.scaled, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb344-4"><a href="module-4-modeling-part-2.html#cb344-4" tabindex="-1"></a>pca_data2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(pca_results2<span class="sc">$</span>x, <span class="at">Cluster =</span> <span class="fu">as.factor</span>(kmeans.result2<span class="sc">$</span>cluster))</span>
+<span id="cb344-5"><a href="module-4-modeling-part-2.html#cb344-5" tabindex="-1"></a></span>
+<span id="cb344-6"><a href="module-4-modeling-part-2.html#cb344-6" tabindex="-1"></a><span class="fu">ggplot</span>(pca_data2, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> Cluster)) <span class="sc">+</span></span>
+<span id="cb344-7"><a href="module-4-modeling-part-2.html#cb344-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb344-8"><a href="module-4-modeling-part-2.html#cb344-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;PCA of OTU Data with 4 K-Means Clusters&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
+<p>That didn’t cluster the groups as expected,. The proximity of the points on the PCA plot suggests similarity among groups based on the variance captured by the first two PCs, but this may not translate to how the algorithm is determining the number of groups. So, how can we decide what’s best?</p>
+<ul>
+<li>Expert opinion</li>
+<li>Silhouette analysis</li>
+<li>Hierarchical clustering</li>
+</ul>
+<p>These are just strategies, they don’t provide a conclusive “optimal” K value.</p>
+<p>Let’s explore the silhouette analysis</p>
+<p>The Silhouette score measures how similar each point is to its own cluster compared to other clusters. A higher silhouette score suggests better-defined clusters.</p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="module-4-modeling-part-2.html#cb345-1" tabindex="-1"></a>silhouette.values <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(k){</span>
+<span id="cb345-2"><a href="module-4-modeling-part-2.html#cb345-2" tabindex="-1"></a>  Kmeans.res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(OTU.scaled, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb345-3"><a href="module-4-modeling-part-2.html#cb345-3" tabindex="-1"></a>  silhouette.score <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(Kmeans.res<span class="sc">$</span>cluster, <span class="fu">dist</span>(OTU.scaled))</span>
+<span id="cb345-4"><a href="module-4-modeling-part-2.html#cb345-4" tabindex="-1"></a>  <span class="fu">mean</span>(silhouette.score[, <span class="dv">3</span>])  <span class="co"># 3rd column is the silhouette width</span></span>
+<span id="cb345-5"><a href="module-4-modeling-part-2.html#cb345-5" tabindex="-1"></a>})</span>
+<span id="cb345-6"><a href="module-4-modeling-part-2.html#cb345-6" tabindex="-1"></a></span>
+<span id="cb345-7"><a href="module-4-modeling-part-2.html#cb345-7" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, silhouette.values, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">frame =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb345-8"><a href="module-4-modeling-part-2.html#cb345-8" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Number of Clusters K&quot;</span>,</span>
+<span id="cb345-9"><a href="module-4-modeling-part-2.html#cb345-9" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Average Silhouette Width&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
+<p>Looks like 6 might be a good choice for our analysis.</p>
+</div>
+<div id="hierarchical-clustering" class="section level4 hasAnchor">
+<h4>Hierarchical Clustering<a href="module-4-modeling-part-2.html#hierarchical-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Hierarchical clustering can help determine where the natural breaks in the data are. We can visually inspect the dendrogram to choose a natural number of clusters.</p>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="module-4-modeling-part-2.html#cb346-1" tabindex="-1"></a><span class="co"># Perform hierarchical clustering</span></span>
+<span id="cb346-2"><a href="module-4-modeling-part-2.html#cb346-2" tabindex="-1"></a>hc.res <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(OTU.scaled), <span class="at">method =</span> <span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb346-3"><a href="module-4-modeling-part-2.html#cb346-3" tabindex="-1"></a></span>
+<span id="cb346-4"><a href="module-4-modeling-part-2.html#cb346-4" tabindex="-1"></a><span class="co"># Plot the dendrogram</span></span>
+<span id="cb346-5"><a href="module-4-modeling-part-2.html#cb346-5" tabindex="-1"></a><span class="fu">plot</span>(hc.res, <span class="at">labels =</span> Sample.data<span class="sc">$</span>SampleType, <span class="at">main =</span> <span class="st">&quot;Hierarchical Clustering Dendrogram&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">sub =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="module-4-modeling-part-2.html#cb347-1" tabindex="-1"></a><span class="co"># Cut the dendrogram to create group labels</span></span>
+<span id="cb347-2"><a href="module-4-modeling-part-2.html#cb347-2" tabindex="-1"></a>hc.clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.res, <span class="at">k =</span> <span class="dv">7</span>)</span>
+<span id="cb347-3"><a href="module-4-modeling-part-2.html#cb347-3" tabindex="-1"></a>hc.clusters</span></code></pre></div>
+<pre><code>##      CL3      CC1      SV1  M31Fcsw  M11Fcsw  M31Plmr  M11Plmr  F21Plmr 
+##        1        1        1        2        2        3        4        3 
+##  M31Tong  M11Tong LMEpi24M SLEpi20M   AQC1cm   AQC4cm   AQC7cm      NP2 
+##        3        3        5        5        6        6        6        6 
+##      NP3      NP5  TRRsed1  TRRsed2  TRRsed3     TS28     TS29    Even1 
+##        6        6        7        7        7        2        2        2 
+##    Even2    Even3 
+##        2        2</code></pre>
+</div>
+<div id="k-nearest-neighbours" class="section level4 hasAnchor">
+<h4>K-Nearest Neighbours<a href="module-4-modeling-part-2.html#k-nearest-neighbours" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Typically used for classification, but can be used for clustering.</p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="module-4-modeling-part-2.html#cb349-1" tabindex="-1"></a><span class="co"># Number of neighbors to consider</span></span>
+<span id="cb349-2"><a href="module-4-modeling-part-2.html#cb349-2" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">7</span></span>
+<span id="cb349-3"><a href="module-4-modeling-part-2.html#cb349-3" tabindex="-1"></a></span>
+<span id="cb349-4"><a href="module-4-modeling-part-2.html#cb349-4" tabindex="-1"></a><span class="co"># Fit KNN model</span></span>
+<span id="cb349-5"><a href="module-4-modeling-part-2.html#cb349-5" tabindex="-1"></a>knn_result <span class="ot">&lt;-</span> <span class="fu">knn</span>(<span class="at">train =</span> OTU.scaled, <span class="at">test =</span> OTU.scaled, <span class="at">cl =</span> Sample.data<span class="sc">$</span>SampleType, <span class="at">k =</span> k)</span>
+<span id="cb349-6"><a href="module-4-modeling-part-2.html#cb349-6" tabindex="-1"></a></span>
+<span id="cb349-7"><a href="module-4-modeling-part-2.html#cb349-7" tabindex="-1"></a><span class="co"># Add clustering results to sample data</span></span>
+<span id="cb349-8"><a href="module-4-modeling-part-2.html#cb349-8" tabindex="-1"></a>Sample.data<span class="sc">$</span>KNN_Cluster <span class="ot">&lt;-</span> knn_result</span>
+<span id="cb349-9"><a href="module-4-modeling-part-2.html#cb349-9" tabindex="-1"></a></span>
+<span id="cb349-10"><a href="module-4-modeling-part-2.html#cb349-10" tabindex="-1"></a><span class="co"># Visualize clustering result</span></span>
+<span id="cb349-11"><a href="module-4-modeling-part-2.html#cb349-11" tabindex="-1"></a><span class="fu">table</span>(Sample.data<span class="sc">$</span>SampleType, Sample.data<span class="sc">$</span>KNN_Cluster)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<pre><code>##                     
+##                      Feces Freshwater Freshwater (creek)
+##   Feces                  4          0                  0
+##   Freshwater             0          1                  1
+##   Freshwater (creek)     0          0                  3
+##   Mock                   3          0                  0
+##   Ocean                  0          0                  3
+##   Sediment (estuary)     0          0                  0
+##   Skin                   0          0                  0
+##   Soil                   0          0                  2
+##   Tongue                 0          1                  0</code></pre>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="module-4-modeling-part-2.html#cb351-1" tabindex="-1"></a><span class="fu">table</span>(Sample.data<span class="sc">$</span>SampleType, Sample.data<span class="sc">$</span>KNN_Cluster)[,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>]</span></code></pre></div>
+<pre><code>##                     
+##                      Mock Sediment (estuary) Skin
+##   Feces                 0                  0    0
+##   Freshwater            0                  0    0
+##   Freshwater (creek)    0                  0    0
+##   Mock                  0                  0    0
+##   Ocean                 0                  0    0
+##   Sediment (estuary)    2                  1    0
+##   Skin                  0                  0    3
+##   Soil                  1                  0    0
+##   Tongue                0                  0    1</code></pre>
+<p>The numbers in each cell indicate how many samples of a particular SampleType were assigned to a specific KNN_Cluster. Cluster 1 (first column), contains 4 samples originally labeled as “Feces” and 3 samples originally labeled as “Mock”. This would be considered a mixed cluster as it contains samples from multiple sample types may indicate that those sample types share similar characteristics in terms of OTU data.</p>
+</div>
+<div id="independent-work-section" class="section level4 hasAnchor">
+<h4>Independent Work Section<a href="module-4-modeling-part-2.html#independent-work-section" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Load in gene expression data used earlier and clean it to contain only the 1000 most variable genes.</p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="module-4-modeling-part-2.html#cb353-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb353-2"><a href="module-4-modeling-part-2.html#cb353-2" tabindex="-1"></a><span class="fu">library</span>(TCGAbiolinks)</span>
+<span id="cb353-3"><a href="module-4-modeling-part-2.html#cb353-3" tabindex="-1"></a><span class="fu">library</span>(SummarizedExperiment)</span>
+<span id="cb353-4"><a href="module-4-modeling-part-2.html#cb353-4" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb353-5"><a href="module-4-modeling-part-2.html#cb353-5" tabindex="-1"></a><span class="fu">library</span>(cluster)</span></code></pre></div>
+<p>You can download the code from the TCGA repository as below, but if that doesn’t work or it takes too long you can use the the next block of code to read in the CSV files instead.</p>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="module-4-modeling-part-2.html#cb354-1" tabindex="-1"></a><span class="co"># Lets use the same Gene Expression data as before</span></span>
+<span id="cb354-2"><a href="module-4-modeling-part-2.html#cb354-2" tabindex="-1"></a>query <span class="ot">&lt;-</span> <span class="fu">GDCquery</span>(<span class="at">project =</span> <span class="st">&quot;TCGA-LAML&quot;</span>, </span>
+<span id="cb354-3"><a href="module-4-modeling-part-2.html#cb354-3" tabindex="-1"></a>                 <span class="at">data.category =</span> <span class="st">&quot;Transcriptome Profiling&quot;</span>, </span>
+<span id="cb354-4"><a href="module-4-modeling-part-2.html#cb354-4" tabindex="-1"></a>                 <span class="at">data.type =</span> <span class="st">&quot;Gene Expression Quantification&quot;</span>, </span>
+<span id="cb354-5"><a href="module-4-modeling-part-2.html#cb354-5" tabindex="-1"></a>                 <span class="at">workflow.type =</span> <span class="st">&quot;STAR - Counts&quot;</span>)</span>
+<span id="cb354-6"><a href="module-4-modeling-part-2.html#cb354-6" tabindex="-1"></a></span>
+<span id="cb354-7"><a href="module-4-modeling-part-2.html#cb354-7" tabindex="-1"></a><span class="fu">GDCdownload</span>(query)</span>
+<span id="cb354-8"><a href="module-4-modeling-part-2.html#cb354-8" tabindex="-1"></a>Study.data <span class="ot">&lt;-</span> <span class="fu">GDCprepare</span>(query)</span>
+<span id="cb354-9"><a href="module-4-modeling-part-2.html#cb354-9" tabindex="-1"></a></span>
+<span id="cb354-10"><a href="module-4-modeling-part-2.html#cb354-10" tabindex="-1"></a><span class="co"># Extract the gene expression data</span></span>
+<span id="cb354-11"><a href="module-4-modeling-part-2.html#cb354-11" tabindex="-1"></a>expression.data <span class="ot">&lt;-</span> <span class="fu">assay</span>(Study.data)</span>
+<span id="cb354-12"><a href="module-4-modeling-part-2.html#cb354-12" tabindex="-1"></a></span>
+<span id="cb354-13"><a href="module-4-modeling-part-2.html#cb354-13" tabindex="-1"></a><span class="co"># Transpose the dataset to have samples as rows and genes as columns</span></span>
+<span id="cb354-14"><a href="module-4-modeling-part-2.html#cb354-14" tabindex="-1"></a>expression.data <span class="ot">&lt;-</span> <span class="fu">t</span>(expression.data)</span>
+<span id="cb354-15"><a href="module-4-modeling-part-2.html#cb354-15" tabindex="-1"></a></span>
+<span id="cb354-16"><a href="module-4-modeling-part-2.html#cb354-16" tabindex="-1"></a><span class="co"># Convert to a data frame for easier manipulation</span></span>
+<span id="cb354-17"><a href="module-4-modeling-part-2.html#cb354-17" tabindex="-1"></a>expression.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(expression.data)</span>
+<span id="cb354-18"><a href="module-4-modeling-part-2.html#cb354-18" tabindex="-1"></a></span>
+<span id="cb354-19"><a href="module-4-modeling-part-2.html#cb354-19" tabindex="-1"></a><span class="co"># Extract the clinical data </span></span>
+<span id="cb354-20"><a href="module-4-modeling-part-2.html#cb354-20" tabindex="-1"></a>clinical.data <span class="ot">&lt;-</span> <span class="fu">colData</span>(Study.data)</span></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="module-4-modeling-part-2.html#cb355-1" tabindex="-1"></a><span class="co"># Or instead load in CSV files of the data - This may also take a minute</span></span>
+<span id="cb355-2"><a href="module-4-modeling-part-2.html#cb355-2" tabindex="-1"></a><span class="co"># You can do this by providing the path to the data or by using read.csv(file.choose()) instead</span></span>
+<span id="cb355-3"><a href="module-4-modeling-part-2.html#cb355-3" tabindex="-1"></a>expression.df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./datasets/clustering_expression_data.csv&#39;</span>) <span class="sc">%&gt;%</span> <span class="co"># Use your file path for this data</span></span>
+<span id="cb355-4"><a href="module-4-modeling-part-2.html#cb355-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>X)</span>
+<span id="cb355-5"><a href="module-4-modeling-part-2.html#cb355-5" tabindex="-1"></a></span>
+<span id="cb355-6"><a href="module-4-modeling-part-2.html#cb355-6" tabindex="-1"></a>clinical.data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;./datasets/clustering_clinical_data.csv&#39;</span>) <span class="sc">%&gt;%</span> <span class="co"># Use your file path to this data</span></span>
+<span id="cb355-7"><a href="module-4-modeling-part-2.html#cb355-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(barcode, vital_status, age_at_diagnosis) <span class="sc">%&gt;%</span></span>
+<span id="cb355-8"><a href="module-4-modeling-part-2.html#cb355-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vital_status =</span> <span class="fu">case_when</span>(vital_status <span class="sc">==</span> <span class="st">&#39;Alive&#39;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb355-9"><a href="module-4-modeling-part-2.html#cb355-9" tabindex="-1"></a>                                  vital_status <span class="sc">==</span> <span class="st">&#39;Dead&#39;</span> <span class="sc">~</span> <span class="dv">0</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="module-4-modeling-part-2.html#cb356-1" tabindex="-1"></a><span class="co"># Extract the last four digits of the patient identifiers</span></span>
+<span id="cb356-2"><a href="module-4-modeling-part-2.html#cb356-2" tabindex="-1"></a>patient.labels <span class="ot">&lt;-</span> <span class="fu">substr</span>(clinical.data<span class="sc">$</span>patient, <span class="fu">nchar</span>(clinical.data<span class="sc">$</span>patient) <span class="sc">-</span> <span class="dv">3</span>, <span class="fu">nchar</span>(clinical.data<span class="sc">$</span>patient))</span>
+<span id="cb356-3"><a href="module-4-modeling-part-2.html#cb356-3" tabindex="-1"></a></span>
+<span id="cb356-4"><a href="module-4-modeling-part-2.html#cb356-4" tabindex="-1"></a>top.genes <span class="ot">&lt;-</span> <span class="fu">apply</span>(expression.df, <span class="dv">2</span>, var)</span>
+<span id="cb356-5"><a href="module-4-modeling-part-2.html#cb356-5" tabindex="-1"></a>top.genes <span class="ot">&lt;-</span> <span class="fu">sort</span>(top.genes, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb356-6"><a href="module-4-modeling-part-2.html#cb356-6" tabindex="-1"></a>expression.df <span class="ot">&lt;-</span> expression.df[, <span class="fu">names</span>(top.genes)[<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>]]</span>
+<span id="cb356-7"><a href="module-4-modeling-part-2.html#cb356-7" tabindex="-1"></a></span>
+<span id="cb356-8"><a href="module-4-modeling-part-2.html#cb356-8" tabindex="-1"></a><span class="co"># Standardize the data</span></span>
+<span id="cb356-9"><a href="module-4-modeling-part-2.html#cb356-9" tabindex="-1"></a>expression.df.scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(expression.df) <span class="sc">%&gt;%</span></span>
+<span id="cb356-10"><a href="module-4-modeling-part-2.html#cb356-10" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb356-11"><a href="module-4-modeling-part-2.html#cb356-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">!</span><span class="fu">where</span>(<span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.)) <span class="sc">&gt;</span> <span class="dv">0</span>))</span></code></pre></div>
+<p>Conduct K-means clustering as well as hierarchical clustering. How many clusters do you think is optimal?</p>
+<p>Create an elbow plot for up to 100 clusters (Or 50 if it takes too long on your computer).</p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="module-4-modeling-part-2.html#cb357-1" tabindex="-1"></a>wcss <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">50</span>, <span class="cf">function</span>(k) {</span>
+<span id="cb357-2"><a href="module-4-modeling-part-2.html#cb357-2" tabindex="-1"></a>  <span class="fu">kmeans</span>(expression.df.scaled, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">25</span>)<span class="sc">$</span>tot.withinss</span>
+<span id="cb357-3"><a href="module-4-modeling-part-2.html#cb357-3" tabindex="-1"></a>})</span>
+<span id="cb357-4"><a href="module-4-modeling-part-2.html#cb357-4" tabindex="-1"></a></span>
+<span id="cb357-5"><a href="module-4-modeling-part-2.html#cb357-5" tabindex="-1"></a><span class="co"># Plot WCSS against the number of clusters</span></span>
+<span id="cb357-6"><a href="module-4-modeling-part-2.html#cb357-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">50</span>, wcss, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">frame =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb357-7"><a href="module-4-modeling-part-2.html#cb357-7" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of Clusters K&quot;</span>,</span>
+<span id="cb357-8"><a href="module-4-modeling-part-2.html#cb357-8" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Within-Clusters Sum of Squares&quot;</span>,</span>
+<span id="cb357-9"><a href="module-4-modeling-part-2.html#cb357-9" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Elbow Method for Determining Optimal Number of Clusters&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+<p>PSelect a number of clusters to use based on the elbow plots and conduct PCA to see if that can further inform your decision.</p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="module-4-modeling-part-2.html#cb358-1" tabindex="-1"></a>Kmean.results<span class="fl">.20</span> <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(expression.df.scaled, <span class="at">centers =</span> <span class="dv">20</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb358-2"><a href="module-4-modeling-part-2.html#cb358-2" tabindex="-1"></a></span>
+<span id="cb358-3"><a href="module-4-modeling-part-2.html#cb358-3" tabindex="-1"></a>pca_results <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(expression.df.scaled, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb358-4"><a href="module-4-modeling-part-2.html#cb358-4" tabindex="-1"></a>pca_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(pca_results<span class="sc">$</span>x, <span class="at">Cluster =</span> <span class="fu">as.factor</span>(Kmean.results<span class="fl">.20</span><span class="sc">$</span>cluster))</span>
+<span id="cb358-5"><a href="module-4-modeling-part-2.html#cb358-5" tabindex="-1"></a></span>
+<span id="cb358-6"><a href="module-4-modeling-part-2.html#cb358-6" tabindex="-1"></a><span class="fu">ggplot</span>(pca_data, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> Cluster)) <span class="sc">+</span></span>
+<span id="cb358-7"><a href="module-4-modeling-part-2.html#cb358-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb358-8"><a href="module-4-modeling-part-2.html#cb358-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;PCA of OTU Data with 15 K-Means Clusters&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+<p>Not very informative.</p>
+<p>Conduct a Silhouette analysis up to the number of clusters identified previously.</p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="module-4-modeling-part-2.html#cb359-1" tabindex="-1"></a>silhouette.values <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">25</span>, <span class="cf">function</span>(k){</span>
+<span id="cb359-2"><a href="module-4-modeling-part-2.html#cb359-2" tabindex="-1"></a>  Kmeans.res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(expression.df.scaled, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb359-3"><a href="module-4-modeling-part-2.html#cb359-3" tabindex="-1"></a>  silhouette.score <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(Kmeans.res<span class="sc">$</span>cluster, <span class="fu">dist</span>(expression.df.scaled))</span>
+<span id="cb359-4"><a href="module-4-modeling-part-2.html#cb359-4" tabindex="-1"></a>  <span class="fu">mean</span>(silhouette.score[, <span class="dv">3</span>])  <span class="co"># 3rd column is the silhouette width</span></span>
+<span id="cb359-5"><a href="module-4-modeling-part-2.html#cb359-5" tabindex="-1"></a>})</span>
+<span id="cb359-6"><a href="module-4-modeling-part-2.html#cb359-6" tabindex="-1"></a></span>
+<span id="cb359-7"><a href="module-4-modeling-part-2.html#cb359-7" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">25</span>, silhouette.values, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">frame =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb359-8"><a href="module-4-modeling-part-2.html#cb359-8" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Number of Clusters K&quot;</span>,</span>
+<span id="cb359-9"><a href="module-4-modeling-part-2.html#cb359-9" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Average Silhouette Width&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
+<p>Less than 10 seems to be a good number, lets try 7.</p>
+<p>Conduct hierarchical clustering to see if it suggests something different. Use the “patient.labels” object for the labels.</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="module-4-modeling-part-2.html#cb360-1" tabindex="-1"></a><span class="co"># Perform hierarchical clustering</span></span>
+<span id="cb360-2"><a href="module-4-modeling-part-2.html#cb360-2" tabindex="-1"></a>hc.res <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(expression.df.scaled), <span class="at">method =</span> <span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb360-3"><a href="module-4-modeling-part-2.html#cb360-3" tabindex="-1"></a></span>
+<span id="cb360-4"><a href="module-4-modeling-part-2.html#cb360-4" tabindex="-1"></a><span class="co"># Plot the dendrogram</span></span>
+<span id="cb360-5"><a href="module-4-modeling-part-2.html#cb360-5" tabindex="-1"></a><span class="fu">plot</span>(hc.res, <span class="at">main =</span> <span class="st">&quot;Hierarchical Clustering Dendrogram&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">sub =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="module-4-modeling-part-2.html#cb361-1" tabindex="-1"></a><span class="co"># Cut the dendrogram to create group labels</span></span>
+<span id="cb361-2"><a href="module-4-modeling-part-2.html#cb361-2" tabindex="-1"></a>hc.clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.res, <span class="at">k =</span> <span class="dv">8</span>)</span></code></pre></div>
+<p>Advanced, join the cluster identification data with the Clinical.data from the classification independent work section. Compare the performance of a logistic regression model fitted to this newly joined dataset against the performance of the EN fit using the Merged.data without cluster IDs. How much information loss is caused by reducing the expression data into clusters vs including it directly into the model?</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="module-4-modeling-part-2.html#cb362-1" tabindex="-1"></a><span class="co"># Prepare the data</span></span>
+<span id="cb362-2"><a href="module-4-modeling-part-2.html#cb362-2" tabindex="-1"></a>Expression.data <span class="ot">&lt;-</span> Study.data <span class="sc">%&gt;%</span></span>
+<span id="cb362-3"><a href="module-4-modeling-part-2.html#cb362-3" tabindex="-1"></a>  <span class="fu">assay</span>() <span class="sc">%&gt;%</span> <span class="co"># Pull out the data</span></span>
+<span id="cb362-4"><a href="module-4-modeling-part-2.html#cb362-4" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span> <span class="co"># Transpose the dataset</span></span>
+<span id="cb362-5"><a href="module-4-modeling-part-2.html#cb362-5" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb362-6"><a href="module-4-modeling-part-2.html#cb362-6" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;barcode&quot;</span>)</span>
+<span id="cb362-7"><a href="module-4-modeling-part-2.html#cb362-7" tabindex="-1"></a></span>
+<span id="cb362-8"><a href="module-4-modeling-part-2.html#cb362-8" tabindex="-1"></a>Clinical.data <span class="ot">&lt;-</span> <span class="fu">colData</span>(Study.data) <span class="sc">%&gt;%</span></span>
+<span id="cb362-9"><a href="module-4-modeling-part-2.html#cb362-9" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb362-10"><a href="module-4-modeling-part-2.html#cb362-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(barcode, vital_status, age_at_diagnosis) <span class="sc">%&gt;%</span></span>
+<span id="cb362-11"><a href="module-4-modeling-part-2.html#cb362-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vital_status =</span> <span class="fu">case_when</span>(vital_status <span class="sc">==</span> <span class="st">&#39;Alive&#39;</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb362-12"><a href="module-4-modeling-part-2.html#cb362-12" tabindex="-1"></a>                                  vital_status <span class="sc">==</span> <span class="st">&#39;Dead&#39;</span> <span class="sc">~</span> <span class="dv">0</span>),</span>
+<span id="cb362-13"><a href="module-4-modeling-part-2.html#cb362-13" tabindex="-1"></a>         <span class="at">ClusterID =</span> hc.clusters) <span class="do">## Add cluster ID to the dataset</span></span>
+<span id="cb362-14"><a href="module-4-modeling-part-2.html#cb362-14" tabindex="-1"></a></span>
+<span id="cb362-15"><a href="module-4-modeling-part-2.html#cb362-15" tabindex="-1"></a><span class="co"># Join gene expression data to the clinical outcomes data </span></span>
+<span id="cb362-16"><a href="module-4-modeling-part-2.html#cb362-16" tabindex="-1"></a>Merged.data <span class="ot">&lt;-</span> Expression.data[,<span class="dv">1</span><span class="sc">:</span><span class="dv">1001</span>] <span class="sc">%&gt;%</span> <span class="co"># We&#39;re only going to use 1000 of the 60,000 genes available (plus the barcode identifier) for computational efficiency</span></span>
+<span id="cb362-17"><a href="module-4-modeling-part-2.html#cb362-17" tabindex="-1"></a>  <span class="fu">left_join</span>(Clinical.data, ., <span class="at">by =</span> <span class="st">&#39;barcode&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="module-4-modeling-part-2.html#cb363-1" tabindex="-1"></a><span class="co"># Split data into training and testing sets</span></span>
+<span id="cb363-2"><a href="module-4-modeling-part-2.html#cb363-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb363-3"><a href="module-4-modeling-part-2.html#cb363-3" tabindex="-1"></a>Training.data <span class="ot">&lt;-</span> Merged.data <span class="sc">%&gt;%</span></span>
+<span id="cb363-4"><a href="module-4-modeling-part-2.html#cb363-4" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb363-5"><a href="module-4-modeling-part-2.html#cb363-5" tabindex="-1"></a></span>
+<span id="cb363-6"><a href="module-4-modeling-part-2.html#cb363-6" tabindex="-1"></a>Train.X <span class="ot">&lt;-</span> Training.data <span class="sc">%&gt;%</span></span>
+<span id="cb363-7"><a href="module-4-modeling-part-2.html#cb363-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>vital_status, <span class="sc">-</span>ClusterID) <span class="sc">%&gt;%</span></span>
+<span id="cb363-8"><a href="module-4-modeling-part-2.html#cb363-8" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb363-9"><a href="module-4-modeling-part-2.html#cb363-9" tabindex="-1"></a></span>
+<span id="cb363-10"><a href="module-4-modeling-part-2.html#cb363-10" tabindex="-1"></a>Train.Y <span class="ot">&lt;-</span> Training.data <span class="sc">%&gt;%</span></span>
+<span id="cb363-11"><a href="module-4-modeling-part-2.html#cb363-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(vital_status) <span class="sc">%&gt;%</span></span>
+<span id="cb363-12"><a href="module-4-modeling-part-2.html#cb363-12" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb363-13"><a href="module-4-modeling-part-2.html#cb363-13" tabindex="-1"></a></span>
+<span id="cb363-14"><a href="module-4-modeling-part-2.html#cb363-14" tabindex="-1"></a>Testing.data <span class="ot">&lt;-</span> Merged.data <span class="sc">%&gt;%</span></span>
+<span id="cb363-15"><a href="module-4-modeling-part-2.html#cb363-15" tabindex="-1"></a>  <span class="fu">anti_join</span>(., Training.data, <span class="at">by =</span> <span class="st">&#39;barcode&#39;</span>)</span>
+<span id="cb363-16"><a href="module-4-modeling-part-2.html#cb363-16" tabindex="-1"></a></span>
+<span id="cb363-17"><a href="module-4-modeling-part-2.html#cb363-17" tabindex="-1"></a>Test.X <span class="ot">&lt;-</span> Testing.data <span class="sc">%&gt;%</span></span>
+<span id="cb363-18"><a href="module-4-modeling-part-2.html#cb363-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>vital_status, <span class="sc">-</span>ClusterID) <span class="sc">%&gt;%</span></span>
+<span id="cb363-19"><a href="module-4-modeling-part-2.html#cb363-19" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb363-20"><a href="module-4-modeling-part-2.html#cb363-20" tabindex="-1"></a></span>
+<span id="cb363-21"><a href="module-4-modeling-part-2.html#cb363-21" tabindex="-1"></a>Test.Y <span class="ot">&lt;-</span> Testing.data <span class="sc">%&gt;%</span></span>
+<span id="cb363-22"><a href="module-4-modeling-part-2.html#cb363-22" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(vital_status) <span class="sc">%&gt;%</span></span>
+<span id="cb363-23"><a href="module-4-modeling-part-2.html#cb363-23" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span></code></pre></div>
+</div>
+<div id="en-model" class="section level4 hasAnchor">
+<h4>EN Model<a href="module-4-modeling-part-2.html#en-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="module-4-modeling-part-2.html#cb364-1" tabindex="-1"></a><span class="co"># Perform 5-fold cross-validation for Elastic Net</span></span>
+<span id="cb364-2"><a href="module-4-modeling-part-2.html#cb364-2" tabindex="-1"></a>foldid <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">length.out =</span> <span class="fu">nrow</span>(Training.data)))</span>
+<span id="cb364-3"><a href="module-4-modeling-part-2.html#cb364-3" tabindex="-1"></a></span>
+<span id="cb364-4"><a href="module-4-modeling-part-2.html#cb364-4" tabindex="-1"></a>EN.cv.fit <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(Train.X, Train.Y, <span class="at">type.measure=</span><span class="st">&quot;deviance&quot;</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">foldid=</span>foldid, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<pre><code>## Warning in storage.mode(x) &lt;- &quot;double&quot;: NAs introduced by coercion
+## Warning in storage.mode(x) &lt;- &quot;double&quot;: NAs introduced by coercion
+## Warning in storage.mode(x) &lt;- &quot;double&quot;: NAs introduced by coercion
+## Warning in storage.mode(x) &lt;- &quot;double&quot;: NAs introduced by coercion
+## Warning in storage.mode(x) &lt;- &quot;double&quot;: NAs introduced by coercion
+## Warning in storage.mode(x) &lt;- &quot;double&quot;: NAs introduced by coercion</code></pre>
+<pre><code>## Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion
+## Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion
+## Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion
+## Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion
+## Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion</code></pre>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="module-4-modeling-part-2.html#cb367-1" tabindex="-1"></a><span class="fu">plot</span>(EN.cv.fit)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="module-4-modeling-part-2.html#cb368-1" tabindex="-1"></a><span class="co"># Fit the Elastic Net model using the optimal lambda from CV</span></span>
+<span id="cb368-2"><a href="module-4-modeling-part-2.html#cb368-2" tabindex="-1"></a>EN.fit <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(Train.X, Train.Y, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">lambda =</span> EN.cv.fit<span class="sc">$</span>lambda.min)</span></code></pre></div>
+<pre><code>## Warning in storage.mode(x) &lt;- &quot;double&quot;: NAs introduced by coercion</code></pre>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="module-4-modeling-part-2.html#cb370-1" tabindex="-1"></a><span class="co"># Predict on training and testing sets</span></span>
+<span id="cb370-2"><a href="module-4-modeling-part-2.html#cb370-2" tabindex="-1"></a>EN.pred.train <span class="ot">&lt;-</span> <span class="fu">predict</span>(EN.fit, <span class="at">newx =</span> Train.X, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>, <span class="at">s =</span> EN.cv.fit<span class="sc">$</span>lambda.min)</span></code></pre></div>
+<pre><code>## Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion</code></pre>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="module-4-modeling-part-2.html#cb372-1" tabindex="-1"></a>EN.pred.test <span class="ot">&lt;-</span> <span class="fu">predict</span>(EN.fit, <span class="at">newx =</span> Test.X, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>, <span class="at">s =</span> EN.cv.fit<span class="sc">$</span>lambda.min)</span></code></pre></div>
+<pre><code>## Warning in cbind2(1, newx) %*% nbeta: NAs introduced by coercion</code></pre>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="module-4-modeling-part-2.html#cb374-1" tabindex="-1"></a><span class="co"># Calculate AUC for Elastic Net</span></span>
+<span id="cb374-2"><a href="module-4-modeling-part-2.html#cb374-2" tabindex="-1"></a>EN.train.auc <span class="ot">&lt;-</span> <span class="fu">roc</span>(<span class="fu">c</span>(Train.Y), <span class="fu">c</span>(EN.pred.train))</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="module-4-modeling-part-2.html#cb377-1" tabindex="-1"></a>EN.train.auc</span></code></pre></div>
+<pre><code>## 
+## Call:
+## roc.default(response = c(Train.Y), predictor = c(EN.pred.train))
+## 
+## Data: c(EN.pred.train) in 80 controls (c(Train.Y) 0) &lt; 40 cases (c(Train.Y) 1).
+## Area under the curve: 0.8937</code></pre>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="module-4-modeling-part-2.html#cb379-1" tabindex="-1"></a>EN.test.auc <span class="ot">&lt;-</span> <span class="fu">roc</span>(Test.Y, EN.pred.test)</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Warning in roc.default(Test.Y, EN.pred.test): Deprecated use a matrix as
+## predictor. Unexpected results may be produced, please pass a numeric vector.</code></pre>
+<pre><code>## Warning in roc.default(Test.Y, EN.pred.test): Deprecated use a matrix as
+## response. Unexpected results may be produced, please pass a vector or factor.</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="module-4-modeling-part-2.html#cb384-1" tabindex="-1"></a>EN.test.auc</span></code></pre></div>
+<pre><code>## 
+## Call:
+## roc.default(response = Test.Y, predictor = EN.pred.test)
+## 
+## Data: EN.pred.test in 17 controls (Test.Y 0) &lt; 14 cases (Test.Y 1).
+## Area under the curve: 0.6975</code></pre>
+</div>
+<div id="logistic-regression-model" class="section level4 hasAnchor">
+<h4>Logistic Regression Model<a href="module-4-modeling-part-2.html#logistic-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="module-4-modeling-part-2.html#cb386-1" tabindex="-1"></a><span class="co"># Fit a Logistic Regression model</span></span>
+<span id="cb386-2"><a href="module-4-modeling-part-2.html#cb386-2" tabindex="-1"></a>logistic.mod <span class="ot">&lt;-</span> Training.data <span class="sc">%&gt;%</span></span>
+<span id="cb386-3"><a href="module-4-modeling-part-2.html#cb386-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">colnames</span>(Clinical.data), <span class="sc">-</span>barcode) <span class="sc">%&gt;%</span></span>
+<span id="cb386-4"><a href="module-4-modeling-part-2.html#cb386-4" tabindex="-1"></a>  <span class="fu">glm</span>(vital_status <span class="sc">~</span> ., <span class="at">data =</span> ., <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb386-5"><a href="module-4-modeling-part-2.html#cb386-5" tabindex="-1"></a></span>
+<span id="cb386-6"><a href="module-4-modeling-part-2.html#cb386-6" tabindex="-1"></a><span class="co"># Predict on training and testing sets</span></span>
+<span id="cb386-7"><a href="module-4-modeling-part-2.html#cb386-7" tabindex="-1"></a>logistic.train <span class="ot">&lt;-</span> Training.data <span class="sc">%&gt;%</span></span>
+<span id="cb386-8"><a href="module-4-modeling-part-2.html#cb386-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">colnames</span>(Clinical.data), <span class="sc">-</span>barcode) <span class="sc">%&gt;%</span></span>
+<span id="cb386-9"><a href="module-4-modeling-part-2.html#cb386-9" tabindex="-1"></a>  <span class="fu">predict</span>(logistic.mod, <span class="at">newdata =</span> ., <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb386-10"><a href="module-4-modeling-part-2.html#cb386-10" tabindex="-1"></a></span>
+<span id="cb386-11"><a href="module-4-modeling-part-2.html#cb386-11" tabindex="-1"></a>logistic.test <span class="ot">&lt;-</span> Testing.data <span class="sc">%&gt;%</span></span>
+<span id="cb386-12"><a href="module-4-modeling-part-2.html#cb386-12" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">colnames</span>(Clinical.data), <span class="sc">-</span>barcode) <span class="sc">%&gt;%</span></span>
+<span id="cb386-13"><a href="module-4-modeling-part-2.html#cb386-13" tabindex="-1"></a>  <span class="fu">predict</span>(logistic.mod, <span class="at">newdata =</span> ., <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb386-14"><a href="module-4-modeling-part-2.html#cb386-14" tabindex="-1"></a></span>
+<span id="cb386-15"><a href="module-4-modeling-part-2.html#cb386-15" tabindex="-1"></a><span class="co"># Calculate AUC for Logistic Regression</span></span>
+<span id="cb386-16"><a href="module-4-modeling-part-2.html#cb386-16" tabindex="-1"></a>logistic.train.auc <span class="ot">&lt;-</span> <span class="fu">roc</span>(<span class="fu">c</span>(Train.Y), <span class="fu">c</span>(logistic.train))</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="module-4-modeling-part-2.html#cb389-1" tabindex="-1"></a>logistic.train.auc</span></code></pre></div>
+<pre><code>## 
+## Call:
+## roc.default(response = c(Train.Y), predictor = c(logistic.train))
+## 
+## Data: c(logistic.train) in 80 controls (c(Train.Y) 0) &lt; 40 cases (c(Train.Y) 1).
+## Area under the curve: 0.7059</code></pre>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="module-4-modeling-part-2.html#cb391-1" tabindex="-1"></a>logistic.test.auc <span class="ot">&lt;-</span> <span class="fu">roc</span>(<span class="fu">c</span>(Test.Y), <span class="fu">c</span>(logistic.test))</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1
+## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="module-4-modeling-part-2.html#cb393-1" tabindex="-1"></a>logistic.test.auc</span></code></pre></div>
+<pre><code>## 
+## Call:
+## roc.default(response = c(Test.Y), predictor = c(logistic.test))
+## 
+## Data: c(logistic.test) in 17 controls (c(Test.Y) 0) &lt; 14 cases (c(Test.Y) 1).
+## Area under the curve: 0.6639</code></pre>
+<div class="callout-green">
+<span class="callout-icon"><i class="fas fa-circle-check" aria-hidden="true"></i></span>
+<div class="callout-content">
+<div class="callout-title-static" style="margin-bottom: 0.5em;">
+<p>Lab Completed!</p>
+</div>
+<p>Congratulations! You have completed Lab 4!</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="module-3-modeling-part-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="module-5-putting-it-all-together.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/bioinformaticsdotca/STAT_2024/blob/main/040-module-4.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
