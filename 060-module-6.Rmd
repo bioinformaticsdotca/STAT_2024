@@ -1,4 +1,4 @@
-# Module 6: Introduction to Causal Intference
+# Module 6: Introduction to Causal Inference
 
 ## Lecture
 
